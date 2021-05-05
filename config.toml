@@ -4,7 +4,7 @@
 publishDir = "docs"
 baseURL = "https://sgtsteiner.github.io/"
 title = "Lords of Machine Learning"
-languageCode = "es"
+languageCode = "es-ES"
 hasCJKLanguage = false
 # Copyright information (Markdown supported)
 copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)"
@@ -99,7 +99,7 @@ uglyURLs = false
     # Email
     email = "futitotal@gmail.com"
     # Motto or introduction
-    motto = "Viva La Vida"
+    motto = "Sgt. Steiner"
     # Avatar
     avatar = "/icons/apple-touch-icon.png"
     # Personal website, default: baseURL

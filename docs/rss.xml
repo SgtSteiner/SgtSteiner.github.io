@@ -12,7 +12,7 @@
         <description>MemE is a powerful and highly customizable GoHugo theme for personal blogs.</description>
         <generator>Hugo 0.83.1 https://gohugo.io/</generator>
         
-            <language>es</language>
+            <language>es-ES</language>
         
         
             <managingEditor>futitotal@gmail.com (Antonio Méndez)</managingEditor>
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
         
-        <lastBuildDate>Wed, 05 May 2021 12:16:48 &#43;0200</lastBuildDate>
+        <lastBuildDate>Wed, 05 May 2021 12:58:45 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://sgtsteiner.github.io/rss.xml" />
         
