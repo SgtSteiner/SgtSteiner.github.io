@@ -7,7 +7,7 @@ title = "Lords of Machine Learning"
 languageCode = "es"
 hasCJKLanguage = false
 # Copyright information (Markdown supported)
-copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)"
+copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)"
 
 # Name of theme
 theme = "meme"
@@ -103,7 +103,7 @@ uglyURLs = false
     # Avatar
     avatar = "/icons/apple-touch-icon.png"
     # Personal website, default: baseURL
-    website = "https://io-oi.me/"
+    # website = 
     # Twitter
     twitter = "Steiner_69"
 
