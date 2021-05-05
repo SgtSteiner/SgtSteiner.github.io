@@ -2,7 +2,7 @@
 # Site Settings
 
 publishDir = "docs"
-baseURL = "https://example.com/"
+baseURL = "https://sgtsteiner.github.io/"
 title = "Lords of Machine Learning"
 languageCode = "es"
 hasCJKLanguage = false
