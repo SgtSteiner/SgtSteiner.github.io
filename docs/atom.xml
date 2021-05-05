@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es">
     <title type="text">Lords of Machine Learning</title>
     <subtitle type="html">MemE is a powerful and highly customizable GoHugo theme for personal blogs.</subtitle>
-    <updated>2021-05-05T11:48:11&#43;02:00</updated>
+    <updated>2021-05-05T11:55:55&#43;02:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Breve Introducción a Machine Learning</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/breve-introduccion-machine-learning/" />
             <id>https://sgtsteiner.github.io/posts/breve-introduccion-machine-learning/</id>
-            <updated>2021-05-05T11:47:53&#43;02:00</updated>
+            <updated>2021-05-05T11:55:45&#43;02:00</updated>
             <published>2020-07-01T17:51:42&#43;02:00</published>
             <author>
                     <name>Antonio Méndez</name>
@@ -30,7 +30,7 @@
             <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Lee Sedol tenía solo 12 años cuando se convirtió en uno de los jugadores profesionales de Go más jóvenes de la historia. Cuando el 9 de marzo de 2016 cruzó las puertas del Hotel Four Seasons de Seúl tenía 33 años y era 18 veces campeón del mundo.</summary>
             
                 <content type="html">&lt;p&gt;Lee Sedol tenía solo 12 años cuando se convirtió en uno de los jugadores profesionales de Go más jóvenes de la historia. Cuando el 9 de marzo de 2016 cruzó las puertas del Hotel Four Seasons de Seúl tenía 33 años y era 18 veces campeón del mundo. Le esperaban cinco intensas partidas contra un duro contrincante. Ante el asombro general perdió 4-1. Ese día pasaría a la historia como el día en que el campeón del mundo de Go perdió contra &lt;strong&gt;AlphaGo, un programa informático perteneciente a la división DeepMind de Google&lt;/strong&gt;. Lee Sedol también pasaría a la historia como el único humano que ha ganado una partida a AlphaGo (aunque posteriormente reconocería que fue debido a un error en su programa).&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/shutterstock_342026210.jpg&#34; alt=&#34;imagen go&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/shutterstock_342026210.jpg&#34; alt=&#34;imagen go&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Gran parte de la &lt;em&gt;magia negra&lt;/em&gt; de AlphaGo proviene del uso de técnicas y sistemas de Machine Learning e Inteligencia Artificial. Los sistemas de &lt;strong&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Machine_learning&#34;&gt;Machine learning (ML)&lt;/a&gt;&lt;/strong&gt; o &lt;strong&gt;aprendizaje automático&lt;/strong&gt;, están detrás de muchos de los productos de alta tecnología que nos rodean, de los motores de búsqueda de webs, del reconocimiento de habla de nuestros dispositivos, nos recomienda películas y series en nuestras plataformas de streaming favoritas, detecta el spam de nuestros correos, etc.&lt;/p&gt;
 &lt;h2 id=&#34;pero-qué-es-machine-learning-y-qué-significa-que-una-máquina-pueda-aprender-algo&#34;&gt;Pero ¿qué es machine Learning y qué significa que una máquina pueda aprender algo?&lt;/h2&gt;
 &lt;p&gt;Según la definición académica de &lt;a href=&#34;https://en.wikipedia.org/wiki/Machine_learning&#34;&gt;Arthur Samuel&lt;/a&gt;, que popularizó dicho término en 1959, &lt;em&gt;machine Learning es el campo de estudio que proporciona a los ordenadores la habilidad de aprender sin ser explícitamente programados&lt;/em&gt;. Como informáticos que somos, aquí va otra definición más “ingenieril”: &lt;em&gt;Un programa de ordenador se dice que aprende de una experiencia E con respecto a alguna tarea T y alguna medida de la ejecución P, si su ejecución en T, medida por P, mejora con la experiencia E. (Tom Mitchell, 1997)&lt;/em&gt;&lt;/p&gt;
@@ -73,7 +73,7 @@
 &lt;p&gt;Revisaremos cuáles son las fases principales de un proyecto típico de machine learning con ejemplos prácticos.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;¡Bienvenidos al mundo de machine learning!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Por cierto, apenas 3 años después de su derrota por AlphaGo, Lee Sedol &lt;a href=&#34;https://en.yna.co.kr/view/AEN20191127004800315&#34;&gt;se retiró de las competiciones oficiales&lt;/a&gt;. Si tenéis oportunidad no dejéis de ver el documental &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y&#34;&gt;AlphaGo – The movie&lt;/a&gt;, que narra la apasionante crónica del combate entre ambas “mentes”.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/alphago-1024x576.jpg&#34; alt=&#34;go campeonato&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/alphago-1024x576.jpg&#34; alt=&#34;go campeonato&#34;&gt;&lt;/p&gt;
 </content>
             
             
