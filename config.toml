@@ -95,9 +95,9 @@ uglyURLs = false
 # Author’s information
 [author]
     # Name
-    name = "reuixiy"
+    name = "Antonio Méndez"
     # Email
-    email = "reuixiy@gmail.com"
+    email = "futitotal@gmail.com"
     # Motto or introduction
     motto = "Viva La Vida"
     # Avatar
@@ -105,7 +105,7 @@ uglyURLs = false
     # Personal website, default: baseURL
     website = "https://io-oi.me/"
     # Twitter
-    twitter = "reuixiy"
+    twitter = "Steiner_69"
 
 # Related content
 [related]
@@ -350,7 +350,7 @@ uglyURLs = false
     # ATTENTION: keep this format, change
     #            the number
 
-    siteTwitter = "reuixiy"
+    siteTwitter = "Steiner_69"
     # Note: used for Twitter Cards
 
 

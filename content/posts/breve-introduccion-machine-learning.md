@@ -5,7 +5,7 @@ date: 2020-07-01T17:51:42+02:00
 
 Lee Sedol tenía solo 12 años cuando se convirtió en uno de los jugadores profesionales de Go más jóvenes de la historia. Cuando el 9 de marzo de 2016 cruzó las puertas del Hotel Four Seasons de Seúl tenía 33 años y era 18 veces campeón del mundo. Le esperaban cinco intensas partidas contra un duro contrincante. Ante el asombro general perdió 4-1. Ese día pasaría a la historia como el día en que el campeón del mundo de Go perdió contra **AlphaGo, un programa informático perteneciente a la división DeepMind de Google**. Lee Sedol también pasaría a la historia como el único humano que ha ganado una partida a AlphaGo (aunque posteriormente reconocería que fue debido a un error en su programa).
 
-![imagen go](/images/shutterstock_342026210.jpg)
+![imagen go](/static/images/shutterstock_342026210.jpg)
 
 Gran parte de la *magia negra* de AlphaGo proviene del uso de técnicas y sistemas de Machine Learning e Inteligencia Artificial. Los sistemas de **[Machine learning (ML)](https://en.wikipedia.org/wiki/Machine_learning)** o **aprendizaje automático**, están detrás de muchos de los productos de alta tecnología que nos rodean, de los motores de búsqueda de webs, del reconocimiento de habla de nuestros dispositivos, nos recomienda películas y series en nuestras plataformas de streaming favoritas, detecta el spam de nuestros correos, etc.
 
@@ -59,4 +59,4 @@ Revisaremos cuáles son las fases principales de un proyecto típico de machine 
 
 Por cierto, apenas 3 años después de su derrota por AlphaGo, Lee Sedol [se retiró de las competiciones oficiales](https://en.yna.co.kr/view/AEN20191127004800315). Si tenéis oportunidad no dejéis de ver el documental [AlphaGo – The movie](https://youtu.be/WXuK6gekU1Y), que narra la apasionante crónica del combate entre ambas “mentes”.
 
-![go campeonato](/images/alphago-1024x576.jpg)
+![go campeonato](/static/images/alphago-1024x576.jpg)
