@@ -9,7 +9,7 @@
     <channel>
         <title>Lords of Machine Learning</title>
         <link>https://sgtsteiner.github.io/</link>
-        <description>MemE is a powerful and highly customizable GoHugo theme for personal blogs.</description>
+        <description>Lords of Machine Learning es un blog de Antonio Méndez</description>
         <generator>Hugo 0.83.1 https://gohugo.io/</generator>
         
             <language>es-ES</language>
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
         
-        <lastBuildDate>Wed, 05 May 2021 12:58:45 &#43;0200</lastBuildDate>
+        <lastBuildDate>Mon, 10 May 2021 17:08:27 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://sgtsteiner.github.io/rss.xml" />
         
@@ -91,7 +91,29 @@
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://sgtsteiner.github.io/categories/taxonom%C3%ADa/">taxonomía</category>
+                                
+                            
+                        
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://sgtsteiner.github.io/tags/aprendizaje-autom%C3%A1tico/">aprendizaje automático</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://sgtsteiner.github.io/tags/machine-learning/">machine learning</category>
+                                
+                            
                         
                     
                 

@@ -1,6 +1,8 @@
 ---
 title: "Breve Introducción a Machine Learning"
 date: 2020-07-01T17:51:42+02:00
+tags: [aprendizaje automático, machine learning]
+categories: [taxonomía]
 ---
 
 Lee Sedol tenía solo 12 años cuando se convirtió en uno de los jugadores profesionales de Go más jóvenes de la historia. Cuando el 9 de marzo de 2016 cruzó las puertas del Hotel Four Seasons de Seúl tenía 33 años y era 18 veces campeón del mundo. Le esperaban cinco intensas partidas contra un duro contrincante. Ante el asombro general perdió 4-1. Ese día pasaría a la historia como el día en que el campeón del mundo de Go perdió contra **AlphaGo, un programa informático perteneciente a la división DeepMind de Google**. Lee Sedol también pasaría a la historia como el único humano que ha ganado una partida a AlphaGo (aunque posteriormente reconocería que fue debido a un error en su programa).
