@@ -1,7 +1,7 @@
 ---
 title: "Calidad del vino - Un problema de regresión"
 date: 2021-05-05T16:37:06+02:00
-draft: true
+draft: False
 ---
 
 En este post repasaremos las principales fases que componen un proyecto de Machine Learning.
