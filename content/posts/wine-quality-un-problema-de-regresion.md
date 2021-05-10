@@ -561,24 +561,20 @@ red.hist(bins=50, figsize=(15,12));
 
 
     
-![png](/images/output_19_0.pngoutput_19_0.png)
+![png](/images/output_19_0.png)
     
 
 
 Let's check how our target variable, the quality score, is distributed:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(f"Percentage of quality scores")
 red["quality"].value_counts(normalize=True) * 100
-```
+{{< /highlight >}}
 
     Percentage of quality scores
     
-
-
-
-
     5    42.589118
     6    39.899937
     7    12.445278
@@ -594,10 +590,10 @@ It is significantly unbalanced. Most instances (82%) have scores of 6 or 5.
 We are going to check the correlations between the attributes of the dataset:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 corr_matrix = red.corr()
 corr_matrix
-```
+{{< /highlight >}}
 
 
 
@@ -822,27 +818,24 @@ corr_matrix
 
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 plt.figure(figsize=(15,10))
 sns.heatmap(red.corr(), annot=True, cmap='coolwarm')
 plt.show()
-```
+{{< /highlight >}}
 
 
     
-![png](output_25_0.png)
+![png](/images/output_25_0.png)
     
 
 
 We show only the correlations of the target variable with the rest of the attributes:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 corr_matrix["quality"].drop("quality").sort_values(ascending=False)
-```
-
-
-
+{{< /highlight >}}
 
     alcohol                 0.476166
     sulphates               0.251397
@@ -860,16 +853,16 @@ corr_matrix["quality"].drop("quality").sort_values(ascending=False)
 
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 plt.figure(figsize=(8,5))
 corr_matrix["quality"].drop("quality").sort_values(ascending=False).plot(kind='bar')
 plt.title("Attribute correlations with quality")
 plt.show()
-```
+{{< /highlight >}}
 
 
     
-![png](output_28_0.png)
+![png](/images/output_28_0.png)
     
 
 
@@ -878,13 +871,10 @@ plt.show()
 Create the predictor set and the set with the target variable:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 predict_columns = red.columns[:-1]
 predict_columns
-```
-
-
-
+{{< /highlight >}}
 
     Index(['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
            'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
@@ -892,39 +882,29 @@ predict_columns
           dtype='object')
 
 
-
-
-```python
+{{< highlight "python" "linenos=false">}}
 X = red[predict_columns]
 y = red["quality"]
-```
+{{< /highlight >}}
 
 Create the training and test datasets:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2)
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 X_train.shape, y_train.shape
-```
-
-
-
+{{< /highlight >}}
 
     ((1279, 11), (1279,))
 
 
-
-
-```python
+{{< highlight "python" "linenos=false">}}
 X_test.shape, y_test.shape
-```
-
-
-
+{{< /highlight >}}
 
     ((320, 11), (320,))
 
@@ -933,7 +913,7 @@ X_test.shape, y_test.shape
 ## Baseline
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 def evaluate_model(estimator, X_train, y_train, cv=10, verbose=True):
     """Print and return cross validation of model
     """
@@ -993,27 +973,22 @@ def evaluate_model(estimator, X_train, y_train, cv=10, verbose=True):
         print(f"train_R2_mean: {train_r2_mean} - (std: {train_r2_std})")
 
     return result
-```
+{{< /highlight >}}
 
 First, we are going to train a dummy regressor that we will use as a baseline with which to compare.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 rg_dummy = DummyRegressor(strategy="constant", constant=5) # Mean prediction
 rg_dummy.fit(X_train, y_train)
-```
-
-
-
+{{< /highlight >}}
 
     DummyRegressor(constant=array(5), strategy='constant')
 
 
-
-
-```python
+{{< highlight "python" "linenos=false">}}
 rg_scores = evaluate_model(rg_dummy, X_train, y_train)
-```
+{{< /highlight >}}
 
     val_MAE_mean: 0.719365157480315 - (std: -0.06352462970037416)
     train_MAE_mean: 0.7193126146346173 - (std: -0.007057414168822716)
@@ -1028,22 +1003,17 @@ rg_scores = evaluate_model(rg_dummy, X_train, y_train)
 A classifier that always predicts the most frequent quality (in our case the quality score 5) obtains a RMSE = 1.039.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 rg_dummy = DummyRegressor(strategy="mean") # Mean prediction
 rg_dummy.fit(X_train, y_train)
-```
-
-
-
+{{< /highlight >}}
 
     DummyRegressor()
 
 
-
-
-```python
+{{< highlight "python" "linenos=false">}}
 rg_scores = evaluate_model(rg_dummy, X_train, y_train)
-```
+{{< /highlight >}}
 
     val_MAE_mean: 0.6842639509806605 - (std: -0.039939453843720794)
     train_MAE_mean: 0.6836374055181736 - (std: -0.004461928774514038)
@@ -1062,16 +1032,16 @@ A regressor that always predicts the mean quality obtains a RMSE = 0.651. We are
 OK, we're going train several quick-and-dirty models from different categories using standard parameters. We selected some of the regression models: Linear Regression, Lasso, ElasticNet, Ridge, Extre Trees, and RandomForest.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 models = [LinearRegression(), Lasso(alpha=0.1), ElasticNet(),
           Ridge(), ExtraTreesRegressor(), RandomForestRegressor()]
 
 model_names = ["Lineal Regression", "Lasso", "ElasticNet",
                "Ridge", "Extra Tree", "Random Forest"]
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 mae = []
 mse = []
 rmse = []
@@ -1087,7 +1057,7 @@ for model in range(len(models)):
     mse.append(rg_scores["Val MSE"])
     rmse.append(rg_scores["Val RMSE"])
     r2.append(rg_scores["Val R2"])
-```
+{{< /highlight >}}
 
     Paso 1 de 6
     ...running Lineal Regression
@@ -1154,14 +1124,14 @@ for model in range(len(models)):
 Let's see the performance of each of them:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_result = pd.DataFrame({"Model": model_names,
                           "MAE": mae,
                           "MSE": mse,
                           "RMSE": rmse,
                           "R2": r2})
 df_result
-```
+{{< /highlight >}}
 
 
 
@@ -1245,23 +1215,21 @@ df_result
 </div>
 
 
-
-
-```python
+{{< highlight "python" "linenos=false">}}
 df_result.sort_values(by="RMSE", ascending=False).plot.barh("Model", "RMSE");
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_result.sort_values(by="R2").plot.barh("Model", "R2");
-```
+{{< /highlight >}}
 
 The model that gives the best results is **extra trees**. RMSE = 0.577591 and R2 = 0.477845. Let's fine tune it.
 
 ## Fine-Tune
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 param_grid = [
     {'n_estimators': range(10, 300, 10), 'max_features': [2, 3, 4, 5, 8, "auto"], 'bootstrap': [True, False]}
 ]
@@ -1274,91 +1242,91 @@ grid_search = GridSearchCV(xtree_reg, param_grid, cv=5,
                            return_train_score=True)
 
 grid_search.fit(X_train, y_train)
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 grid_search.best_params_
-```
+{{< /highlight >}}
 
 It's the moment of truth! Let's see the performance on the test set:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 final_model = grid_search.best_estimator_
 y_pred = final_model.predict(X_test)
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(f"MAE: {metrics.mean_absolute_error(y_test, y_pred)}")
 print(f"MSE: {metrics.mean_squared_error(y_test, y_pred)}")
 print(f"RMSE: {np.sqrt(metrics.mean_squared_error(y_test, y_pred))}")
 print(f"R2: {final_model.score(X_test, y_test)}")
-```
+{{< /highlight>}}
 
 Well, a little better!
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 plt.figure(figsize=(10,8))
 plt.scatter(y_test, y_pred, alpha=0.1)
 plt.xlabel("Real")
 plt.ylabel("Predicted")
 plt.show()
-```
+{{< /highlight >}}
 
 Let's see which features are most relevant:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 feature_importances = final_model.feature_importances_
 feature_importances
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 sorted(zip(feature_importances, X_test.columns), reverse=True)
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 feature_imp = pd.Series(feature_importances, index=X_train.columns).sort_values(ascending=False)
 feature_imp.plot(kind='bar')
 plt.title('Feature Importances')
-```
+{{< /highlight >}}
 
 Let's see how the errors are distributed:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_resul = pd.DataFrame({"Pred": y_pred,
               "Real": y_test,
               "error": y_pred - y_test,
               "error_abs": abs(y_pred - y_test)})
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_resul["error"].plot.hist(bins=40, density=True)
 plt.title("Error distribution")
 plt.xlabel("Error");
-```
+{{< /highlight >}}
 
 More generally, What's the MAE that occurs in each quality score?
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_resul.groupby("Real")["error_abs"].mean()
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 df_resul.groupby("Real")["error_abs"].mean().plot.bar()
 plt.title("MAE distribution")
 plt.ylabel("MAE")
 plt.xlabel("Quality");
-```
+{{< /highlight >}}
 
 ## Conclusions
 
@@ -1369,8 +1337,3 @@ The basic line regression model offers an R2: 0.323021 and RMSE: 0.657899. The E
 According to the MAE distribution graph, we can see that our model is not good for extreme scores. In fact, it is not capable of predicting any score of 3 or 8. As we saw in the distribution of the target variable, it is very unbalanced, there are hardly any observations for the extreme values, so the model does not have enough data training for all quality scores.
 
 As a final consideration, we should try to approach modeling as a classification problem, to evaluate if it offers better results than a regression problem. We will see it in part 2 and 3 of this analysis.
-
-
-```python
-
-```
