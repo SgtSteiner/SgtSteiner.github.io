@@ -2,7 +2,7 @@
 title: "Calidad del vino - Un problema de regresión"
 date: 2021-05-05T16:37:06+02:00
 tags: [aprendizaje automático, machine learning, regresión]
-categories: [modelos]
+categories: [tutoriales]
 draft: False
 ---
 
@@ -1413,6 +1413,20 @@ plt.xlabel("Quality");
 ![png](/images/output_73_0.png)
 
 Se comprueba que en las puntuaciones de calidad extremas el error es elevado, sobre todo en la puntuación 8 y 3. Las puntuaciones 5 y 6 es donde menos error se produce.
+
+## Guardado del modelo
+
+Como paso final, guardamos nuestro modelo entrenado para futuras predicciones.
+
+{{< highlight "python" "linenos=false">}}
+import joblib
+
+joblib.dump(final_model, "final_model.joblib", compress=True)
+{{< /highlight >}}
+
+
+
+    ['final_model.joblib']
 
 ## Conclusiones
 
