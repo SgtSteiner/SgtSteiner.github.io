@@ -1,6 +1,8 @@
 ---
 title: "Calidad del vino - Un problema de regresión"
 date: 2021-05-05T16:37:06+02:00
+tags: [aprendizaje automático, machine learning, regresión]
+categories: [modelos]
 draft: False
 ---
 
@@ -58,14 +60,17 @@ from sklearn import metrics
 %matplotlib inline
 {{< /highlight >}}
 
-## Get the Data
+## Obtención de los datos
 
+El dataset se encuentra igualmente disponible en [Kaggle](https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009) o en [UCI](https://archive.ics.uci.edu/ml/datasets/wine+quality)
+
+Podemos cargarlo directamente desde la url o una vez descargado desde nuestra carpeta `data`.
 
 {{< highlight "python" "linenos=false">}}
 red = pd.read_csv("data/wine-quality/winequality-red.csv")
 {{< /highlight >}}
 
-### Check the size and type of data
+**Verificamos el tamaño y el tipo de los datos**
 
 
 {{< highlight "python" "linenos=false">}}
@@ -78,8 +83,6 @@ red.shape
 {{< highlight "python" "linenos=false">}}
 red.head()
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -218,7 +221,8 @@ red.info()
      11  quality               1599 non-null   int64  
     dtypes: float64(11), int64(1)
     memory usage: 150.0 KB
-    
+
+Realizamos una serie de comprobaciones para conocer la naturaleza de los datos con los que vamos a trabajar: tipo, valores únicos, número de valores únicos y su porcentaje, valores medios y desviación estándar.   
 
 
 {{< highlight "python" "linenos=false">}}
@@ -229,8 +233,6 @@ pd.DataFrame({"Type": red.dtypes,
               "Mean": red.mean(),
               "Std": red.std()})
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -373,14 +375,12 @@ pd.DataFrame({"Type": red.dtypes,
 </div>
 
 
-Mmmmm, there are no nulls, what a data set!
+Mmmmm, no existen valores nulos, ¡qué buen dataset!
 
 
 {{< highlight "python" "linenos=false">}}
 red.describe().T
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -550,22 +550,20 @@ red.describe().T
 
 
 
-## Explore the Data
+## Exploración de los datos
 
-How are the features distributed?
+El siguiente paso será realizar un análisis exploratorio de los datos. ¿Cómo se distribuyen las características?
 
 
 {{< highlight "python" "linenos=false">}}
 red.hist(bins=50, figsize=(15,12));
 {{< /highlight >}}
 
-
     
 ![png](/images/output_19_0.png)
     
 
-
-Let's check how our target variable, the quality score, is distributed:
+Verifiquemos ahora cómo se distribuye nuestra variable objetivo (la puntuación de calidad):
 
 
 {{< highlight "python" "linenos=false">}}
@@ -584,18 +582,15 @@ red["quality"].value_counts(normalize=True) * 100
     Name: quality, dtype: float64
 
 
+Podemos comprobar que se encuentra significativamente desbalanceada. La mayoría de las instancias (82%) tienen puntuaciones de 5 ó 6.
 
-It is significantly unbalanced. Most instances (82%) have scores of 6 or 5.
-
-We are going to check the correlations between the attributes of the dataset:
+Vamos a verificar las correlaciones entre las características del dataset:
 
 
 {{< highlight "python" "linenos=false">}}
 corr_matrix = red.corr()
 corr_matrix
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -816,21 +811,30 @@ corr_matrix
 </div>
 
 
-
-
 {{< highlight "python" "linenos=false">}}
 plt.figure(figsize=(15,10))
 sns.heatmap(red.corr(), annot=True, cmap='coolwarm')
 plt.show()
 {{< /highlight >}}
 
-
     
 ![png](/images/output_25_0.png)
     
+Existen correlaciones positivas entre las características:
+
++  `fixed acidity` con `citric acid` y `densidad`, 
++  `free sulfur dioxide` con `total sulfur dioxide`,
++  `alcohol` con `quality`
+
+y correlaciones negativas entre las caracteríticas:
+
++ `fixed acidity` con `pH`,
++ `volatile acidity` con `citric acid`,
++ `citric acid` con `pH`,
++ `density` con `alcohol`
 
 
-We show only the correlations of the target variable with the rest of the attributes:
+Mostremos sólo las correlaciones de la variable objetivo con el resto de características:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -851,8 +855,6 @@ corr_matrix["quality"].drop("quality").sort_values(ascending=False)
     Name: quality, dtype: float64
 
 
-
-
 {{< highlight "python" "linenos=false">}}
 plt.figure(figsize=(8,5))
 corr_matrix["quality"].drop("quality").sort_values(ascending=False).plot(kind='bar')
@@ -860,15 +862,14 @@ plt.title("Attribute correlations with quality")
 plt.show()
 {{< /highlight >}}
 
-
     
 ![png](/images/output_28_0.png)
     
+Podemos observar una correlación positiva con el atributo `alcohol` y negativa con `volatile acidity`.
 
+## Preparación de los datos
 
-## Prepare the Data
-
-Create the predictor set and the set with the target variable:
+En primer lugar vamos a crear el conjunto de predictores y el conjunto con la variable objetivo:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -887,7 +888,7 @@ X = red[predict_columns]
 y = red["quality"]
 {{< /highlight >}}
 
-Create the training and test datasets:
+Posteriormente, creamos los conjuntos de entrenamiento y prueba, siendo el conjunto de entrenamiento un 80% del dataset completo y el 20% restante el conjunto de prueba:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -909,9 +910,20 @@ X_test.shape, y_test.shape
     ((320, 11), (320,))
 
 
+## Línea base
 
-## Baseline
+Para determinar adecuadamente si nuestro modelo es mejor o peor, primero tenemos que definir una línea base con la que poder comparar. Para ello vamos a entrenar algunos regresores *dummy* cuyos resultados usaremos como línea base de comparación.
 
+Este regresor dummy predice de manera constante la puntuación 5, la más frecuente:
+
+{{< highlight "python" "linenos=false">}}
+rg_dummy = DummyRegressor(strategy="constant", constant=5)
+rg_dummy.fit(X_train, y_train)
+{{< /highlight >}}
+
+    DummyRegressor(constant=array(5), strategy='constant')
+
+Nos creamos una función que nos permitirá evaluar nuestro modelo a lo largo de este análisis:
 
 {{< highlight "python" "linenos=false">}}
 def evaluate_model(estimator, X_train, y_train, cv=10, verbose=True):
@@ -975,16 +987,6 @@ def evaluate_model(estimator, X_train, y_train, cv=10, verbose=True):
     return result
 {{< /highlight >}}
 
-First, we are going to train a dummy regressor that we will use as a baseline with which to compare.
-
-
-{{< highlight "python" "linenos=false">}}
-rg_dummy = DummyRegressor(strategy="constant", constant=5) # Mean prediction
-rg_dummy.fit(X_train, y_train)
-{{< /highlight >}}
-
-    DummyRegressor(constant=array(5), strategy='constant')
-
 
 {{< highlight "python" "linenos=false">}}
 rg_scores = evaluate_model(rg_dummy, X_train, y_train)
@@ -1000,8 +1002,9 @@ rg_scores = evaluate_model(rg_dummy, X_train, y_train)
     train_R2_mean: -0.5986022943608599 - (std: 0.01598456942915052)
     
 
-A classifier that always predicts the most frequent quality (in our case the quality score 5) obtains a RMSE = 1.039.
+Un regresor que siempre predice la puntuación de calidad más frecuente (en nuestro caso, la puntuación 5) obtiene un **RMSE = 1.01**.
 
+Probemos ahora con un regresor dummy que predice la media de las puntuaciones de calidad:
 
 {{< highlight "python" "linenos=false">}}
 rg_dummy = DummyRegressor(strategy="mean") # Mean prediction
@@ -1025,11 +1028,12 @@ rg_scores = evaluate_model(rg_dummy, X_train, y_train)
     train_R2_mean: 0.0 - (std: 0.0)
     
 
-A regressor that always predicts the mean quality obtains a RMSE = 0.651. We are going to take the prediction of this dummy classifier as our baseline.
+Un regresor que predice siempre la puntuación media de calidad obtiene un **RMSE = 0.80**. Vamos a tomar la predicción de este regresor dummy como nuestra línea base.
 
-## Shortlist Promising Models
 
-OK, we're going train several quick-and-dirty models from different categories using standard parameters. We selected some of the regression models: Linear Regression, Lasso, ElasticNet, Ridge, Extre Trees, and RandomForest.
+## Entrenamiento de diversos modelos
+
+OK, ya estamos listos para entrenar varios modelos de forma rápida de diferente tipología y usando los parámetros estándar. Seleccionamos algunos modelos de regresión: `Linear Regression`, `Lasso`, `ElasticNet`, `Ridge`, `Extre Trees`, y `RandomForest`.
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1121,7 +1125,7 @@ for model in range(len(models)):
     train_R2_mean: 0.9231573754360927 - (std: 0.0020715859571618753)
     
 
-Let's see the performance of each of them:
+Veamos cuál es el rendimiento de cada uno de ellos:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1132,8 +1136,6 @@ df_result = pd.DataFrame({"Model": model_names,
                           "R2": r2})
 df_result
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -1197,18 +1199,18 @@ df_result
     <tr>
       <th>4</th>
       <td>Extra Tree</td>
-      <td>0.376723</td>
-      <td>0.338498</td>
-      <td>0.578473</td>
-      <td>0.475358</td>
+      <td>0.375012</td>
+      <td>0.335985</td>
+      <td>0.576599</td>
+      <td>0.479648</td>
     </tr>
     <tr>
       <th>5</th>
       <td>Random Forest</td>
-      <td>0.421939</td>
-      <td>0.353639</td>
-      <td>0.592156</td>
-      <td>0.450229</td>
+      <td>0.422140</td>
+      <td>0.356897</td>
+      <td>0.594764</td>
+      <td>0.445618</td>
     </tr>
   </tbody>
 </table>
@@ -1219,12 +1221,15 @@ df_result
 df_result.sort_values(by="RMSE", ascending=False).plot.barh("Model", "RMSE");
 {{< /highlight >}}
 
+![png](/images/output_52_0.png)
 
 {{< highlight "python" "linenos=false">}}
 df_result.sort_values(by="R2").plot.barh("Model", "R2");
 {{< /highlight >}}
 
-The model that gives the best results is **extra trees**. RMSE = 0.577591 and R2 = 0.477845. Let's fine tune it.
+![png](/images/output_54_0.png)
+
+Analizando los resultados vemos que **extra trees** es el modelo que mejores resultados obtiene. RMSE = 0.576599 and R2 = 0.479648. OK, este será nuestro modelo candidato. Vamos a realizar el ajuste fino.
 
 ## Fine-Tune
 
@@ -1245,11 +1250,31 @@ grid_search.fit(X_train, y_train)
 {{< /highlight >}}
 
 
+
+
+
+    GridSearchCV(cv=5, estimator=ExtraTreesRegressor(n_jobs=-1, random_state=42),
+                 param_grid=[{'bootstrap': [True, False],
+                              'max_features': [2, 3, 4, 5, 8, 'auto'],
+                              'n_estimators': range(10, 300, 10)}],
+                 return_train_score=True, scoring='neg_mean_squared_error')
+
+
+
+
+
 {{< highlight "python" "linenos=false">}}
 grid_search.best_params_
 {{< /highlight >}}
 
-It's the moment of truth! Let's see the performance on the test set:
+
+
+
+    {'bootstrap': False, 'max_features': 5, 'n_estimators': 160}
+
+
+
+¡Es el momento de la verdad! Veamos su rendimiento en el conjunto de prueba:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1265,7 +1290,15 @@ print(f"RMSE: {np.sqrt(metrics.mean_squared_error(y_test, y_pred))}")
 print(f"R2: {final_model.score(X_test, y_test)}")
 {{< /highlight>}}
 
-Well, a little better!
+    MAE: 0.38298828124999995
+    MSE: 0.28038391113281247
+    RMSE: 0.5295128998738486
+    R2: 0.5709542506612473
+    
+
+Bueno, ¡un poco mejor! Obtenemos un error de +/- 0.5295. 
+
+Podemos visualizar cómo han sido sus predicciones:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1276,7 +1309,11 @@ plt.ylabel("Predicted")
 plt.show()
 {{< /highlight >}}
 
-Let's see which features are most relevant:
+![png](/images/output_63_0.png)
+
+Se observa una mayor concentración de predicciones en las puntuaciones centrales (5 y 6), debido a un mayor número de instancias en el dataset respecto a las demás. También podemos comprobar que las predicciones sobre las puntuaciones extremas son pésimas. Las puntuaciones 5 y 6 son las que mejores resultados ofrecen.
+
+¿Cuáles son las características más relevantes?:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1285,9 +1322,27 @@ feature_importances
 {{< /highlight >}}
 
 
+    array([0.06242878, 0.12054219, 0.07478461, 0.06697772, 0.06670251,
+           0.05944129, 0.07925392, 0.07148382, 0.06178626, 0.12593217,
+           0.21066673])
+
+
 {{< highlight "python" "linenos=false">}}
 sorted(zip(feature_importances, X_test.columns), reverse=True)
 {{< /highlight >}}
+
+
+    [(0.2106667292131454, 'alcohol'),
+     (0.12593217102849735, 'sulphates'),
+     (0.1205421943281732, 'volatile acidity'),
+     (0.07925392046422035, 'total sulfur dioxide'),
+     (0.07478461494308856, 'citric acid'),
+     (0.07148382305429932, 'density'),
+     (0.06697771630809285, 'residual sugar'),
+     (0.06670250522733821, 'chlorides'),
+     (0.062428775664599805, 'fixed acidity'),
+     (0.061786258397281676, 'pH'),
+     (0.05944129137126337, 'free sulfur dioxide')]
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1296,7 +1351,11 @@ feature_imp.plot(kind='bar')
 plt.title('Feature Importances')
 {{< /highlight >}}
 
-Let's see how the errors are distributed:
+![png](/images/output_67_1.png)
+
+La gráfica nos muestra que las características más importantes son: `alcohol`, `sulphates` y `volatile acidity`, algo que también nos anticipaba el análisis de correlaciones que vimos anteriormente.
+
+Veamos ahora cómo se distribuyen los errores:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1313,12 +1372,35 @@ plt.title("Error distribution")
 plt.xlabel("Error");
 {{< /highlight >}}
 
-More generally, What's the MAE that occurs in each quality score?
+![png](/images/output_70_0.png)
+
+Parece que los errores siguen una distribución gaussiana.
+
+¿Cuál es el MAE que se produce en la puntuación de calidad 6?
+
+{{< highlight "python" "linenos=false">}}
+df_resul[df_resul["Real"].isin([6])]["error"].abs().mean()
+{{< /highlight >}}
+
+    0.3437013037105609
+
+Más en general ¿Cuál es el MAE que se produce en cada puntuación de calidad?
 
 
 {{< highlight "python" "linenos=false">}}
 df_resul.groupby("Real")["error_abs"].mean()
 {{< /highlight >}}
+
+
+    Real
+    3    2.268966
+    4    1.286657
+    5    0.462774
+    6    0.343701
+    7    0.617315
+    8    1.597190
+    9    3.434483
+    Name: error_abs, dtype: float64
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1328,12 +1410,24 @@ plt.ylabel("MAE")
 plt.xlabel("Quality");
 {{< /highlight >}}
 
-## Conclusions
+![png](/images/output_73_0.png)
 
-After testing various models, the one that provided the best results is ExtraTrees. After fine tuning it, we get a significant improvement.
+Se comprueba que en las puntuaciones de calidad extremas el error es elevado, sobre todo en la puntuación 8 y 3. Las puntuaciones 5 y 6 es donde menos error se produce.
 
-The basic line regression model offers an R2: 0.323021 and RMSE: 0.657899. The Extra Tree model offers an R2: 0.529512 and RMSE: 0.570954. However, the R2 score is still very low. According to the value obtained from R2, our model can barely explain 52% of the variance. That is, the percentage of relationship between the variables that can be explained by our model is 52.95%.
+## Conclusiones
 
-According to the MAE distribution graph, we can see that our model is not good for extreme scores. In fact, it is not capable of predicting any score of 3 or 8. As we saw in the distribution of the target variable, it is very unbalanced, there are hardly any observations for the extreme values, so the model does not have enough data training for all quality scores.
+Después de probar diversos modelos, el que mejores resultados arroja es **ExtraTrees**. Tras un ajuste fino del mismo conseguimos una importante mejora:
 
-As a final consideration, we should try to approach modeling as a classification problem, to evaluate if it offers better results than a regression problem. We will see it in part 2 and 3 of this analysis.
++ Nuestra línea base teníamos un MAE: 0.684263 y RMSE: 0.805259.
++ El modelo de Extra Tree obtiene un MAE: 0.382988, RMSE: 0.529512 y R2:0.570954.
+  
+Sin embargo, la puntuación de R2 sigue siendo muy baja. Según dicho valor, nuestro modelo apenas puede explicar un 57% de la varianza. Es decir, el porcentaje de relación entre las variables que puede explicarse mediante nuestro modelo lineal es del 57,09%.
+
+
+> Como sabemos, R2 varía entre 0 y 1. Es la proporción de la varianza en la variable dependiente (nuestra variable objetivo) que es predecible a partir de las variables independientes (nuestros predictores). Si la predicción fuera exactamente igual a lo real, R2 = 1 (es decir, 100%).
+
+El RMSE = 0,529. Es decir, tenemos un error típico de predicción de 0,529.
+
+Según la gráfica de distribución de MAE podemos observar que nuestro modelo no es nada bueno para valores extremos de puntuación. De hecho no es capaz de predecir ninguna puntuación de 3 y apenas alguna de 8. Según vimos en la distribución de la variable objetivo, ésta se encuentra muy desbalanceada, apenas existen observaciones para los valores extremos, por lo que el modelo no tiene suficientes datos de entrenamiento para todas las puntuaciones de calidad.
+
+Como ejercicio final, podríamos probar a enfocar el modelado como un problema de clasificación, para evaluar si ofrece mejores resultados que un problema de regresión. Lo veremos en futuros posts.

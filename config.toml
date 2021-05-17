@@ -434,7 +434,7 @@ uglyURLs = false
 
     displayListTitle = true
 
-    listDateFormat = "January 2"
+    listDateFormat = "2 January"
     # ATTENTION: be sure to follow the
     #            specified format
     #            https://gohugo.io/functions/format/
@@ -446,7 +446,7 @@ uglyURLs = false
     groupByMonth = true
 
     # Enable Chinese zodiac?
-    chineseZodiac = true
+    chineseZodiac = false
 
     # Translate the year? (valid for title)
     i18nYear = false
@@ -757,7 +757,7 @@ uglyURLs = false
     #            supported
 
     # The content width of the post
-    postWidth = 36
+    postWidth = 46
     # Note: you can leave it empty("") to
     #       fallback to the default value: 42
     #       Unit: em
@@ -790,7 +790,7 @@ uglyURLs = false
     # Note: valid for the `posts` and
     #       `page` homepage layout only
 
-    postMetaDateFormat = "2006.1.2"
+    postMetaDateFormat = "2.1.2006"
     # ATTENTION: be sure to follow the
     #            specified format
     #            https://gohugo.io/functions/format/
@@ -1151,13 +1151,13 @@ uglyURLs = false
     displayShareOnText = false
 
     shareOnTwitter = true
-    shareOnFacebook = true
+    shareOnFacebook = false
     shareOnLinkedIn = true
     shareOnTelegram = true
-    shareOnWeibo = true
-    shareOnDouban = true
-    shareOnQQ = true
-    shareOnQzone = true
+    shareOnWeibo = false
+    shareOnDouban = false
+    shareOnQQ = false
+    shareOnQzone = false
 
     shareViaQRCode = true
 
