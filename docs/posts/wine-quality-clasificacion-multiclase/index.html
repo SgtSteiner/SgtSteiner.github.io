@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.83.1" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Calidad del vino - Clasificación multiclase | Lords of Machine Learning</title>
+
+    <link rel="stylesheet" href="/css/meme.min.317d84c7f6754ad23a2ae219d212f73a900416875fb1144e27652ca955c5aac2.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.49400d21a299355489a0a02cf7737ef1e4e5fe75fe5bd16cd756376c2bb6b749.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Antonio Méndez" /><meta name="description" content="ANALISIS DE LA CALIDAD DEL VINO - Clasificación multiclase En la primera parte de este análisis enfocamos el problema como aprendizaje supervisado - regresión. El modelo resultante no podemos considerarlo satisfactorio. Vamos a considerar el problema como aprendizaje supervisado - clasificación, concretamente clasificación multiclase." />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Lords of Machine Learning" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Lords of Machine Learning" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2021-01-26T13:40:49+02:00",
+        "dateModified": "2021-05-31T11:37:01+02:00",
+        "url": "https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/",
+        "headline": "Calidad del vino - Clasificación multiclase",
+        "description": "ANALISIS DE LA CALIDAD DEL VINO - Clasificación multiclase En la primera parte de este análisis enfocamos el problema como aprendizaje supervisado - regresión. El modelo resultante no podemos considerarlo satisfactorio. Vamos a considerar el problema como aprendizaje supervisado - clasificación, concretamente clasificación multiclase.",
+        "inLanguage" : "es-ES",
+        "articleSection": "posts",
+        "wordCount":  3087 ,
+        "image": ["https://sgtsteiner.github.io/images/output_36_0.png","https://sgtsteiner.github.io/images/output_46_0.png","https://sgtsteiner.github.io/images/output_46_1.png","https://sgtsteiner.github.io/images/output_46_2.png","https://sgtsteiner.github.io/images/output_46_3.png","https://sgtsteiner.github.io/images/output_80_0.png","https://sgtsteiner.github.io/images/output_84_0.png","https://sgtsteiner.github.io/images/output_89_0.png"],
+        "author": {
+            "@type": "Person",
+            "description": "Sgt. Steiner",
+            "email": "futitotal@gmail.com",
+            "image": "https://sgtsteiner.github.io/icons/apple-touch-icon.png",
+            "url": "https://sgtsteiner.github.io/",
+            "name": "Antonio Méndez"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Lords of Machine Learning",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sgtsteiner.github.io/icons/apple-touch-icon.png"
+            },
+            "url": "https://sgtsteiner.github.io/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://sgtsteiner.github.io/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:site" content="@Steiner_69" />
+<meta name="twitter:creator" content="@Steiner_69" />
+
+    
+
+
+
+<meta property="og:title" content="Calidad del vino - Clasificación multiclase" />
+<meta property="og:description" content="ANALISIS DE LA CALIDAD DEL VINO - Clasificación multiclase En la primera parte de este análisis enfocamos el problema como aprendizaje supervisado - regresión. El modelo resultante no podemos considerarlo satisfactorio. Vamos a considerar el problema como aprendizaje supervisado - clasificación, concretamente clasificación multiclase." />
+<meta property="og:url" content="https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/" />
+<meta property="og:site_name" content="Lords of Machine Learning" />
+<meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/output_36_0.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2021-01-26T13:40:49&#43;02:00" />
+    <meta property="article:modified_time" content="2021-05-31T11:37:01&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">Lords of Machine Learning</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">Posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">Categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">Tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">About</span></a>
+                </li>
+            
+        
+            
+                
+                    
+                    
+                        <li class="menu-item">
+                            <a id="theme-switcher" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5l48.8-97.5a18 18 0 0128 0l48.8 97.5 103.4 -34.5a18 18 0 0119.8 19.8l-34.5 103.4l97.5 48.8a18 18 0 010 28l-97.5 48.8 34.5 103.4a18 18 0 01-19.8 19.8l-103.4-34.5-48.8 97.5a18 18 0 01-28 0l-48.8-97.5l-103.4 34.5a18 18 0 01-19.8-19.8l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8-34.5-103.4a18 18 0 0119.8-19.8zM256 128a128 128 0 10.01 0M256 160a96 96 0 10.01 0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412a256 256 0 10154-407a11.5 11.5 0 00-5 20a201.5 201.5 0 01-134 374a11.5 11.5 0 00-15 13"/></svg></a>
+                        </li>
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                <li class="menu-item search-item">
+                        <form id="search" class="search" role="search">
+    <label for="search-input"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon search-icon"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></label>
+    <input type="search" id="search-input" class="search-input">
+</form>
+
+<template id="search-result" hidden>
+    <article class="content post">
+        <h2 class="post-title"><a class="summary-title-link"></a></h2>
+        <summary class="summary"></summary>
+        <div class="read-more-container">
+            <a class="read-more-link"> »</a>
+        </div>
+    </article>
+</template>
+
+                    </li>
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-small-caps="true" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Calidad del vino - Clasificación multiclase</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2021-01-26T13:40:49&#43;02:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;26.1.2021</time>
+    
+    
+        
+        <time datetime="2021-05-31T11:37:01&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;31.5.2021</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/tutoriales/" class="category-link p-category">tutoriales</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3087</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;</span>
+    
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+              <h1 id="analisis-de-la-calidad-del-vino---clasificación-multiclase"><a href="#analisis-de-la-calidad-del-vino---clasificación-multiclase" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>ANALISIS DE LA CALIDAD DEL VINO - Clasificación multiclase</h1>
+<p style="text-indent:0"><span class="drop-cap">E</span>n la <a href="https://sgtsteiner.github.io/posts/wine-quality-un-problema-de-regresion/" target="_blank" rel="noopener">primera parte de este análisis</a> enfocamos el problema como aprendizaje supervisado - regresión. El modelo resultante no podemos considerarlo satisfactorio. Vamos a considerar el problema como <strong>aprendizaje supervisado - clasificación</strong>, concretamente <strong>clasificación multiclase</strong>.</p>
+<h2 id="carga-de-datos"><a href="#carga-de-datos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Carga de datos</h2>
+<p>Importamos las librerías necesarias:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">cross_val_score</span> 
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span><span class="p">,</span> <span class="n">cross_val_predict</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.dummy</span> <span class="kn">import</span> <span class="n">DummyClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">ExtraTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span></code></pre></div>
+<p>Leemos los datos y creamos un DataFrame</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">wine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;data/wine-quality/winequality-red.csv&#34;</span><span class="p">)</span></code></pre></div>
+<h2 id="exploración-de-los-datos"><a href="#exploración-de-los-datos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Exploración de los datos</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">wine</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fixed acidity</th>
+      <th>volatile acidity</th>
+      <th>citric acid</th>
+      <th>residual sugar</th>
+      <th>chlorides</th>
+      <th>free sulfur dioxide</th>
+      <th>total sulfur dioxide</th>
+      <th>density</th>
+      <th>pH</th>
+      <th>sulphates</th>
+      <th>alcohol</th>
+      <th>quality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.4</td>
+      <td>0.70</td>
+      <td>0.00</td>
+      <td>1.9</td>
+      <td>0.076</td>
+      <td>11.0</td>
+      <td>34.0</td>
+      <td>0.9978</td>
+      <td>3.51</td>
+      <td>0.56</td>
+      <td>9.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.8</td>
+      <td>0.88</td>
+      <td>0.00</td>
+      <td>2.6</td>
+      <td>0.098</td>
+      <td>25.0</td>
+      <td>67.0</td>
+      <td>0.9968</td>
+      <td>3.20</td>
+      <td>0.68</td>
+      <td>9.8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7.8</td>
+      <td>0.76</td>
+      <td>0.04</td>
+      <td>2.3</td>
+      <td>0.092</td>
+      <td>15.0</td>
+      <td>54.0</td>
+      <td>0.9970</td>
+      <td>3.26</td>
+      <td>0.65</td>
+      <td>9.8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11.2</td>
+      <td>0.28</td>
+      <td>0.56</td>
+      <td>1.9</td>
+      <td>0.075</td>
+      <td>17.0</td>
+      <td>60.0</td>
+      <td>0.9980</td>
+      <td>3.16</td>
+      <td>0.58</td>
+      <td>9.8</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7.4</td>
+      <td>0.70</td>
+      <td>0.00</td>
+      <td>1.9</td>
+      <td>0.076</td>
+      <td>11.0</td>
+      <td>34.0</td>
+      <td>0.9978</td>
+      <td>3.51</td>
+      <td>0.56</td>
+      <td>9.4</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<p>No vamos a profundizar en la exploración de datos, puesto que ya lo hicimos en la primera parte de este análisis <a href="https://sgtsteiner.github.io/posts/wine-quality-un-problema-de-regresion/" target="_blank" rel="noopener" title="Calidad del vino - Un problema de regresión">(Calidad del vino - Un problema de regresión)</a>.</p>
+<h2 id="preparación-de-los-datos"><a href="#preparación-de-los-datos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Preparación de los datos</h2>
+<p>El único preprocesamiento que vamos a realizar es convertir la variable objetivo <code>&quot;quality&quot;</code> a categórica.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">wine</span><span class="p">[</span><span class="s2">&#34;quality_cat&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s2">&#34;quality&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&#34;category&#34;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">wine</span><span class="p">[</span><span class="s2">&#34;quality_cat&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span></code></pre></div>
+<pre><code>5    681
+6    638
+7    199
+4     53
+8     18
+3     10
+Name: quality_cat, dtype: int64
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Porcentaje de cada una de las puntuaciones de calidad&#34;</span><span class="p">)</span>
+<span class="n">wine</span><span class="p">[</span><span class="s2">&#34;quality_cat&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span></code></pre></div>
+<pre><code>Porcentaje de cada una de las puntuaciones de calidad
+
+5    42.589118
+6    39.899937
+7    12.445278
+4     3.314572
+8     1.125704
+3     0.625391
+Name: quality_cat, dtype: float64
+</code></pre>
+<p>Como ya vimos, el dataset se encuentra significativamente desbalanceado. La mayoría de las instancias (82%) tienen puntuaciones de 6 ó 5.</p>
+<p>A continuación creamos el conjunto de predictores y el conjunto con la variable objetivo:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">predict_columns</span> <span class="o">=</span> <span class="n">wine</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">predict_columns</span></code></pre></div>
+<pre><code>Index(['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
+       'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
+       'pH', 'sulphates', 'alcohol'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="n">predict_columns</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s2">&#34;quality_cat&#34;</span><span class="p">]</span></code></pre></div>
+<p>Posteriormente, creamos los conjuntos de entrenamiento y prueba, siendo el conjunto de entrenamiento un 80% del dataset completo y el 20% restante el conjunto de prueba:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> 
+                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> 
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span></code></pre></div>
+<h3 id="línea-base"><a href="#línea-base" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Línea base</h3>
+<p>Lo siguiente que haremos será entrenar un clasificador <em>dummy</em> que utilizaremos como línea base con el que comparar. En este caso, un clasificador que genera predicciones uniformemente al azar.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_dummy</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&#34;uniform&#34;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span> <span class="c1"># Predice al azar</span>
+<span class="n">clf_dummy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>DummyClassifier(random_state=42, strategy='uniform')
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf_dummy</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;accuracy&#34;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></code></pre></div>
+<pre><code>0.16108673901331486
+</code></pre>
+<p>Un clasificador que prediga al azar obtiene una puntuación <em>accuracy</em> del 16%.</p>
+<p>Probemos con otro clasificador, pero en este caso, que prediga siempre la clase más frecuente:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_dummy</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&#34;most_frequent&#34;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span> <span class="c1"># Predice siempre la clase más frecuente</span>
+<span class="n">clf_dummy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>DummyClassifier(random_state=42, strategy='most_frequent')
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf_dummy</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;accuracy&#34;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></code></pre></div>
+<pre><code>0.4308052321213254
+</code></pre>
+<p>Un clasificador que siempre prediga la clase más frecuente (en nuestro caso la puntuación de calidad 6) obtiene una <em>accuracy</em> del 43%. Vamos a tomar como línea base la predicción de este clasificador dummy.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">clf_dummy</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<p>Dibujemos su matriz de confusión:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">conf_mx</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="n">conf_mx</span></code></pre></div>
+<pre><code>array([[  0,   0,   9,   0,   0,   0],
+       [  0,   0,  43,   0,   0,   0],
+       [  0,   0, 551,   0,   0,   0],
+       [  0,   0, 506,   0,   0,   0],
+       [  0,   0, 157,   0,   0,   0],
+       [  0,   0,  13,   0,   0,   0]], dtype=int64)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_mx</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&#34;d&#34;</span><span class="p">,</span> 
+                 <span class="n">xticklabels</span><span class="o">=</span><span class="n">clf_dummy</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+                 <span class="n">yticklabels</span><span class="o">=</span><span class="n">clf_dummy</span><span class="o">.</span><span class="n">classes_</span><span class="p">,)</span></code></pre></div>
+<p><img src="/images/output_36_0.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">accuracy_base</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="n">precision_base</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> 
+                                         <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">,</span> 
+                                         <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">recall_base</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> 
+                                   <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">)</span>
+<span class="n">f1_base</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> 
+                           <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Accuracy: {accuracy_base}&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Precision: {precision_base}&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Recall: {recall_base}&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;f1: {f1_base}&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>Accuracy: 0.43080531665363564
+Precision: 0.18559322085703928
+Recall: 0.43080531665363564
+f1: 0.25942484095754453
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></code></pre></div>
+<pre><code>              precision    recall  f1-score   support
+
+           3       0.00      0.00      0.00         9
+           4       0.00      0.00      0.00        43
+           5       0.43      1.00      0.60       551
+           6       0.00      0.00      0.00       506
+           7       0.00      0.00      0.00       157
+           8       0.00      0.00      0.00        13
+
+    accuracy                           0.43      1279
+   macro avg       0.07      0.17      0.10      1279
+weighted avg       0.19      0.43      0.26      1279
+</code></pre>
+<p>Nuestro clasificador dummy es correcto solo el <strong>19%</strong> de las veces (precision) y detecta el <strong>43%</strong> de las puntuaciones reales (recall). A menudo es conveniente combinar precisión y sensibilidad en una sola métrica llamada puntuación F<sub>1</sub>, en particular si necesitamos una forma sencilla de comparar dos clasificadores. La puntuación F<sub>1</sub> es la media armónica de precisión y sensibilidad. Mientras que la media regular trata a todos los valores por igual, la media armónica otorga mucho más peso a los valores bajos. Como resultado, el clasificador solo obtendrá una puntuación alta en F<sub>1</sub> si tanto la sensibilidad como la precisión son altas. En nuestro caso, F<sub>1</sub> = <strong>0,26</strong>. Bien, tomemos estas tres métricas como nuestra línea base inicial.</p>
+<p>Por tanto, nuestra línea base será:</p>
+<ul>
+<li>Precision: 0.1855</li>
+<li>Recall: 0.4308</li>
+<li>F<sub>1</sub>: 0.2594</li>
+</ul>
+<h2 id="entrenamiento-de-diversos-modelos"><a href="#entrenamiento-de-diversos-modelos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Entrenamiento de diversos modelos</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Print and return cross validation of model
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">scoring</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;accuracy&#34;</span><span class="p">:</span> <span class="s2">&#34;accuracy&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;precision&#34;</span><span class="p">:</span> <span class="s2">&#34;precision_weighted&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;recall&#34;</span><span class="p">:</span> <span class="s2">&#34;recall_weighted&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;f1&#34;</span><span class="p">:</span> <span class="s2">&#34;f1_weighted&#34;</span><span class="p">}</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">)</span>
+    
+    <span class="n">accuracy</span><span class="p">,</span> <span class="n">accuracy_std</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> \
+                                <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    
+    <span class="n">precision</span><span class="p">,</span> <span class="n">precision_std</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_precision&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> \
+                                <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_precision&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    
+    <span class="n">recall</span><span class="p">,</span> <span class="n">recall_std</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_recall&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> \
+                                <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_recall&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    
+    <span class="n">f1</span><span class="p">,</span> <span class="n">f1_std</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_f1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_f1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&#34;Accuracy&#34;</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">,</span>
+        <span class="s2">&#34;Accuracy std&#34;</span><span class="p">:</span> <span class="n">accuracy_std</span><span class="p">,</span>
+        <span class="s2">&#34;Precision&#34;</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span>
+        <span class="s2">&#34;Precision std&#34;</span><span class="p">:</span> <span class="n">precision_std</span><span class="p">,</span>
+        <span class="s2">&#34;Recall&#34;</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span>
+        <span class="s2">&#34;Recall std&#34;</span><span class="p">:</span> <span class="n">recall_std</span><span class="p">,</span>
+        <span class="s2">&#34;f1&#34;</span><span class="p">:</span> <span class="n">f1</span><span class="p">,</span>
+        <span class="s2">&#34;f1 std&#34;</span><span class="p">:</span> <span class="n">f1_std</span><span class="p">,</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Accuracy: {accuracy} - (std: {accuracy_std})&#34;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Precision: {precision} - (std: {precision_std})&#34;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Recall: {recall} - (std: {recall_std})&#34;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;f1: {f1} - (std: {f1_std})&#34;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">(),</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span>
+          <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span> <span class="n">ExtraTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span> 
+          <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span> 
+          <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">()]</span>
+
+<span class="n">model_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Naive Bayes Gaussian&#34;</span><span class="p">,</span> <span class="s2">&#34;K Neighbors Classifier&#34;</span><span class="p">,</span> <span class="s2">&#34;Random Forest&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;Decision Tree&#34;</span><span class="p">,</span> <span class="s2">&#34;Extra Tree&#34;</span><span class="p">,</span> <span class="s2">&#34;Ada Boost&#34;</span><span class="p">,</span> 
+               <span class="s2">&#34;Gradient Boosting&#34;</span><span class="p">,</span> <span class="s2">&#34;XGBoost&#34;</span><span class="p">]</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">recall</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Paso {model+1} de {len(models)}&#34;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;...running {model_names[model]}&#34;</span><span class="p">)</span>
+    
+    <span class="n">clf_scores</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="n">accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clf_scores</span><span class="p">[</span><span class="s2">&#34;Accuracy&#34;</span><span class="p">])</span>
+    <span class="n">precision</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clf_scores</span><span class="p">[</span><span class="s2">&#34;Precision&#34;</span><span class="p">])</span>
+    <span class="n">recall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clf_scores</span><span class="p">[</span><span class="s2">&#34;Recall&#34;</span><span class="p">])</span>
+    <span class="n">f1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clf_scores</span><span class="p">[</span><span class="s2">&#34;f1&#34;</span><span class="p">])</span></code></pre></div>
+<pre><code>Paso 1 de 8
+...running Naive Bayes Gaussian
+Accuracy: 0.55125 - (std: 0.027102056829233452)
+Precision: 0.5646348802130249 - (std: 0.020745595731671666)
+Recall: 0.55125 - (std: 0.027102056829233452)
+f1: 0.5541082295110215 - (std: 0.023545313928114795)
+Paso 2 de 8
+...running K Neighbors Classifier
+Accuracy: 0.4964828431372549 - (std: 0.013777320430796238)
+Precision: 0.472985448646598 - (std: 0.015072330289309464)
+Recall: 0.4964828431372549 - (std: 0.013777320430796238)
+f1: 0.4749703234382818 - (std: 0.01350721905804416)
+Paso 3 de 8
+...running Random Forest
+Accuracy: 0.6826194852941176 - (std: 0.03746156433885403)
+Precision: 0.6585977991402794 - (std: 0.0406774341137893)
+Recall: 0.6826194852941176 - (std: 0.03746156433885403)
+f1: 0.6642629277794576 - (std: 0.03850557708999431)
+Paso 4 de 8
+...running Decision Tree
+Accuracy: 0.6012714460784314 - (std: 0.028539445741031087)
+Precision: 0.5978218408820158 - (std: 0.025874687130953537)
+Recall: 0.6012714460784314 - (std: 0.028539445741031087)
+f1: 0.5978989958450711 - (std: 0.0264307770802976)
+Paso 5 de 8
+...running Extra Tree
+Accuracy: 0.5676348039215686 - (std: 0.032774267548303905)
+Precision: 0.5697402861119303 - (std: 0.030789932683965727)
+Recall: 0.5676348039215686 - (std: 0.032774267548303905)
+f1: 0.5668315018481278 - (std: 0.031722387303563124)
+Paso 6 de 8
+...running Ada Boost
+Accuracy: 0.5504748774509804 - (std: 0.03954230035312734)
+Precision: 0.48457698009594374 - (std: 0.05118366184736229)
+Recall: 0.5504748774509804 - (std: 0.03954230035312734)
+f1: 0.5052214324230416 - (std: 0.03764434709325329)
+Paso 7 de 8
+...running Gradient Boosting
+Accuracy: 0.6474325980392157 - (std: 0.03472028817662461)
+Precision: 0.6218203966653049 - (std: 0.03370831758409691)
+Recall: 0.6474325980392157 - (std: 0.03472028817662461)
+f1: 0.6328837599218248 - (std: 0.03442412231869498)
+Paso 8 de 8
+...running XGBoost
+[15:57:22] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+[15:57:22] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+[15:57:23] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+[15:57:23] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+[15:57:24] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+Accuracy: 0.6560079656862745 - (std: 0.023339659857252816)
+Precision: 0.6346626310195044 - (std: 0.028312439862179448)
+Recall: 0.6560079656862745 - (std: 0.023339659857252816)
+f1: 0.6420686275076488 - (std: 0.024663282704859676)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&#34;Model&#34;</span><span class="p">:</span> <span class="n">model_names</span><span class="p">,</span>
+                          <span class="s2">&#34;accuracy&#34;</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">,</span>
+                          <span class="s2">&#34;precision&#34;</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span>
+                          <span class="s2">&#34;recall&#34;</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span>
+                          <span class="s2">&#34;f1&#34;</span><span class="p">:</span> <span class="n">f1</span><span class="p">})</span>
+<span class="n">df_result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&#34;f1&#34;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Model</th>
+      <th>accuracy</th>
+      <th>precision</th>
+      <th>recall</th>
+      <th>f1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>Random Forest</td>
+      <td>0.682619</td>
+      <td>0.658598</td>
+      <td>0.682619</td>
+      <td>0.664263</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>XGBoost</td>
+      <td>0.656008</td>
+      <td>0.634663</td>
+      <td>0.656008</td>
+      <td>0.642069</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gradient Boosting</td>
+      <td>0.647433</td>
+      <td>0.621820</td>
+      <td>0.647433</td>
+      <td>0.632884</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Decision Tree</td>
+      <td>0.601271</td>
+      <td>0.597822</td>
+      <td>0.601271</td>
+      <td>0.597899</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Extra Tree</td>
+      <td>0.567635</td>
+      <td>0.569740</td>
+      <td>0.567635</td>
+      <td>0.566832</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Naive Bayes Gaussian</td>
+      <td>0.551250</td>
+      <td>0.564635</td>
+      <td>0.551250</td>
+      <td>0.554108</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Ada Boost</td>
+      <td>0.550475</td>
+      <td>0.484577</td>
+      <td>0.550475</td>
+      <td>0.505221</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>K Neighbors Classifier</td>
+      <td>0.496483</td>
+      <td>0.472985</td>
+      <td>0.496483</td>
+      <td>0.474970</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<p>Vamos a visualizar la comparativa de los diferentes modelos / métricas:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">metrics_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;f1&#34;</span><span class="p">,</span> <span class="s2">&#34;accuracy&#34;</span><span class="p">,</span> <span class="s2">&#34;precision&#34;</span><span class="p">,</span> <span class="s2">&#34;recall&#34;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics_list</span><span class="p">:</span>
+    <span class="n">df_result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="s2">&#34;Model&#34;</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Model by {metric}&#34;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
+<p><img src="/images/output_46_0.png" alt="png"></p>
+<p><img src="/images/output_46_1.png" alt="png"></p>
+<p><img src="/images/output_46_2.png" alt="png"></p>
+<p><img src="/images/output_46_3.png" alt="png"></p>
+<p>Obtenemos que el modelo que tiene mejor rendimiento es <strong>Random Forest</strong>. Examinemos un poco más en detalle la ejecución de Random Forest:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">clf_rf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_rf</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span></code></pre></div>
+<pre><code>{'bootstrap': True,
+ 'ccp_alpha': 0.0,
+ 'class_weight': None,
+ 'criterion': 'gini',
+ 'max_depth': None,
+ 'max_features': 'auto',
+ 'max_leaf_nodes': None,
+ 'max_samples': None,
+ 'min_impurity_decrease': 0.0,
+ 'min_impurity_split': None,
+ 'min_samples_leaf': 1,
+ 'min_samples_split': 2,
+ 'min_weight_fraction_leaf': 0.0,
+ 'n_estimators': 100,
+ 'n_jobs': None,
+ 'oob_score': False,
+ 'random_state': 42,
+ 'verbose': 0,
+ 'warm_start': False}
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">rownames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Actual&#39;</span><span class="p">],</span> <span class="n">colnames</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Predicción&#39;</span><span class="p">])</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Predicción</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+    <tr>
+      <th>Actual</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0</td>
+      <td>32</td>
+      <td>9</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>2</td>
+      <td>434</td>
+      <td>108</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>1</td>
+      <td>116</td>
+      <td>364</td>
+      <td>25</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>0</td>
+      <td>14</td>
+      <td>70</td>
+      <td>73</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></code></pre></div>
+<pre><code>              precision    recall  f1-score   support
+
+           3       0.00      0.00      0.00         9
+           4       0.00      0.00      0.00        43
+           5       0.72      0.79      0.75       551
+           6       0.65      0.72      0.68       506
+           7       0.66      0.46      0.54       157
+           8       1.00      0.15      0.27        13
+
+    accuracy                           0.68      1279
+   macro avg       0.50      0.35      0.37      1279
+weighted avg       0.66      0.68      0.66      1279
+</code></pre>
+<p>El modelo es correcto el <strong>66%</strong> de las veces (precision) y detecta el <strong>68%</strong> de las puntuaciones reales (recall). Siendo la puntuación F<sub>1</sub> de <strong>0,66</strong>. Bueno, ha mejorado significativamente nuestra línea base (recordemos, precision=19%, recall=43% y F1=0,26).</p>
+<p>Al examinar en detalle el resultado de las predicciones, podemos observar que es pésimo en las puntuaciones extremas (3, 4 y 8) y bastante malo en la puntuación 7.</p>
+<h2 id="ajuste-fino-de-hiperparámetros"><a href="#ajuste-fino-de-hiperparámetros" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ajuste fino de hiperparámetros</h2>
+<p>Vamos a realizar un ajuste de hiperparámetros a ver si se consigue alguna mejora.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&#34;n_estimators&#34;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> 
+     <span class="s2">&#34;bootstrap&#34;</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+     <span class="s2">&#34;criterion&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;gini&#34;</span><span class="p">,</span> <span class="s2">&#34;entropy&#34;</span><span class="p">],</span>   
+     <span class="s2">&#34;max_depth&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
+     <span class="s2">&#34;max_features&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;auto&#34;</span><span class="p">,</span> <span class="s2">&#34;sqrt&#34;</span><span class="p">,</span> <span class="s2">&#34;log2&#34;</span><span class="p">],</span> 
+     <span class="s2">&#34;min_samples_split&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+     <span class="s2">&#34;min_samples_leaf&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+     <span class="p">}</span>
+<span class="p">]</span>
+
+
+<span class="n">clf_rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<h3 id="ajuste-inicial-con-randomize-search"><a href="#ajuste-inicial-con-randomize-search" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ajuste inicial con Randomize Search</h3>
+<p>En primer lugar hacemos un barrido rápido aleatorio:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_random</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">clf_rf</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">cv</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+                                <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;f1_weighted&#34;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                                <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_random</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>Fitting 5 folds for each of 200 candidates, totalling 1000 fits
+
+RandomizedSearchCV(cv=5,
+                   estimator=RandomForestClassifier(n_jobs=-1, random_state=42),
+                   n_iter=200, n_jobs=-1,
+                   param_distributions=[{'bootstrap': [True, False],
+                                         'criterion': ['gini', 'entropy'],
+                                         'max_depth': [2, 4, 6, 8, 10, 12, 14,
+                                                       None],
+                                         'max_features': ['auto', 'sqrt',
+                                                          'log2'],
+                                         'min_samples_leaf': [1, 2, 4],
+                                         'min_samples_split': [2, 5, 10],
+                                         'n_estimators': range(20, 200, 20)}],
+                   random_state=42, scoring='f1_weighted', verbose=2)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">clf_random</span><span class="o">.</span><span class="n">best_params_</span></code></pre></div>
+<pre><code>{'n_estimators': 40,
+ 'min_samples_split': 2,
+ 'min_samples_leaf': 2,
+ 'max_features': 'sqrt',
+ 'max_depth': 10,
+ 'criterion': 'entropy',
+ 'bootstrap': False}
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">clf_random</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span> 
+                          <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> 
+                          <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></code></pre></div>
+<pre><code>              precision    recall  f1-score   support
+
+           3       0.00      0.00      0.00         9
+           4       0.00      0.00      0.00        43
+           5       0.72      0.81      0.76       551
+           6       0.66      0.71      0.68       506
+           7       0.66      0.46      0.55       157
+           8       1.00      0.15      0.27        13
+
+    accuracy                           0.69      1279
+   macro avg       0.51      0.36      0.38      1279
+weighted avg       0.66      0.69      0.67      1279
+</code></pre>
+<h3 id="ajuste-final-con-gridsearch"><a href="#ajuste-final-con-gridsearch" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ajuste final con GridSearch</h3>
+<p>Proseguimos con un ajuste final usando <code>GridSearch</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&#34;n_estimators&#34;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> 
+     <span class="s2">&#34;bootstrap&#34;</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+     <span class="s2">&#34;criterion&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;gini&#34;</span><span class="p">,</span> <span class="s2">&#34;entropy&#34;</span><span class="p">],</span>   
+     <span class="s2">&#34;max_depth&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
+     <span class="s2">&#34;max_features&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;auto&#34;</span><span class="p">,</span> <span class="s2">&#34;sqrt&#34;</span><span class="p">,</span> <span class="s2">&#34;log2&#34;</span><span class="p">],</span> 
+     <span class="s2">&#34;min_samples_split&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+     <span class="s2">&#34;min_samples_leaf&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+     <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">clf_rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf_rf</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                           <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;f1_weighted&#34;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>Fitting 5 folds for each of 6048 candidates, totalling 30240 fits
+
+GridSearchCV(cv=5, estimator=RandomForestClassifier(n_jobs=-1, random_state=42),
+             n_jobs=-1,
+             param_grid=[{'bootstrap': [True, False],
+                          'criterion': ['gini', 'entropy'],
+                          'max_depth': [2, 4, 6, 8, 10, 12, 14, None],
+                          'max_features': ['auto', 'sqrt', 'log2'],
+                          'min_samples_leaf': [1, 2, 4],
+                          'min_samples_split': [2, 5, 10],
+                          'n_estimators': range(130, 200, 10)}],
+             scoring='f1_weighted', verbose=2)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span></code></pre></div>
+<pre><code>{'bootstrap': True,
+ 'criterion': 'entropy',
+ 'max_depth': 10,
+ 'max_features': 'auto',
+ 'min_samples_leaf': 1,
+ 'min_samples_split': 2,
+ 'n_estimators': 170}
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">final_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">final_model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">rownames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Actual&#39;</span><span class="p">],</span> <span class="n">colnames</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Predicción&#39;</span><span class="p">])</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Predicción</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+    <tr>
+      <th>Actual</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+      <td>6</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0</td>
+      <td>31</td>
+      <td>10</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>0</td>
+      <td>451</td>
+      <td>94</td>
+      <td>6</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>0</td>
+      <td>113</td>
+      <td>365</td>
+      <td>28</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>0</td>
+      <td>10</td>
+      <td>78</td>
+      <td>69</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span></code></pre></div>
+<pre><code>              precision    recall  f1-score   support
+
+           3       0.00      0.00      0.00         9
+           4       0.00      0.00      0.00        43
+           5       0.74      0.82      0.78       551
+           6       0.66      0.72      0.69       506
+           7       0.63      0.44      0.52       157
+           8       1.00      0.15      0.27        13
+
+    accuracy                           0.69      1279
+   macro avg       0.50      0.36      0.37      1279
+weighted avg       0.67      0.69      0.67      1279
+</code></pre>
+<p>Tras el ajuste de hiperparámetros se consigue una muy ligera mejora respecto a los hiperparámetros por defecto. Es correcto el <strong>67%</strong> de las veces (precision) y detecta el <strong>69%</strong> de las puntuaciones reales (recall). Siendo la puntuación F<sub>1</sub> de <strong>0,67</strong>. Lo que mejora significativamente nuestra línea base (recordemos, precision=19%, recall=43% y F<sub>1</sub>=0,26).</p>
+<p>Por último veamos cómo se ejecuta en el conjunto de prueba:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">final_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">rownames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Actual&#39;</span><span class="p">],</span> <span class="n">colnames</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Predicción&#39;</span><span class="p">])</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Predicción</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+    <tr>
+      <th>Actual</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>101</td>
+      <td>28</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>37</td>
+      <td>89</td>
+      <td>6</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>22</td>
+      <td>19</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></code></pre></div>
+<pre><code>              precision    recall  f1-score   support
+
+           3       0.00      0.00      0.00         1
+           4       0.00      0.00      0.00        10
+           5       0.70      0.78      0.73       130
+           6       0.62      0.67      0.64       132
+           7       0.63      0.45      0.53        42
+           8       0.00      0.00      0.00         5
+
+    accuracy                           0.65       320
+   macro avg       0.32      0.32      0.32       320
+weighted avg       0.62      0.65      0.63       320
+</code></pre>
+<p>Es correcto el <strong>62%</strong> de las veces (precision) y detecta el <strong>65%</strong> de las puntuaciones reales (recall). Siendo la puntuación F<sub>1</sub> de <strong>0,65</strong>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">accuracy_best</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">precision_best</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> 
+                                         <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">,</span> 
+                                         <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">recall_best</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> 
+                                   <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">)</span>
+<span class="n">f1_best</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> 
+                           <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">)</span></code></pre></div>
+<h3 id="matriz-de-confusión"><a href="#matriz-de-confusión" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Matriz de confusión</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">conf_mx</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_mx</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&#34;d&#34;</span><span class="p">,</span> 
+                 <span class="n">xticklabels</span><span class="o">=</span><span class="n">final_model</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+                 <span class="n">yticklabels</span><span class="o">=</span><span class="n">final_model</span><span class="o">.</span><span class="n">classes_</span><span class="p">,)</span></code></pre></div>
+<p><img src="/images/output_80_0.png" alt="png"></p>
+<h3 id="feature-importances"><a href="#feature-importances" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Feature importances</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">feature_importances</span> <span class="o">=</span> <span class="n">final_model</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">feature_importances</span></code></pre></div>
+<pre><code>array([0.06970454, 0.10304422, 0.07397403, 0.06774786, 0.07530372,
+       0.06051697, 0.09785917, 0.0830556 , 0.06881937, 0.12760515,
+       0.17236938])
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></code></pre></div>
+<pre><code>[(0.17236937962448678, 'alcohol'),
+ (0.12760514906291182, 'sulphates'),
+ (0.10304421805642286, 'volatile acidity'),
+ (0.09785917335424621, 'total sulfur dioxide'),
+ (0.0830555965951595, 'density'),
+ (0.0753037227200391, 'chlorides'),
+ (0.07397402652373279, 'citric acid'),
+ (0.06970454021889655, 'fixed acidity'),
+ (0.06881936733049614, 'pH'),
+ (0.06774786106526597, 'residual sugar'),
+ (0.06051696544834242, 'free sulfur dioxide')]
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">feature_imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">feature_imp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Feature Importances&#39;</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_84_0.png" alt="png"></p>
+<p>Observamos que las características que más influencia tienen en nuestro modelo son <code>alcohol</code> y <code>sulphates</code>, seguidas por <code>volatile acidity</code> y <code>total sulfur dioxide</code>.</p>
+<h3 id="selección-de-características"><a href="#selección-de-características" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Selección de características</h3>
+<p>Vamos a usar RFECV para determinar el nº de características válidas con cross-validation.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFECV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+
+<span class="n">selector</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span><span class="n">final_model</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">StratifiedKFold</span><span class="p">())</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&#34;Feature&#34;</span><span class="p">:</span> <span class="n">predict_columns</span><span class="p">,</span> <span class="s2">&#34;Support&#34;</span><span class="p">:</span> <span class="n">selector</span><span class="o">.</span><span class="n">support_</span><span class="p">})</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Feature</th>
+      <th>Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>fixed acidity</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>volatile acidity</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>citric acid</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>residual sugar</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chlorides</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>free sulfur dioxide</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>total sulfur dioxide</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>density</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>pH</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>sulphates</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>alcohol</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&#34;Feature&#34;</span><span class="p">:</span> <span class="n">predict_columns</span><span class="p">,</span> <span class="s2">&#34;Ranking&#34;</span><span class="p">:</span> <span class="n">selector</span><span class="o">.</span><span class="n">ranking_</span><span class="p">})</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Feature</th>
+      <th>Ranking</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>fixed acidity</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>volatile acidity</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>citric acid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>residual sugar</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chlorides</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>free sulfur dioxide</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>total sulfur dioxide</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>density</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>pH</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>sulphates</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>alcohol</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Dibuja el número de features vs la puntuación a través de cross-validation</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Nº de  features seleccionadas&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Puntuación cross validation&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">grid_scores_</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">selector</span><span class="o">.</span><span class="n">grid_scores_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
+<p><img src="/images/output_89_0.png" alt="png"></p>
+<p>Observando la gráfica se concluye que todas las variables son importantes para el modelo, ya que se obtiene la máxima puntuación con las 10 características seleccionadas.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">selector</span><span class="o">.</span><span class="n">grid_scores_</span></code></pre></div>
+<pre><code>array([0.49564951, 0.59737132, 0.65132353, 0.6661826 , 0.6739951 ,
+       0.67869792, 0.67790135, 0.68573223, 0.68025123, 0.68808211,
+       0.69354167])
+</code></pre>
+<h3 id="guardado-del-modelo"><a href="#guardado-del-modelo" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Guardado del modelo</h3>
+<p>Por último, guardamos nuestro modelo entrenado para futuras predicciones.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">joblib</span>
+
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">final_model</span><span class="p">,</span> <span class="s2">&#34;final_model_clf.joblib&#34;</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1">#final_model = joblib.load(&#34;final_model_clf.joblib&#34;)</span></code></pre></div>
+<pre><code>['final_model_clf.joblib']
+</code></pre>
+<h2 id="comentarios-finales-a-los-resultados"><a href="#comentarios-finales-a-los-resultados" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Comentarios finales a los resultados</h2>
+<p>Nuestra <strong>línea de base</strong> de partida, obtenida a partir de un clasificador que siempre predice la clase más frecuente, es la siguiente:</p>
+<ul>
+<li>Precision: <strong>19%</strong></li>
+<li>Recall: <strong>43%</strong></li>
+<li>Accuracy: <strong>43%</strong></li>
+<li>f1: <strong>0.26</strong></li>
+</ul>
+<p>Una vez entrenados diversos modelos, el que mejores resultados ha proporcionados es <strong>RandomForest</strong>. Después de realizar un ajuste fino de hiperparámetros obtenemos las siguientes métricas:</p>
+<ul>
+<li>Precision: <strong>67%</strong></li>
+<li>Recall: <strong>69%</strong></li>
+<li>Accuracy: <strong>69%</strong></li>
+<li>f1: <strong>0.67</strong></li>
+</ul>
+<p>La evaluación en el conjunto de prueba es la siguiente:</p>
+<ul>
+<li>Precision: <strong>62%</strong></li>
+<li>Recall: <strong>65%</strong></li>
+<li>Accuracy: <strong>65%</strong></li>
+<li>f1: <strong>0.63</strong></li>
+</ul>
+<p>Al ser multiclase, estamos hablando de puntuaciones ponderadas. Sin embargo, las puntuaciones obtenidas por cada clase son muy dispares. Se puede observar que el resultado es pésimo en las puntuaciones extremas (3, 4 y 8). Según vimos en la distribución de la variable objetivo, ésta se encuentra muy desbalanceada, apenas existen observaciones para los valores extremos, por lo que el modelo no tiene suficientes datos de entrenamiento para todas las puntuaciones de calidad.</p>
+<p>Todas las variables predictoras son relevantes para el modelo. Las tres que más afectan en la predicción son las siguientes:</p>
+<ul>
+<li>alcohol</li>
+<li>sulphates</li>
+<li>volatile acidity.</li>
+</ul>
+<p>Podría ser interesante evaluar el modelo segmentando nuestra variable objetivo en rangos de calidad (por ejemplo, baja, media y alta) y comprobar si obtenemos mejores resultados.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"></code></pre></div>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text"></span><a href="https://sgtsteiner.github.io/" class="p-author h-card" target="_blank" rel="noopener">Antonio Méndez</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text"></span><a href="/posts/wine-quality-clasificacion-multiclase/" target="_blank" rel="noopener">https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text"></span><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2021-05-31 11:37:01 CEST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2021-05-31</text><text x="915" y="140" textLength="650" transform="scale(.1)">2021-05-31</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/&amp;text=Calidad%20del%20vino%20-%20Clasificaci%c3%b3n%20multiclase&amp;hashtags=clasificaci%c3%b3n,clasificaci%c3%b3nmulticlase,randomforest,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/&amp;title=Calidad%20del%20vino%20-%20Clasificaci%c3%b3n%20multiclase&amp;summary=ANALISIS%20DE%20LA%20CALIDAD%20DEL%20VINO%20-%20Clasificaci%c3%b3n%20multiclase%20En%20la%20primera%20parte%20de%20este%20an%c3%a1lisis%20enfocamos%20el%20problema%20como%20aprendizaje%20supervisado%20-%20regresi%c3%b3n.%20El%20modelo%20resultante%20no%20podemos%20considerarlo%20satisfactorio.%20Vamos%20a%20considerar%20el%20problema%20como%20aprendizaje%20supervisado%20-%20clasificaci%c3%b3n,%20concretamente%20clasificaci%c3%b3n%20multiclase.&amp;source=Lords%20of%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/&amp;text=Calidad%20del%20vino%20-%20Clasificaci%c3%b3n%20multiclase" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/sgtsteiner.github.io\/posts\/wine-quality-clasificacion-multiclase\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/wine-quality-un-problema-de-regresion/" class="related-link">Calidad del vino - Un problema de regresión</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/clasificaci%C3%B3n/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>clasificación</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/clasificaci%C3%B3n-multiclase/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>clasificación multiclase</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/random-forest/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>random forest</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/wine-quality-un-problema-de-regresion/" rel="next">Calidad del vino - Un problema de regresión &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2021–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:futitotal@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/SgtSteiner" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://twitter.com/Steiner_69" target="_blank" rel="external noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://t.me/SgtSteiner" target="_blank" rel="external noopener" title="Telegram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon social-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>

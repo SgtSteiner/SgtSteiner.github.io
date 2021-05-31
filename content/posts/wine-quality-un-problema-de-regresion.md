@@ -1,7 +1,7 @@
 ---
 title: "Calidad del vino - Un problema de regresión"
-date: 2021-05-05T16:37:06+02:00
-tags: [aprendizaje automático, machine learning, regresión]
+date: 2020-12-18T11:10:46+02:00
+tags: [regresión, ExtraTrees]
 categories: [tutoriales]
 draft: False
 ---
