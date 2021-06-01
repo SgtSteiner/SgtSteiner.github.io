@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
         
-        <lastBuildDate>Mon, 31 May 2021 11:38:01 &#43;0200</lastBuildDate>
+        <lastBuildDate>Tue, 01 Jun 2021 16:39:14 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://sgtsteiner.github.io/rss.xml" />
         
@@ -221,7 +221,8 @@ Name: quality_cat, dtype: float64
                                                     &lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;42&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
                                                     &lt;span class=&#34;n&#34;&gt;test_size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&#34;línea-base&#34;&gt;Línea base&lt;/h3&gt;
-&lt;p&gt;Lo siguiente que haremos será entrenar un clasificador &lt;em&gt;dummy&lt;/em&gt; que utilizaremos como línea base con el que comparar. En este caso, un clasificador que genera predicciones uniformemente al azar.&lt;/p&gt;
+&lt;p&gt;Una pregunta que nos podemos hacer es si está justificado el uso del aprendizaje automático, si nos aporta valor respecto a predecir el azar. Por tanto, lo siguiente que haremos será entrenar un clasificador &lt;em&gt;dummy&lt;/em&gt; que utilizaremos como línea base con el que comparar.&lt;/p&gt;
+&lt;p&gt;En primer lugar, entrenaremos un clasificador que genera predicciones uniformemente al azar.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;clf_dummy&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DummyClassifier&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;strategy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;uniform&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;seed&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Predice al azar&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;clf_dummy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;pre&gt;&lt;code&gt;DummyClassifier(random_state=42, strategy=&#39;uniform&#39;)
@@ -654,6 +655,13 @@ f1: 0.6420686275076488 - (std: 0.024663282704859676)
 weighted avg       0.66      0.68      0.66      1279
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;El modelo es correcto el &lt;strong&gt;66%&lt;/strong&gt; de las veces (precision) y detecta el &lt;strong&gt;68%&lt;/strong&gt; de las puntuaciones reales (recall). Siendo la puntuación F&lt;sub&gt;1&lt;/sub&gt; de &lt;strong&gt;0,66&lt;/strong&gt;. Bueno, ha mejorado significativamente nuestra línea base (recordemos, precision=19%, recall=43% y F1=0,26).&lt;/p&gt;
+&lt;p&gt;El % de mejora del indicador F&lt;sub&gt;1&lt;/sub&gt; respecto a la línea base es:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;% diferencia F1= (0.66 - 0.26) / 0.66 * 100 = 60.6%
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Realmente la mejora respecto a la línea base es considerable, un 60%. Podemos concluir que está justificado el uso de aprendizaje automático para predecir la puntuación de calidad del vino.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;En general, si el porcentaje de mejora respecto a nuestra línea base no es mayor que un 5% deberíamos reconsiderar el uso de aprendizaje automático.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Al examinar en detalle el resultado de las predicciones, podemos observar que es pésimo en las puntuaciones extremas (3, 4 y 8) y bastante malo en la puntuación 7.&lt;/p&gt;
 &lt;h2 id=&#34;ajuste-fino-de-hiperparámetros&#34;&gt;Ajuste fino de hiperparámetros&lt;/h2&gt;
 &lt;p&gt;Vamos a realizar un ajuste de hiperparámetros a ver si se consigue alguna mejora.&lt;/p&gt;

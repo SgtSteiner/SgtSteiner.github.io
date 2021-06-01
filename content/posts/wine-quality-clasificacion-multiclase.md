@@ -248,15 +248,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 
 ### Línea base
 
-Lo siguiente que haremos será entrenar un clasificador *dummy* que utilizaremos como línea base con el que comparar. En este caso, un clasificador que genera predicciones uniformemente al azar. 
+Una pregunta que nos podemos hacer es si está justificado el uso del aprendizaje automático, si nos aporta valor respecto a predecir el azar. Por tanto, lo siguiente que haremos será entrenar un clasificador *dummy* que utilizaremos como línea base con el que comparar. 
+
+En primer lugar, entrenaremos un clasificador que genera predicciones uniformemente al azar. 
 
 
 {{< highlight "python" "linenos=false">}}
 clf_dummy = DummyClassifier(strategy="uniform", random_state=seed) # Predice al azar
 clf_dummy.fit(X_train, y_train)
 {{< /highlight >}}
-
-
 
 
     DummyClassifier(random_state=42, strategy='uniform')
@@ -806,6 +806,14 @@ print(metrics.classification_report(y_train, preds, zero_division=0))
     
 
 El modelo es correcto el **66%** de las veces (precision) y detecta el **68%** de las puntuaciones reales (recall). Siendo la puntuación F<sub>1</sub> de **0,66**. Bueno, ha mejorado significativamente nuestra línea base (recordemos, precision=19%, recall=43% y F1=0,26). 
+
+El % de mejora del indicador F<sub>1</sub> respecto a la línea base es:
+
+    % diferencia F1= (0.66 - 0.26) / 0.66 * 100 = 60.6%
+
+Realmente la mejora respecto a la línea base es considerable, un 60%. Podemos concluir que está justificado el uso de aprendizaje automático para predecir la puntuación de calidad del vino.
+
+> En general, si el porcentaje de mejora respecto a nuestra línea base no es mayor que un 5% deberíamos reconsiderar el uso de aprendizaje automático.
 
 Al examinar en detalle el resultado de las predicciones, podemos observar que es pésimo en las puntuaciones extremas (3, 4 y 8) y bastante malo en la puntuación 7. 
 
