@@ -6,9 +6,9 @@ categories: [tutoriales]
 draft: false
 ---
 
-Durante el mes de agosto participé en el evento organizado por Kaggle denominado ***[30 Days of ML](https://www.kaggle.com/thirty-days-of-ml)***. Las dos primeras semanas consistieron en un repaso a los conceptos básicos de python y machine learning. Las últimas dos semanas consistieron en participar en una [competición](https://www.kaggle.com/c/30-days-of-ml) entre todos los concursantes del evento.
+Durante el mes de agosto he participado en el evento organizado por Kaggle denominado ***[30 Days of ML](https://www.kaggle.com/thirty-days-of-ml)***. Las dos primeras semanas consistieron en un repaso a los conceptos básicos de python y machine learning. Las últimas dos semanas participamos en una [competición](https://www.kaggle.com/c/30-days-of-ml) creada para todos los concursantes del evento.
 
-Para la competición disponíamos de una dataset sintético, pero basado en datos reales. El objetivo era predecir la cantidad de una reclamación del seguro. Las *features* estaban anonimizadas, pero relacionadas con features del mundo real. Las columnas de features `cat0` a `cat9` son categóricas, y las columnas de features `cont0` a `cont13` son continuas.
+Para la competición disponíamos de una dataset sintético, pero basado en datos reales. El objetivo era predecir la cantidad de una reclamación del seguro. Las *features* estaban anonimizadas, pero relacionadas con features del mundo real. Las columnas de features `cat0` a `cat9` eran categóricas, y las columnas de features `cont0` a `cont13` continuas.
 
 Nos proporcionan los siguientes archivos:
 
@@ -16,11 +16,11 @@ Nos proporcionan los siguientes archivos:
 + **test.csv** - el conjuto de prueba; tendremos que predecir el target para cada una de las filas de este archivo
 + **sample_submission.csv** - un archivo de envío de ejemplo con el formato correcto
 
-Las semanas previas a la competición, durante el curso de machine learning, usamos principalmente dos modelos: 
+Las semanas previas a la competición, durante el curso de machine learning, trabajamos principalmente con dos modelos: 
 + Random Forest
 + Uso y optimización de modelos con **gradient boosting**. En concreto, hacemos uso de la librería **XGBoost**. 
 
-Por tanto, para esta competición seguiremos esa misma línea y usaremos y optimizaremos ambos modelos.
+Por tanto, para esta competición seguí las líneas marcadas durantes las semanas de aprendizaje teórico y utilicé ambos modelos. A continuación detallo los pasos seguidos durante los días que trabajé en la competición.
 
 ## Importación de librerías necesarias
 
@@ -29,11 +29,9 @@ Por tanto, para esta competición seguiremos esa misma línea y usaremos y optim
 import numpy as np
 import pandas as pd
 
-# For ordinal encoding categorical variables, splitting data
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-# For training random forest model
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error
@@ -694,13 +692,13 @@ output = pd.DataFrame({'Id': X_test.index,
 output.to_csv('output/submission.csv', index=False)
 {{< /highlight >}}
 
-Cuando enviamos dicho archivo nos indican cuál es la puntuación obtenida (*public score*). Dicha puntuación Kaggle la calcula usando solo una parte de los datos de prueba. La puntuación final (*private score*) se calculará usando el conjunto completo de prueba. La puntuación privada no será visible para nosotros ni para ninguno de los competidores, solo la puntuación pública.
+Cuando enviamos dicho archivo nos indican cuál es la puntuación obtenida (*public score*). Kaggle calcula dicha puntuación usando solo una parte de los datos de prueba. La puntuación final (*private score*) se calculará usando el conjunto completo de prueba. La puntuación privada no será visible para nosotros ni para ninguno de los competidores y solo la conoceremos al final de la competición.
 
-La puntuación pública obtenida es de **0.73845**. Esta puntuación es resultado de entrenar un modelo Random Forest con los hiperparámetros por defecto, por lo tanto, nuestra posición en la clasificación se ubica en la parte baja de la tabla, igualada a la de otros miles de competidores (en total participamos 7.500 equipos). Todavía tenemos mucho margen para seguir mejorando.
+La puntuación pública obtenida es de **0.73845**. Esta puntuación es resultado de entrenar un modelo Random Forest con los hiperparámetros por defecto, por lo tanto, nuestra posición en la clasificación se ubica en la parte baja de la tabla, igualada a la de otros miles de competidores (en total participamos 7.500 equipos). Por tanto, todavía tenemos mucho margen para seguir mejorando.
 
 ## Intento 2 - Entrenamiento de un modelo XGBoost
 
-Vamos a entrenar unos de los modelos "estrella" en muchas competiciones de Kaggle: XGBoost.
+Vamos a entrenar unos de los modelos "estrella" en muchas de las competiciones de Kaggle: XGBoost.
 
 
 {{< highlight "python" "linenos=false">}}
@@ -746,12 +744,12 @@ clf = GridSearchCV(model_xgb,
                    scoring='neg_root_mean_squared_error',
                    verbose=1, n_jobs=1)
 clf.fit(X_train, y_train)
-print(clf.best_score_)
+print(-clf.best_score_)
 print(clf.best_params_)
 {{< /highlight >}}
 
     Fitting 5 folds for each of 12 candidates, totalling 60 fits
-    -0.7201387194775795
+    0.7201387194775795
     {'max_depth': 2, 'n_estimators': 500}
     
 
@@ -822,7 +820,6 @@ print(clf.best_params_)
     [CV] END .....................max_depth=2, n_estimators=3000; total time= 1.7min
     0.7194840350716621
     {'max_depth': 2, 'n_estimators': 1000}
-    
 
 
 {{< highlight "python" "linenos=false">}}

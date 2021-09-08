@@ -3,7 +3,7 @@
 
 publishDir = "docs"
 baseURL = "https://sgtsteiner.github.io/"
-title = "Lords of Machine Learning"
+title = "Lords of the Machine Learning"
 languageCode = "es-ES"
 hasCJKLanguage = false
 # Copyright information (Markdown supported)

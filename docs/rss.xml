@@ -7,7 +7,7 @@
 
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Lords of Machine Learning</title>
+        <title>Lords of the Machine Learning</title>
         <link>https://sgtsteiner.github.io/</link>
         <description>Lords of Machine Learning es un blog de Antonio Méndez</description>
         <generator>Hugo 0.83.1 https://gohugo.io/</generator>
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
         
-        <lastBuildDate>Wed, 08 Sep 2021 10:42:29 &#43;0200</lastBuildDate>
+        <lastBuildDate>Wed, 08 Sep 2021 11:07:18 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://sgtsteiner.github.io/rss.xml" />
         
@@ -38,29 +38,27 @@
                 
                 <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
                 
-                    <description>&lt;p&gt;Durante el mes de agosto participé en el evento organizado por Kaggle denominado &lt;em&gt;&lt;strong&gt;&lt;a href=&#34;https://www.kaggle.com/thirty-days-of-ml&#34;&gt;30 Days of ML&lt;/a&gt;&lt;/strong&gt;&lt;/em&gt;. Las dos primeras semanas consistieron en un repaso a los conceptos básicos de python y machine learning. Las últimas dos semanas consistieron en participar en una &lt;a href=&#34;https://www.kaggle.com/c/30-days-of-ml&#34;&gt;competición&lt;/a&gt; entre todos los concursantes del evento.&lt;/p&gt;
-&lt;p&gt;Para la competición disponíamos de una dataset sintético, pero basado en datos reales. El objetivo era predecir la cantidad de una reclamación del seguro. Las &lt;em&gt;features&lt;/em&gt; estaban anonimizadas, pero relacionadas con features del mundo real. Las columnas de features &lt;code&gt;cat0&lt;/code&gt; a &lt;code&gt;cat9&lt;/code&gt; son categóricas, y las columnas de features &lt;code&gt;cont0&lt;/code&gt; a &lt;code&gt;cont13&lt;/code&gt; son continuas.&lt;/p&gt;
+                    <description>&lt;p&gt;Durante el mes de agosto he participado en el evento organizado por Kaggle denominado &lt;em&gt;&lt;strong&gt;&lt;a href=&#34;https://www.kaggle.com/thirty-days-of-ml&#34;&gt;30 Days of ML&lt;/a&gt;&lt;/strong&gt;&lt;/em&gt;. Las dos primeras semanas consistieron en un repaso a los conceptos básicos de python y machine learning. Las últimas dos semanas participamos en una &lt;a href=&#34;https://www.kaggle.com/c/30-days-of-ml&#34;&gt;competición&lt;/a&gt; creada para todos los concursantes del evento.&lt;/p&gt;
+&lt;p&gt;Para la competición disponíamos de una dataset sintético, pero basado en datos reales. El objetivo era predecir la cantidad de una reclamación del seguro. Las &lt;em&gt;features&lt;/em&gt; estaban anonimizadas, pero relacionadas con features del mundo real. Las columnas de features &lt;code&gt;cat0&lt;/code&gt; a &lt;code&gt;cat9&lt;/code&gt; eran categóricas, y las columnas de features &lt;code&gt;cont0&lt;/code&gt; a &lt;code&gt;cont13&lt;/code&gt; continuas.&lt;/p&gt;
 &lt;p&gt;Nos proporcionan los siguientes archivos:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;train.csv&lt;/strong&gt; - los datos de entrenamiento con la columna target&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;test.csv&lt;/strong&gt; - el conjuto de prueba; tendremos que predecir el target para cada una de las filas de este archivo&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;sample_submission.csv&lt;/strong&gt; - un archivo de envío de ejemplo con el formato correcto&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Las semanas previas a la competición, durante el curso de machine learning, usamos principalmente dos modelos:&lt;/p&gt;
+&lt;p&gt;Las semanas previas a la competición, durante el curso de machine learning, trabajamos principalmente con dos modelos:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Random Forest&lt;/li&gt;
 &lt;li&gt;Uso y optimización de modelos con &lt;strong&gt;gradient boosting&lt;/strong&gt;. En concreto, hacemos uso de la librería &lt;strong&gt;XGBoost&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Por tanto, para esta competición seguiremos esa misma línea y usaremos y optimizaremos ambos modelos.&lt;/p&gt;
+&lt;p&gt;Por tanto, para esta competición seguí las líneas marcadas durantes las semanas de aprendizaje teórico y utilicé ambos modelos. A continuación detallo los pasos seguidos durante los días que trabajé en la competición.&lt;/p&gt;
 &lt;h2 id=&#34;importación-de-librerías-necesarias&#34;&gt;Importación de librerías necesarias&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;numpy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;np&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pandas&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pd&lt;/span&gt;
 
-&lt;span class=&#34;c1&#34;&gt;# For ordinal encoding categorical variables, splitting data&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;OrdinalEncoder&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;train_test_split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GridSearchCV&lt;/span&gt;
 
-&lt;span class=&#34;c1&#34;&gt;# For training random forest model&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.ensemble&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RandomForestRegressor&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;xgboost&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.metrics&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean_squared_error&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -682,10 +680,10 @@
 &lt;span class=&#34;n&#34;&gt;output&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
                        &lt;span class=&#34;s1&#34;&gt;&amp;#39;target&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;predictions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to_csv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;output/submission.csv&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Cuando enviamos dicho archivo nos indican cuál es la puntuación obtenida (&lt;em&gt;public score&lt;/em&gt;). Dicha puntuación Kaggle la calcula usando solo una parte de los datos de prueba. La puntuación final (&lt;em&gt;private score&lt;/em&gt;) se calculará usando el conjunto completo de prueba. La puntuación privada no será visible para nosotros ni para ninguno de los competidores, solo la puntuación pública.&lt;/p&gt;
-&lt;p&gt;La puntuación pública obtenida es de &lt;strong&gt;0.73845&lt;/strong&gt;. Esta puntuación es resultado de entrenar un modelo Random Forest con los hiperparámetros por defecto, por lo tanto, nuestra posición en la clasificación se ubica en la parte baja de la tabla, igualada a la de otros miles de competidores (en total participamos 7.500 equipos). Todavía tenemos mucho margen para seguir mejorando.&lt;/p&gt;
+&lt;p&gt;Cuando enviamos dicho archivo nos indican cuál es la puntuación obtenida (&lt;em&gt;public score&lt;/em&gt;). Kaggle calcula dicha puntuación usando solo una parte de los datos de prueba. La puntuación final (&lt;em&gt;private score&lt;/em&gt;) se calculará usando el conjunto completo de prueba. La puntuación privada no será visible para nosotros ni para ninguno de los competidores y solo la conoceremos al final de la competición.&lt;/p&gt;
+&lt;p&gt;La puntuación pública obtenida es de &lt;strong&gt;0.73845&lt;/strong&gt;. Esta puntuación es resultado de entrenar un modelo Random Forest con los hiperparámetros por defecto, por lo tanto, nuestra posición en la clasificación se ubica en la parte baja de la tabla, igualada a la de otros miles de competidores (en total participamos 7.500 equipos). Por tanto, todavía tenemos mucho margen para seguir mejorando.&lt;/p&gt;
 &lt;h2 id=&#34;intento-2---entrenamiento-de-un-modelo-xgboost&#34;&gt;Intento 2 - Entrenamiento de un modelo XGBoost&lt;/h2&gt;
-&lt;p&gt;Vamos a entrenar unos de los modelos &amp;ldquo;estrella&amp;rdquo; en muchas competiciones de Kaggle: XGBoost.&lt;/p&gt;
+&lt;p&gt;Vamos a entrenar unos de los modelos &amp;ldquo;estrella&amp;rdquo; en muchas de las competiciones de Kaggle: XGBoost.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Definimos el modelo&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;model_xgb&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n_jobs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
@@ -715,10 +713,10 @@
                    &lt;span class=&#34;n&#34;&gt;scoring&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;neg_root_mean_squared_error&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
                    &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n_jobs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;clf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;best_score_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;best_score_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;best_params_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;pre&gt;&lt;code&gt;Fitting 5 folds for each of 12 candidates, totalling 60 fits
--0.7201387194775795
+0.7201387194775795
 {&#39;max_depth&#39;: 2, &#39;n_estimators&#39;: 500}
 &lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Entrenamiento del modelo con los mejores parámetros&lt;/span&gt;
