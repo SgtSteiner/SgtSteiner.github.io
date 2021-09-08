@@ -2,10 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/posts/30daysofml/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/kaggle/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
+    <lastmod>2021-09-07T14:18:31+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/wine-quality-clasificacion-multiclase/</loc>
     <lastmod>2021-06-01T16:34:58+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/clasificaci%C3%B3n/</loc>
@@ -14,28 +35,13 @@
     <loc>https://sgtsteiner.github.io/tags/clasificaci%C3%B3n-multiclase/</loc>
     <lastmod>2021-06-01T16:34:58+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/posts/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
-  </url><url>
     <loc>https://sgtsteiner.github.io/tags/random-forest/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
     <lastmod>2021-06-01T16:34:58+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/wine-quality-un-problema-de-regresion/</loc>
     <lastmod>2021-05-31T11:37:35+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/extratrees/</loc>
-    <lastmod>2021-05-31T11:37:35+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n/</loc>
     <lastmod>2021-05-31T11:37:35+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/aprendizaje-autom%C3%A1tico/</loc>
