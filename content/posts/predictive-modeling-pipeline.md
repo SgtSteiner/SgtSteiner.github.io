@@ -1,7 +1,7 @@
 ---
 title: "Pipeline de modelado predictivo"
 date: 2022-03-07T18:04:46+01:00
-tags: [pipeline, regresión]
+tags: [pipeline, regresión logística, validación cruzada, baseline, one-hot encoding, ordinal encoding, ColumnTransformer, escalado]
 categories: [tutoriales]
 ---
 
@@ -685,7 +685,7 @@ print(f"Accuracy línea base: {accuracy_dummy}")
     Accuracy línea base: 0.705
     
 
-Este clasificador dummy predice siempre la clase más frecuente (en nuestro caso, la clase `good`). Como vimos anteriormente la proporción de clase `good` era del 70%, que coincide con la puntuación obtenido por este clasificador. Bien, ya tenemos una linea base con la que comparar nuestro modelo.
+Este clasificador dummy predice siempre la clase más frecuente (en nuestro caso, la clase `good`). Como vimos anteriormente la proporción de clase `good` era del 70%, que coincide con la puntuación obtenida por este clasificador. Bien, ya tenemos una linea base con la que comparar nuestro modelo.
 
 Vamos a entrenar el modelo exactamente de la misma forma que vimos anteriormente, excepto que usaremos para ello los subconjuntos de entrenamiento:
 
@@ -892,7 +892,7 @@ scaler.fit(X_train)
 
 
 
-El método `fit` de los transformadores es similar al método `fit` de los predictores. La diferencia principal es que el transformador tiene un único argumento, la matriz de datos, mientras que el último tiene dos argumentos, la matriz de datos y el objetivo). En este caso, el algoritmo necesita calcular la media y la desviación típica de cada feature y almacenarla en algunas arrays de Numpy. Aquí, estos estadísticos son los estados del modelo. El hecho de que los estados del modelo de este scaler sean arrays de medias y desviaciones típicas es específico del `StandardScale`. Otros transformadores de scikit-learn calcularán diferentes estadísticos y los almacenarán como estados del modelo de la misma forma.
+El método `fit` de los transformadores es similar al método `fit` de los predictores. La diferencia principal es que el transformador tiene un único argumento, la matriz de datos, mientras que el último tiene dos argumentos, la matriz de datos y el objetivo. En este caso, el algoritmo necesita calcular la media y la desviación típica de cada feature y almacenarla en algunas arrays de Numpy. Aquí, estos estadísticos son los estados del modelo. El hecho de que los estados del modelo de este scaler sean arrays de medias y desviaciones típicas es específico del `StandardScale`. Otros transformadores de scikit-learn calcularán diferentes estadísticos y los almacenarán como estados del modelo de la misma forma.
 
 Vamos a inspeccionar las medias y desviaciones típicas calculadas.
 
@@ -953,13 +953,13 @@ X_train_scaled
 
 Vamos a analizar el mecanismo interno del método `transform` y lo pondremos en perspectiva con lo que ya vimos con los predictores.
 
-![](/images/transformer_transformer.PNG)
+![](/images/transformer_transformer.png)
 
 El método `transform` para los transformadores es similar al método `predict` para los predictores. Usa una función predefinida, llamada **función de transformación**, y usa los estados del modelo y los datos de entrada. Sin embargo, en lugar de devolver predicciones, el trabajo del método `transform` es devolver una versión transformada de los datos de entrada.
 
 Por último, el método `fit_transform` es un método abreviado para llamar sucesivamente a `fit`y después a `transform`.
 
-![](/images/transform_fit_transform.PNG)
+![](/images/transform_fit_transform.png)
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1132,9 +1132,6 @@ _ = plt.suptitle("Jointplot de 'age' vs 'credit_amount' \ndespués de StandardSc
     
 ![png](/images/output_87_0.png)
     
-
-
-
     
 ![png](/images/output_87_1.png)
     
@@ -1154,8 +1151,8 @@ model
 
 
 
-<style>div.sk-top-container {color: black;background-color: white;}div.sk-toggleable {background-color: white;}label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.2em 0.3em;box-sizing: border-box;text-align: center;}div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}div.sk-estimator {font-family: monospace;background-color: #f0f8ff;margin: 0.25em 0.25em;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;}div.sk-estimator:hover {background-color: #d4ebff;}div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 2em;bottom: 0;left: 50%;}div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;}div.sk-item {z-index: 1;}div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;}div.sk-parallel-item {display: flex;flex-direction: column;position: relative;background-color: white;}div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}div.sk-parallel-item:only-child::after {width: 0;}div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0.2em;box-sizing: border-box;padding-bottom: 0.1em;background-color: white;position: relative;}div.sk-label label {font-family: monospace;font-weight: bold;background-color: white;display: inline-block;line-height: 1.2em;}div.sk-label-container {position: relative;z-index: 2;text-align: center;}div.sk-container {display: inline-block;position: relative;}</style><div class="sk-top-container"><div class="sk-container"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="be71bd42-d445-483e-be89-885d39a54527" type="checkbox" ><label class="sk-toggleable__label" for="be71bd42-d445-483e-be89-885d39a54527">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('standardscaler', StandardScaler()),
-                ('logisticregression', LogisticRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="8d859484-a933-41a0-9166-7e42f1304392" type="checkbox" ><label class="sk-toggleable__label" for="8d859484-a933-41a0-9166-7e42f1304392">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="2770c1bf-a52a-4dd4-b674-8382c7cdd256" type="checkbox" ><label class="sk-toggleable__label" for="2770c1bf-a52a-4dd4-b674-8382c7cdd256">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression()</pre></div></div></div></div></div></div></div>
+<style>div.sk-top-container {color: black;background-color: white;}div.sk-toggleable {background-color: white;}label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.2em 0.3em;box-sizing: border-box;text-align: center;}div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}div.sk-estimator {font-family: monospace;background-color: #f0f8ff;margin: 0.25em 0.25em;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;}div.sk-estimator:hover {background-color: #d4ebff;}div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 2em;bottom: 0;left: 50%;}div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;}div.sk-item {z-index: 1;}div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;}div.sk-parallel-item {display: flex;flex-direction: column;position: relative;background-color: white;}div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}div.sk-parallel-item:only-child::after {width: 0;}div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0.2em;box-sizing: border-box;padding-bottom: 0.1em;background-color: white;position: relative;}div.sk-label label {font-family: monospace;font-weight: bold;background-color: white;display: inline-block;line-height: 1.2em;}div.sk-label-container {position: relative;z-index: 2;text-align: center;}div.sk-container {display: inline-block;position: relative;}</style><div class="sk-top-container"><div class="sk-container"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="be71bd42-d445-483e-be89-885d39a54527" type="checkbox" ><label class="sk-toggleable__label" for="be71bd42-d445-483e-be89-885d39a54527">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('standardscaler', StandardScaler()),('logisticregression', LogisticRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="8d859484-a933-41a0-9166-7e42f1304392" type="checkbox" ><label class="sk-toggleable__label" for="8d859484-a933-41a0-9166-7e42f1304392">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="2770c1bf-a52a-4dd4-b674-8382c7cdd256" type="checkbox" ><label class="sk-toggleable__label" for="2770c1bf-a52a-4dd4-b674-8382c7cdd256">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression()</pre></div></div></div></div></div></div></div>
+
 
 
 
@@ -1245,7 +1242,7 @@ print(f"La precisión usando {model_name} es {score:.3f} "
     La precisión usando LogisticRegression es 0.740 con un tiempo de entrenamiento de 0.025 segundos en 88 iteraciones
     
 
-Vemos que escalar los datos antes de entrenar la regresión logística fue beneficioso en términos de rendimiento computacional. De hecho, el número de iteracioens decrece así como el tiempo de entrenamiento. El rendimiento de generalización no cambió dado que ambos modelos comvergen.
+Vemos que escalar los datos antes de entrenar la regresión logística fue beneficioso en términos de rendimiento computacional. De hecho, el número de iteraciones decrece así como el tiempo de entrenamiento. El rendimiento de generalización no cambió dado que ambos modelos comvergen.
 
 Trabajar con datos no escalados forzará potencialmente al algoritmo a iterar más como hemos visto. También existe el escenario catastrófico donde el número de iteraciones requeridas sea mayor que el número de iteraciones permitidas por el parámetro del predictor (controlado por `max_iter`). Por lo tanto, antes de incrementar `max_iter`, asegurémosnos de que los datos están escalados.
 
@@ -1319,9 +1316,9 @@ Hay que tener en cuenta que al calcular la desviación típica de las puntuacion
 
 # Codificación de variables categóricas
 
-Bien, hasta ahora hemos visto como manejarnos con variables numéricas y codificarlas. Vamos a ver como codificar variables categóricas usando codificación **ordinal** y **one-hot**.
+Bien, hasta ahora hemos visto cómo manejarnos con variables numéricas y codificarlas. Vamos a ver cómo codificar variables categóricas usando codificación **ordinal** y **one-hot**.
 
-Ya vimos anteriormente que una variable numérica se una cantidad representada por un número entero o real. Estas variables se manejan de forma natural por los algoritmos de machine learning, que generalmente se componen de una secuencia de instrucciones aritméticas, como sumas y multiplicaciones.
+Ya vimos anteriormente que una variable numérica es una cantidad representada por un número entero o real. Estas variables se manejan de forma natural por los algoritmos de machine learning, que generalmente se componen de una secuencia de instrucciones aritméticas, como sumas y multiplicaciones.
 
 Por el contrario, las variables categóricas están representadas normalmente por etiquetas de texto (pero no solo) tomadas de entre una lista finita de opciones posibles. Por ejemplo, la variable `personal_status` de nuestro dataset es una variable categórica porque codifica los datos usando una lista finita de posibles estados:
 
@@ -1378,9 +1375,9 @@ credit.dtypes
 
 Si observamos la columna `personal_status` podemos comprobar que su tipo de dato es `object`, lo que significar que contiene valores de texto.
 
-## Seleccionar features en función del su tipo de datos
+## Seleccionar features en función de su tipo de dato
 
-Para seleccionar columnas basadas en su tipo de datos podemos usar la función `make_column_selector` de scikit-learn, como vimos anteriormente.
+Para seleccionar columnas basadas en su tipo de dato podemos usar la función `make_column_selector` de scikit-learn, como vimos anteriormente.
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1552,7 +1549,7 @@ Vamos a presentar diferentes estrategias de codificación de datos categóricos 
 
 ### Codificando categorías ordinales
 
-La estrategia más intuitiva es codificar cada categoría con un número diferente. `OrdinalEncoder` transforma los datos de esta forma. Empezaremos codificando una única columna para comprender como funciona:
+La estrategia más intuitiva es codificar cada categoría con un número diferente. `OrdinalEncoder` transforma los datos de esta forma. Empezaremos codificando una única columna para comprender cómo funciona:
 
 
 {{< highlight "python" "linenos=false">}}
@@ -1652,7 +1649,7 @@ personal_status_encoded
 
 
 
-`sparce=False` se usa en `OneHotEncoder` a modo didáctico, para tener un visualización más fácil de los datos. Las matrices dispersas son estructuras eficientes de datos donde la mayoría de los elementos de la matriz son ceros.
+`sparse=False` se usa en `OneHotEncoder` a modo didáctico, para tener un visualización más fácil de los datos. Las matrices dispersas son estructuras eficientes de datos donde la mayoría de los elementos de la matriz son ceros.
 
 Vemos que codificar una única columna nos dará una matriz NumPy repleta de ceros y unos. Lo comprenderemos mejor usando los nombres asociados de las features resultado de la transformación.
 
@@ -1987,13 +1984,13 @@ pd.DataFrame(X_encoded, columns=columns_encoded).head()
 
 
 
-Echemos un vistazo a cómo la variable `purpose` ha sido codificada y comparémosla con su original representación. El número de features después del codificado es 10 veces mayor que su representación original, debido al elevado número de posibles categorías.
+Echemos un vistazo a cómo la variable `purpose` ha sido codificada y comparémosla con su representación original. El número de features después del codificado es 10 veces mayor que su representación original, debido al elevado número de posibles categorías.
 
 ### Eligiendo una estrategia de codificación
 
 La elección de una estrategia de codificación dependerá de los modelos subyacentes y del tipo de categorías (es decir, ordinales vs nominales). En general, `OneHotEncoder` es la estrategia usada cuando los modelos posteriores son **modelos lineales** mientras que `OrdinalEncoder` es frecuentemente una buena estrategia con **modelos basados en árboles**.
 
-Usar un `OrdinalEncoder` devolverá categorias ordinales. Este significa que existe un orden en las categorías resultantes (es decir, `0 < 1 < 2`). El impacto de violar esta asunción de ordenación realmente depende de los modelos posteriores. Los modelos lineales se verán impactados por categorías desordenadas mientras que los modelos basados en árbol no.
+Usar un `OrdinalEncoder` devolverá categorias ordinales. Esto significa que existe un orden en las categorías resultantes (es decir, `0 < 1 < 2`). El impacto de violar esta asunción de ordenación realmente depende de los modelos posteriores. Los modelos lineales se verán impactados por categorías desordenadas mientras que los modelos basados en árbol no.
 
 Aun así podemos usar un `OrdinalEncoder` con modelos lineales pero necesitamos asegurarnos de que:
 
@@ -2025,7 +2022,7 @@ model = make_pipeline(
 )
 {{< /highlight >}}
 
-Aquí necesitamos incrementar el número máximo de iteraciones para obtener una covergencia plena de `LogisticRegresion` y evitar un `ConvergenceWarning`. Al contrario que las features numéricas, las features categóricas codificadas one-hot tiene todas la misma escala (los valores son 0 o 1), por no que no obtenemos ningún beneficio del escalado. En este caso, incrementar `max_iter` es la forma correcta de hacer.
+Aquí necesitamos incrementar el número máximo de iteraciones para obtener una covergencia plena de `LogisticRegresion` y evitar un `ConvergenceWarning`. Al contrario que las features numéricas, las features categóricas codificadas one-hot tienen todas la misma escala (los valores son 0 o 1), por lo que no obtenemos ningún beneficio del escalado. En este caso, incrementar `max_iter` es la forma correcta de proceder.
 
 Finalmente, vamos a comprobar el rendimiento de generalización del modelo usando únicamente las columnas categóricas.
 
@@ -2057,7 +2054,7 @@ En este caso, esta representación de las variables categóricas es ligeramente 
 
 # Usando juntas variables numéricas y categóricas
 
-Hasta el momento hemos visto el preprocesamiento requerido cuando manejamos variables numéricas y categóricas. Sin embargo, desvinculamos el proceso para tratar cada tipo individualmente. Vamos mostrar cómo combinar estos pasos de preprocesamiento.
+Hasta el momento hemos visto el preprocesamiento requerido cuando manejamos variables numéricas y categóricas. Sin embargo, desvinculamos el proceso para tratar cada tipo individualmente. Vamos a mostrar cómo combinar estos pasos de preprocesamiento.
 
 ## Selección basada en tipos de datos
 
@@ -2086,7 +2083,7 @@ Ya vimos anteriormente que necesitamos tratar los datos de forma diferente depen
 
 En primer lugar definimos las columnas dependiendo de su tipo de dato:
 
-+ La **codificación one-hot** se aplicará a las columnas categóricas. Además, usaremos `handle_unknown="ignore"` para solventar el potencial problema debido a cartegorías raras.
++ La **codificación one-hot** se aplicará a las columnas categóricas. Además, usaremos `handle_unknown="ignore"` para solventar el potencial problema debido a categorías raras.
 + El **escalado numérico** de las features numéricas será estandarizado.
 
 Ahora creamos nuestro `ColumnTransformer` especificando los tres valores: el nombre del preprocesador, el transformador y las columnas. En primer lugar, vamos a crear los preprocesadores para las partes numéricas y categóricas.
@@ -2135,46 +2132,13 @@ model
 
 
 
-<style>div.sk-top-container {color: black;background-color: white;}div.sk-toggleable {background-color: white;}label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.2em 0.3em;box-sizing: border-box;text-align: center;}div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}div.sk-estimator {font-family: monospace;background-color: #f0f8ff;margin: 0.25em 0.25em;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;}div.sk-estimator:hover {background-color: #d4ebff;}div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 2em;bottom: 0;left: 50%;}div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;}div.sk-item {z-index: 1;}div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;}div.sk-parallel-item {display: flex;flex-direction: column;position: relative;background-color: white;}div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}div.sk-parallel-item:only-child::after {width: 0;}div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0.2em;box-sizing: border-box;padding-bottom: 0.1em;background-color: white;position: relative;}div.sk-label label {font-family: monospace;font-weight: bold;background-color: white;display: inline-block;line-height: 1.2em;}div.sk-label-container {position: relative;z-index: 2;text-align: center;}div.sk-container {display: inline-block;position: relative;}</style><div class="sk-top-container"><div class="sk-container"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="4593f4e3-6ad6-4116-bb8c-35264e8bcd08" type="checkbox" ><label class="sk-toggleable__label" for="4593f4e3-6ad6-4116-bb8c-35264e8bcd08">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('columntransformer',
-                 ColumnTransformer(transformers=[('one-hot-encoder',
-                                                  OneHotEncoder(handle_unknown='ignore'),
-                                                  ['checking_status',
-                                                   'credit_history', 'purpose',
-                                                   'savings_status',
-                                                   'employment',
-                                                   'personal_status',
-                                                   'other_parties',
-                                                   'property_magnitude',
-                                                   'other_payment_plans',
-                                                   'housing', 'job',
-                                                   'own_telephone',
-                                                   'foreign_worker']),
-                                                 ('standard_scaler',
-                                                  StandardScaler(),
-                                                  ['duration', 'credit_amount',
-                                                   'installment_commitment',
-                                                   'residence_since', 'age',
-                                                   'existing_credits',
-                                                   'num_dependents'])])),
-                ('logisticregression', LogisticRegression(max_iter=500))])</pre></div></div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="28b13a79-07ce-4ef7-bb21-70e5639f0d70" type="checkbox" ><label class="sk-toggleable__label" for="28b13a79-07ce-4ef7-bb21-70e5639f0d70">columntransformer: ColumnTransformer</label><div class="sk-toggleable__content"><pre>ColumnTransformer(transformers=[('one-hot-encoder',
-                                 OneHotEncoder(handle_unknown='ignore'),
-                                 ['checking_status', 'credit_history',
-                                  'purpose', 'savings_status', 'employment',
-                                  'personal_status', 'other_parties',
-                                  'property_magnitude', 'other_payment_plans',
-                                  'housing', 'job', 'own_telephone',
-                                  'foreign_worker']),
-                                ('standard_scaler', StandardScaler(),
-                                 ['duration', 'credit_amount',
-                                  'installment_commitment', 'residence_since',
-                                  'age', 'existing_credits',
-                                  'num_dependents'])])</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="ac8c34c9-f6a7-4691-94de-9a0ea7a204ad" type="checkbox" ><label class="sk-toggleable__label" for="ac8c34c9-f6a7-4691-94de-9a0ea7a204ad">one-hot-encoder</label><div class="sk-toggleable__content"><pre>['checking_status', 'credit_history', 'purpose', 'savings_status', 'employment', 'personal_status', 'other_parties', 'property_magnitude', 'other_payment_plans', 'housing', 'job', 'own_telephone', 'foreign_worker']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="f2ec9dd6-7b7f-4908-8c77-c46773019d1f" type="checkbox" ><label class="sk-toggleable__label" for="f2ec9dd6-7b7f-4908-8c77-c46773019d1f">OneHotEncoder</label><div class="sk-toggleable__content"><pre>OneHotEncoder(handle_unknown='ignore')</pre></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="bfbe5363-1d03-4406-a5f7-fad8ed53b97f" type="checkbox" ><label class="sk-toggleable__label" for="bfbe5363-1d03-4406-a5f7-fad8ed53b97f">standard_scaler</label><div class="sk-toggleable__content"><pre>['duration', 'credit_amount', 'installment_commitment', 'residence_since', 'age', 'existing_credits', 'num_dependents']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="30d7d67f-3d6e-4933-bf7e-0022b086c45d" type="checkbox" ><label class="sk-toggleable__label" for="30d7d67f-3d6e-4933-bf7e-0022b086c45d">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="c5b127e3-cbaa-4fdc-8a1f-bed669fd64c2" type="checkbox" ><label class="sk-toggleable__label" for="c5b127e3-cbaa-4fdc-8a1f-bed669fd64c2">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(max_iter=500)</pre></div></div></div></div></div></div></div>
+<style>div.sk-top-container {color: black;background-color: white;}div.sk-toggleable {background-color: white;}label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.2em 0.3em;box-sizing: border-box;text-align: center;}div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}div.sk-estimator {font-family: monospace;background-color: #f0f8ff;margin: 0.25em 0.25em;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;}div.sk-estimator:hover {background-color: #d4ebff;}div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 2em;bottom: 0;left: 50%;}div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;}div.sk-item {z-index: 1;}div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;}div.sk-parallel-item {display: flex;flex-direction: column;position: relative;background-color: white;}div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}div.sk-parallel-item:only-child::after {width: 0;}div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0.2em;box-sizing: border-box;padding-bottom: 0.1em;background-color: white;position: relative;}div.sk-label label {font-family: monospace;font-weight: bold;background-color: white;display: inline-block;line-height: 1.2em;}div.sk-label-container {position: relative;z-index: 2;text-align: center;}div.sk-container {display: inline-block;position: relative;}</style><div class="sk-top-container"><div class="sk-container"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="4593f4e3-6ad6-4116-bb8c-35264e8bcd08" type="checkbox" ><label class="sk-toggleable__label" for="4593f4e3-6ad6-4116-bb8c-35264e8bcd08">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('columntransformer', ColumnTransformer(transformers=[('one-hot-encoder', OneHotEncoder(handle_unknown='ignore'),['checking_status','credit_history', 'purpose','savings_status','employment','personal_status','other_parties','property_magnitude','other_payment_plans','housing', 'own_telephone','foreign_worker']),('standard_scaler',StandardScaler(),['duration', 'credit_amount','installment_commitment','residence_since', 'age','existing_credits','num_dependents'])])),('logisticregression', LogisticRegression(max_iter=500))])</pre></div></div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="28b13a79-07ce-4ef7-bb21-70e5639f0d70" type="checkbox" ><label class="sk-toggleable__label" for="28b13a79-07ce-4ef7-bb21-70e5639f0d70">columntransformer: ColumnTransformer</label><div class="sk-toggleable__content"><pre>ColumnTransformer(transformers=[('one-hot-encoder',OneHotEncoder(handle_unknown='ignore'),['checking_status', 'credit_history','purpose', 'employment','personal_status', 'other_parties','property_magnitude', 'other_payment_plans','housing', 'job', 'own_telephone','foreign_worker']),('standard_scaler', StandardScaler(),['duration', 'credit_amount','installment_commitment', 'residence_since','age', 'existing_credits','num_dependents'])])</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="ac8c34c9-f6a7-4691-94de-9a0ea7a204ad" type="checkbox" ><label class="sk-toggleable__label" for="ac8c34c9-f6a7-4691-94de-9a0ea7a204ad">one-hot-encoder</label><div class="sk-toggleable__content"><pre>['checking_status', 'credit_history', 'purpose', 'savings_status', 'employment', 'personal_status', 'other_parties', 'property_magnitude', 'other_payment_plans', 'housing', 'job', 'own_telephone', 'foreign_worker']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="f2ec9dd6-7b7f-4908-8c77-c46773019d1f" type="checkbox" ><label class="sk-toggleable__label" for="f2ec9dd6-7b7f-4908-8c77-c46773019d1f">OneHotEncoder</label><div class="sk-toggleable__content"><pre>OneHotEncoder(handle_unknown='ignore')</pre></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="bfbe5363-1d03-4406-a5f7-fad8ed53b97f" type="checkbox" ><label class="sk-toggleable__label" for="bfbe5363-1d03-4406-a5f7-fad8ed53b97f">standard_scaler</label><div class="sk-toggleable__content"><pre>['duration', 'credit_amount', 'installment_commitment', 'residence_since', 'age', 'existing_credits', 'num_dependents']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="30d7d67f-3d6e-4933-bf7e-0022b086c45d" type="checkbox" ><label class="sk-toggleable__label" for="30d7d67f-3d6e-4933-bf7e-0022b086c45d">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="c5b127e3-cbaa-4fdc-8a1f-bed669fd64c2" type="checkbox" ><label class="sk-toggleable__label" for="c5b127e3-cbaa-4fdc-8a1f-bed669fd64c2">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(max_iter=500)</pre></div></div></div></div></div></div></div>
 
 
 
 El modelo final es más complejo que los que hemos visto previamente pero aún sigue la misma API (el mismo conjunto de métodos que pueden ser llamados por el usuario):
 
-+ el metodo `fit` es llamado para preprocesar los dantos y luego entrenar el clasificador en los datos preprocesados;
++ el metodo `fit` es llamado para preprocesar los datos y luego entrenar el clasificador en los datos preprocesados;
 + el metodo `predict` hace predicciones en datos nuevos;
 + el metodo `score` es usado para predecir en los datos de prueba y comparar las predicciones con las etiquetas de prueba esperadas para calcular la precisión.
 
@@ -2191,7 +2155,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 _ = model.fit(X_train, y_train)
 {{< /highlight >}}
 
-Luego, podemos enviar el dataset en bruto directamente al pipeline. De hecho, no necesitamos hacer ningún preprocesamiento manual (llamando a los métodos `transform` o `fit_transform`) ya que será manejado cuando llamemos al método `predict`. Como ejemplo, predeciremos em los primeros cinco ejemplos del conjunto de prueba.
+Luego, podemos enviar el dataset en bruto directamente al pipeline. De hecho, no necesitamos hacer ningún preprocesamiento manual (llamando a los métodos `transform` o `fit_transform`) ya que será manejado cuando llamemos al método `predict`. Como ejemplo, predeciremos en los primeros cinco ejemplos del conjunto de prueba.
 
 
 {{< highlight "python" "linenos=false">}}
