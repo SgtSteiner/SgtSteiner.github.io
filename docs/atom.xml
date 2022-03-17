@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-ES">
     <title type="text">Lords of the Machine Learning</title>
     <subtitle type="html">Lords of Machine Learning es un blog de Antonio Méndez</subtitle>
-    <updated>2022-03-17T18:01:52&#43;01:00</updated>
+    <updated>2022-03-17T18:11:35&#43;01:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Pipeline de modelado predictivo</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/predictive-modeling-pipeline/" />
             <id>https://sgtsteiner.github.io/posts/predictive-modeling-pipeline/</id>
-            <updated>2022-03-17T17:56:45&#43;01:00</updated>
+            <updated>2022-03-17T18:04:07&#43;01:00</updated>
             <published>2022-03-07T18:04:46&#43;01:00</published>
             <author>
                     <name>Antonio Méndez</name>
@@ -426,13 +426,13 @@ The is_first_col function was deprecated in Matplotlib 3.4 and will be removed t
 &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;style&gt;div.sk-top-container {color: black;background-color: white;}div.sk-toggleable {background-color: white;}label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.2em 0.3em;box-sizing: border-box;text-align: center;}div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}div.sk-estimator {font-family: monospace;background-color: #f0f8ff;margin: 0.25em 0.25em;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;}div.sk-estimator:hover {background-color: #d4ebff;}div.sk-parallel-item::after {content: &#34;&#34;;width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}div.sk-serial::before {content: &#34;&#34;;position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 2em;bottom: 0;left: 50%;}div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;}div.sk-item {z-index: 1;}div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;}div.sk-parallel-item {display: flex;flex-direction: column;position: relative;background-color: white;}div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}div.sk-parallel-item:only-child::after {width: 0;}div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0.2em;box-sizing: border-box;padding-bottom: 0.1em;background-color: white;position: relative;}div.sk-label label {font-family: monospace;font-weight: bold;background-color: white;display: inline-block;line-height: 1.2em;}div.sk-label-container {position: relative;z-index: 2;text-align: center;}div.sk-container {display: inline-block;position: relative;}&lt;/style&gt;&lt;div class=&#34;sk-top-container&#34;&gt;&lt;div class=&#34;sk-container&#34;&gt;&lt;div class=&#34;sk-item&#34;&gt;&lt;div class=&#34;sk-estimator sk-toggleable&#34;&gt;&lt;input class=&#34;sk-toggleable__control sk-hidden--visually&#34; id=&#34;3adf2a4e-1762-440c-9d99-38f70c9e5d7a&#34; type=&#34;checkbox&#34; checked&gt;&lt;label class=&#34;sk-toggleable__label&#34; for=&#34;3adf2a4e-1762-440c-9d99-38f70c9e5d7a&#34;&gt;LogisticRegression&lt;/label&gt;&lt;div class=&#34;sk-toggleable__content&#34;&gt;&lt;pre&gt;LogisticRegression(max_iter=500)&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;El proceso de aprendizaje puede representarse de la siguiente forma:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/model_fit.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/model_fit.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;El método &lt;code&gt;fit&lt;/code&gt;se compone de dos elementos: un algoritmo de aprendizaje y algunos estados del modelo. El algoritmo de aprendizaje toma los datos y el objetivo de entrenamiento como entrada y establece los estados del modelo. Estos estados del modelo se utilizarán posteriormente para predecir (por clasificadores o regresores) o transformar los datos (por transformadores).&lt;/p&gt;
 &lt;p&gt;Tanto el algoritmo de aprendizaje como el tipo de estados del modelo son específicos para cada tipo de modelo.&lt;/p&gt;
 &lt;p&gt;Usaremos ahora nuestro modelo para llevar a cabo algunas predicciones usando el mismo dataset.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;El mecanismo de predicción puede representarse de la siguiente forma:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/model_predict.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/model_predict.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Para predecir, un modelo usa una &lt;strong&gt;función de predicción&lt;/strong&gt; que utilizará los datos de entrada junto con los estados del modelo. Como el algoritmo de aprendizaje y los estados del modelo, la función de predicción es específica para cada tipo de modelo.&lt;/p&gt;
 &lt;p&gt;Vamos a revisar las predicciones calculadas. Por simplicidad vamos a echar un vistazo a los primeros cinco objetivos predichos.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -495,7 +495,7 @@ Name: class, dtype: bool
 &lt;pre&gt;&lt;code&gt;Accuracy: 0.740
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Veamos el mecanismo subyacente cuando se llama al método &lt;code&gt;score&lt;/code&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/model_score.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/model_score.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Para calcular la puntuación, el predictor primero calcula las predicciones (usando el metodo &lt;code&gt;predict&lt;/code&gt;) y luego usa una función de puntuación para comparar los objetivos reales y las predicciones. Por último, se devuelve la puntuación.&lt;/p&gt;
 &lt;p&gt;Por norma general, nos referimos al &lt;strong&gt;rendimiento de generalización&lt;/strong&gt; de un modelo cuando nos refiramos a la puntuación de prueba o al error de prueba obtenido al comparar la predicción de un modelo con los objetivos reales. También son términos equivalentes rendimiento predictivo y rendimiento estadístico. Nos referimos al &lt;strong&gt;rendimiento computacional&lt;/strong&gt; de un modelo predictivo cuando accedemos al coste computacional de entrenar un modelo predictivo o usarlo para hacer predicciones.&lt;/p&gt;
 &lt;p&gt;Bueno, la puntuación de nuestro modelo apenas mejora la linea base que establecimos:&lt;/p&gt;
@@ -667,10 +667,10 @@ Accuracy regresión logística = 0.74
         -0.71093146, -0.40973554]])
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Vamos a analizar el mecanismo interno del método &lt;code&gt;transform&lt;/code&gt; y lo pondremos en perspectiva con lo que ya vimos con los predictores.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/transformer_transformer.PNG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/transformer_transformer.PNG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;El método &lt;code&gt;transform&lt;/code&gt; para los transformadores es similar al método &lt;code&gt;predict&lt;/code&gt; para los predictores. Usa una función predefinida, llamada &lt;strong&gt;función de transformación&lt;/strong&gt;, y usa los estados del modelo y los datos de entrada. Sin embargo, en lugar de devolver predicciones, el trabajo del método &lt;code&gt;transform&lt;/code&gt; es devolver una versión transformada de los datos de entrada.&lt;/p&gt;
 &lt;p&gt;Por último, el método &lt;code&gt;fit_transform&lt;/code&gt; es un método abreviado para llamar sucesivamente a &lt;code&gt;fit&lt;/code&gt;y después a &lt;code&gt;transform&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/transform_fit_transform.PNG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/transform_fit_transform.PNG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;X_train_scaled&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scaler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit_transform&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;X_train_scaled&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;pre&gt;&lt;code&gt;array([[ 3.29708155,  1.19991221,  0.03119565, ...,  2.4061873 ,
@@ -834,7 +834,7 @@ Accuracy regresión logística = 0.74
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;elapsed_time&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&#34;images/pipeline_fit.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/pipeline_fit.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Cuando llamamos a &lt;code&gt;model.fit&lt;/code&gt;, se llamará al método &lt;code&gt;fit_transform&lt;/code&gt; para cada transformador subyacente (en este caso, un único transformador) para:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;aprender sus estados de modelo internos&lt;/li&gt;
@@ -846,7 +846,7 @@ Accuracy regresión logística = 0.74
 &lt;pre&gt;&lt;code&gt;array([&#39;good&#39;, &#39;good&#39;, &#39;good&#39;, &#39;good&#39;, &#39;good&#39;], dtype=object)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Mostremos el mecanismo subyacente:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/pipeline_predict.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/pipeline_predict.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Se llama al método &lt;code&gt;transform&lt;/code&gt; de cada transformador (en este caso, un único transformador) para preprocesar los datos. Tengamos en cuenta que no es necesario llamar al método &lt;code&gt;fit&lt;/code&gt; de esos transformadores porque estamos usando los estados de modelo internos calculados cuando llamamos a &lt;code&gt;model.fil&lt;/code&gt;. Los datos preprocesados son entonces proporcionados al predictor que devolverá los objetivos predichos llamando al método &lt;code&gt;predict&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Como atajo, podemos comprobar la puntuación del pipeline predictivo completo llamando al método &lt;code&gt;model.score&lt;/code&gt;. Por tanto, vamos a verificar el rendimiento computacional y de generalización de este pipeline predictivo.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;model_name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;vm&#34;&gt;__class__&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt;
@@ -875,7 +875,7 @@ Accuracy regresión logística = 0.74
 &lt;p&gt;Anteriormente dividimos los datos originales en un conjunto de entrenamiento y en un conjunto de pruebas. En general, la puntuación de un modelo dependerá de la forma en que hacemos esta división. Un inconveniente de hacer una única división es que no proporciona ninguna información sobre su variablidad. Otro inconveniente, en una configuración donde la cantidad de datos es pequeña, es que la cantidad de datos disponibles para entrenamiento y prueba será incluso más pequeña después de la división.&lt;/p&gt;
 &lt;p&gt;En su lugar, podemos usar validación cruzada. La validación cruzada consiste en repetir el procedimiento de modo que los conjuntos de entrenamiento y prueba sean diferentes cada vez. Las métricas de rendimiento de generalización se recopilan en cada repetición y luego se agregan. Como resultado, podemos evaluar la variabilidad de nuestra medida del rendimiento de generalización del modelo.&lt;/p&gt;
 &lt;p&gt;Existen varias estrategias de validación cruzada, cada una de ellas define cómo repetir el procedimiento de &lt;code&gt;fit&lt;/code&gt; / &lt;code&gt;score&lt;/code&gt;. En nuestro caso, usaremos la estrategia K-fold: el dataset completo se divide en &lt;code&gt;K&lt;/code&gt; particiones. El procesimiento &lt;code&gt;fit&lt;/code&gt; / &lt;code&gt;score&lt;/code&gt; se repite &lt;code&gt;K&lt;/code&gt; veces, donde en cada iteración se usan &lt;code&gt;K-1&lt;/code&gt; particiones para entrenar el modelo y &lt;code&gt;1&lt;/code&gt; partición para prueba. El siguiente diagrama muestra esta estrategia de K-fold.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/k_fold.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/k_fold.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;El diagrama muestra el caso particular de &lt;strong&gt;K-fold&lt;/strong&gt;. Para cada división de validación cruzada, el procedimiento entrena un clon del modelo en todas las instancias rojas y evalúa la puntuación del modelo en las instancias azules.&lt;/p&gt;
 &lt;p&gt;La validación cruzada es, por tanto, computacionalmente intensiva porque requiere entrenar varios modelos, en lugar de uno solo. En scikit-learn, la función &lt;code&gt;cross_validate&lt;/code&gt; permite hacer validación cruzada y necesitamos pasar el modelo, los datos y el objetivo. Dado que existen varias estrategias, &lt;code&gt;cross_validate&lt;/code&gt; toma un parámetro &lt;code&gt;cv&lt;/code&gt; que define la estrategia de división.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;o&#34;&gt;%%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;
@@ -1520,7 +1520,7 @@ dtype: object
     &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;standard_scaler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;numerical_preprocessor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;numerical_columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Vamos a representar gráficamente la estructura de &lt;code&gt;ColumnTransformer&lt;/code&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/column_transformer.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/column_transformer.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Un &lt;code&gt;ColumnTransformer&lt;/code&gt; hace lo siguiente:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;divide las columnas&lt;/strong&gt; del dataset original basándose en los nombres de las columnas o índices proporcionados. Obtendremos tantos subconjuntos como números de transformadores pasados al &lt;code&gt;ColumnTransformer&lt;/code&gt;.&lt;/li&gt;
