@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-ES">
     <title type="text">Lords of the Machine Learning</title>
     <subtitle type="html">Lords of Machine Learning es un blog de Antonio Méndez</subtitle>
-    <updated>2022-03-17T20:00:26&#43;01:00</updated>
+    <updated>2022-03-18T18:58:58&#43;01:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -16,6 +16,710 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</rights>
     <generator uri="https://gohugo.io/" version="0.83.1">Hugo</generator>
+        <entry>
+            <title type="text">Selección del mejor modelo</title>
+            <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/selecting-best-model/" />
+            <id>https://sgtsteiner.github.io/posts/selecting-best-model/</id>
+            <updated>2022-03-18T18:57:41&#43;01:00</updated>
+            <published>2022-03-18T11:28:41&#43;01:00</published>
+            <author>
+                    <name>Antonio Méndez</name>
+                    <uri>https://sgtsteiner.github.io/</uri>
+                    <email>futitotal@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</rights><summary type="html">En este post proporcionaremos una introducción intuitiva a los conceptos fundamentales de overfitting y underfitting en machine learning. Los modelos de machine learning nunca pueden hacer predicciones perfectas: el error de prueba nunca es exactamente cero. Esta carencia proviene del equilibrio fundamental entre la flexibilidad de modelado y el tamaño limitado del dataset de entrenamiento.</summary>
+            
+                <content type="html">&lt;p&gt;En este post proporcionaremos una introducción intuitiva a los conceptos fundamentales de &lt;strong&gt;overfitting&lt;/strong&gt; y &lt;strong&gt;underfitting&lt;/strong&gt; en machine learning. Los modelos de machine learning nunca pueden hacer predicciones perfectas: el error de prueba nunca es exactamente cero. Esta carencia proviene del equilibrio fundamental entre la flexibilidad de modelado y el tamaño limitado del dataset de entrenamiento.&lt;/p&gt;
+&lt;p&gt;En un primer momento definiremos ambos problemas y caracterizaremos cómo y por qué surgen.&lt;/p&gt;
+&lt;p&gt;Posteriormente presentaremos una metodología para cuantificar estos problemas contrastando el error de entrenamiento con el error de prueba para varias opciones de la familia de modelos, los parámetros del modelo. Más importante aún, enfatizaremos el impacto del tamaño del dataset de entrenamiento en este equilibrio.&lt;/p&gt;
+&lt;p&gt;Por último, relacionaremos overfitting y underfitting a los conceptos de varianza y sesgo (bias) estadísticos.&lt;/p&gt;
+&lt;h1 id=&#34;framework-de-validación-cruzada&#34;&gt;Framework de validación cruzada&lt;/h1&gt;
+&lt;p&gt;En posts anteriores vimos algunos conceptos relacionados con la evaluación de modelos predictivos. Ahora vamos a analizar algunos detalles del framework de validación cruzada. Antes de ir a ello, vamos a detenernos en las razones de tener siempre conjuntos de entrenamiento y prueba. En primer lugar, echemos un vistazo a la limitación de usar un dataset sin excluir ninguna muestra.&lt;/p&gt;
+&lt;p&gt;Para ello vamos a usar el dataset de propiedades de California.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.datasets&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fetch_california_housing&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;housing&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fetch_california_housing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;as_frame&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;housing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;copy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;housing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;target&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;copy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las feautures recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos una modelo predictivo específico de regresión.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;housing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DESCR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;.. _california_housing_dataset:
+
+California Housing dataset
+--------------------------
+
+**Data Set Characteristics:**
+
+    :Number of Instances: 20640
+
+    :Number of Attributes: 8 numeric, predictive attributes and the target
+
+    :Attribute Information:
+        - MedInc        median income in block
+        - HouseAge      median house age in block
+        - AveRooms      average number of rooms
+        - AveBedrms     average number of bedrooms
+        - Population    block population
+        - AveOccup      average house occupancy
+        - Latitude      house block latitude
+        - Longitude     house block longitude
+
+    :Missing Attribute Values: None
+
+This dataset was obtained from the StatLib repository.
+http://lib.stat.cmu.edu/datasets/
+
+The target variable is the median house value for California districts.
+
+This dataset was derived from the 1990 U.S. census, using one row per census
+block group. A block group is the smallest geographical unit for which the U.S.
+Census Bureau publishes sample data (a block group typically has a population
+of 600 to 3,000 people).
+
+It can be downloaded/loaded using the
+:func:`sklearn.datasets.fetch_california_housing` function.
+
+.. topic:: References
+
+    - Pace, R. Kelley and Ronald Barry, Sparse Spatial Autoregressions,
+      Statistics and Probability Letters, 33 (1997) 291-297
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;MedInc&lt;/th&gt;
+      &lt;th&gt;HouseAge&lt;/th&gt;
+      &lt;th&gt;AveRooms&lt;/th&gt;
+      &lt;th&gt;AveBedrms&lt;/th&gt;
+      &lt;th&gt;Population&lt;/th&gt;
+      &lt;th&gt;AveOccup&lt;/th&gt;
+      &lt;th&gt;Latitude&lt;/th&gt;
+      &lt;th&gt;Longitude&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;8.3252&lt;/td&gt;
+      &lt;td&gt;41.0&lt;/td&gt;
+      &lt;td&gt;6.984127&lt;/td&gt;
+      &lt;td&gt;1.023810&lt;/td&gt;
+      &lt;td&gt;322.0&lt;/td&gt;
+      &lt;td&gt;2.555556&lt;/td&gt;
+      &lt;td&gt;37.88&lt;/td&gt;
+      &lt;td&gt;-122.23&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;8.3014&lt;/td&gt;
+      &lt;td&gt;21.0&lt;/td&gt;
+      &lt;td&gt;6.238137&lt;/td&gt;
+      &lt;td&gt;0.971880&lt;/td&gt;
+      &lt;td&gt;2401.0&lt;/td&gt;
+      &lt;td&gt;2.109842&lt;/td&gt;
+      &lt;td&gt;37.86&lt;/td&gt;
+      &lt;td&gt;-122.22&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;7.2574&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;8.288136&lt;/td&gt;
+      &lt;td&gt;1.073446&lt;/td&gt;
+      &lt;td&gt;496.0&lt;/td&gt;
+      &lt;td&gt;2.802260&lt;/td&gt;
+      &lt;td&gt;37.85&lt;/td&gt;
+      &lt;td&gt;-122.24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;5.6431&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;5.817352&lt;/td&gt;
+      &lt;td&gt;1.073059&lt;/td&gt;
+      &lt;td&gt;558.0&lt;/td&gt;
+      &lt;td&gt;2.547945&lt;/td&gt;
+      &lt;td&gt;37.85&lt;/td&gt;
+      &lt;td&gt;-122.25&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;3.8462&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;6.281853&lt;/td&gt;
+      &lt;td&gt;1.081081&lt;/td&gt;
+      &lt;td&gt;565.0&lt;/td&gt;
+      &lt;td&gt;2.181467&lt;/td&gt;
+      &lt;td&gt;37.85&lt;/td&gt;
+      &lt;td&gt;-122.25&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Para simplificar la visualización, vamos a transformar los precios del rango de cien mil dólares al rango de mil dólares.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;0    452.6
+1    358.5
+2    352.1
+3    341.3
+4    342.2
+Name: MedHouseVal, dtype: float64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;error-de-entrenamiento-vs-error-de-prueba&#34;&gt;Error de entrenamiento vs error de prueba&lt;/h2&gt;
+&lt;p&gt;Para resolver esta tarea de regresión usaremos un arbol de decisión de regresión.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.tree&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DecisionTreeRegressor&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DecisionTreeRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;42&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;DecisionTreeRegressor(random_state=42)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error medio absoluto que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.metrics&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean_absolute_error&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;score&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean_absolute_error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;De media, nuestro regresor comete un error de {score:.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;De media, nuestro regresor comete un error de 0.00 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Obtenemos una predicción perfecta sin errores. Esto es demasiado optimista y casi siempre pone de manifiesto un problema metodológico cuando hacemos machine learning. De hecho, entrenamos y predecimos en el mismo dataset. Dado que nuestro árbol de decisión creció por completo, cada instancia del dataset está almacenada en un nodo hoja. Por tanto, nuestro árbol de decisión ha memorizado completamente el dataset durante el &lt;code&gt;fit&lt;/code&gt; y, en consecuencia, no comete ningún error cuando predice.&lt;/p&gt;
+&lt;p&gt;Este error calculado anteriormente se denomina &lt;strong&gt;error empírico&lt;/strong&gt; o &lt;strong&gt;error de entrenamiento&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Entrenamos un modelo predictivo para minimizar el error de entrenamiento pero nuestro objetivo es minimizar el error en los datos que no se han visto durante el entrenamiento. Este error se llama también &lt;strong&gt;error de generalización&lt;/strong&gt; o el &amp;ldquo;verdadero&amp;rdquo; &lt;strong&gt;error de prueba&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;De esta forma, la evaluación más básica supone:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dividir nuestro dataset en dos subconjuntos: un conjunto de entrenamiento y un conjunto de prueba;&lt;/li&gt;
+&lt;li&gt;entrenar el modelo en el conjunto de entrenamiento;&lt;/li&gt;
+&lt;li&gt;estimar el error de entrenamiento en el conjunto de entrenamiento;&lt;/li&gt;
+&lt;li&gt;estimar el error de prueba en el conjunto de prueba.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Vamos a dividir nuestro dataset.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;train_test_split&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;train_test_split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;42&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Ahora lo entrenamos.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;DecisionTreeRegressor(random_state=42)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finalmente, vamos a estimar los diferentes tipos de error. Empecemos calculando el error de entrenamiento.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;score&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean_absolute_error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;El error de entrenamiento de nuestro modelo es {score:.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;El error de entrenamiento de nuestro modelo es 0.00 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Observamos el mismo fenómeno que anteriormente: nuestro modelo memoriza el conjunto de entrenamiento. Sin embargo, vamos a calcular el error de prueba.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;score&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean_absolute_error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_predicted&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;El error de prueba de nuestro modelo es {score:.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;El error de prueba de nuestro modelo es 46.33 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Este es el error que realmente cabría esperar de nuestro modelo si lo pusiéramos en un entorno de producción.&lt;/p&gt;
+&lt;h2 id=&#34;estabilidad-de-las-estimaciones-de-validación-cruzada&#34;&gt;Estabilidad de las estimaciones de validación cruzada&lt;/h2&gt;
+&lt;p&gt;Cuando hacemos una única división entrenamiento-prueba no damos ninguna indicación de la robustez de la evaluación de nuestro modelo predictivo: en particular, si el conjunto de prueba es pequeño, esta estimación del error de prueba será inestable y podría no reflejar la &amp;ldquo;verdadera tasa de error&amp;rdquo; que observaríamos con el mismo modelo en una cantidad ilimitada de datos de prueba.&lt;/p&gt;
+&lt;p&gt;Por ejemplo, podríamos haber tenido suerte cuando hicimos nuestra división aleatoria de nuestro limitado dataset y aislar algunos de los casos más fáciles de predecir del conjunto de prueba solo por casualidad: en este caso, la estimación del error de prueba sería demasiado optimista.&lt;/p&gt;
+&lt;p&gt;La &lt;strong&gt;validación cruzada&lt;/strong&gt; permite estimar la solidez de un modelo predictivo repitiendo el procedimiento de división. Proporcionará varios errores de entrenamiento y prueba y, por tanto, alguna estimación de la variabilidad del rendimiento de generalización del modelo.&lt;/p&gt;
+&lt;p&gt;Existen diferentes &lt;a href=&#34;https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators&#34;&gt;estrategias de validación cruzada&lt;/a&gt;. Por el momento, nos centraremos en una llamada &amp;ldquo;&lt;em&gt;shuffle-split&lt;/em&gt;&amp;rdquo;. En cada iteración de esta estrategia:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;mezclamos aleatoriamente el orden de las instancias de una copia del dataset;&lt;/li&gt;
+&lt;li&gt;dividimos el dataset mezclado en un conjunto de entrenamiento y uno de prueba;&lt;/li&gt;
+&lt;li&gt;entrenamos un nuevo modelo en el conjunto de entrenamiento;&lt;/li&gt;
+&lt;li&gt;evaluamos el error de prueba en el conjunto de prueba.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Repetimos este procedimiento &lt;code&gt;n_splits&lt;/code&gt; veces. Tengamos en mente que el coste computacional se incrementa con &lt;code&gt;n_splits&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/cross_validation_shufflesplit.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Este diagrama muestra el caso particular de la estrategia &lt;strong&gt;shuffle-split&lt;/strong&gt; de validación cruzada usando &lt;code&gt;n_splits=5&lt;/code&gt;. Por cada división de validación cruzada el procedimiento entrena un modelo en todos los ejemplo rojos y evalúa la puntuación del modelo en los ejemplos azules.&lt;/p&gt;
+&lt;p&gt;En este caso estableceremos &lt;code&gt;n_splits=40&lt;/code&gt;, lo que significa que entrenaremos 40 modelos en total y todos ellos serán descartados: solo registraremos el rendimiento de generalización de cada variante en el conjunto de prueba.&lt;/p&gt;
+&lt;p&gt;Para evaluar el rendimiento de generalización de nuestro regresor podemos usar &lt;code&gt;sklearn.model_selection.cross_validate&lt;/code&gt; con un objeto &lt;code&gt;sklearn.model_selection.ShuffleSplit&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;cross_validate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ShuffleSplit&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;cv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ShuffleSplit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n_splits&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;random_state&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;42&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cross_validate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scoring&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;neg_mean_absolute_error&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pandas&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pd&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;fit_time&lt;/th&gt;
+      &lt;th&gt;score_time&lt;/th&gt;
+      &lt;th&gt;test_score&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;0.133615&lt;/td&gt;
+      &lt;td&gt;0.003504&lt;/td&gt;
+      &lt;td&gt;-47.329969&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;0.130112&lt;/td&gt;
+      &lt;td&gt;0.003503&lt;/td&gt;
+      &lt;td&gt;-45.871795&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;0.134116&lt;/td&gt;
+      &lt;td&gt;0.003002&lt;/td&gt;
+      &lt;td&gt;-46.721323&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;0.132114&lt;/td&gt;
+      &lt;td&gt;0.003003&lt;/td&gt;
+      &lt;td&gt;-46.637444&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;0.129111&lt;/td&gt;
+      &lt;td&gt;0.003002&lt;/td&gt;
+      &lt;td&gt;-46.978982&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro &lt;code&gt;scoring&lt;/code&gt; in &lt;code&gt;cross_validate&lt;/code&gt; siempre esepra una función que es una puntuación.&lt;/p&gt;
+&lt;p&gt;Para hacerlo fácil, todas las métricas de errores en scikit-learn, como &lt;code&gt;mean_absolute_error&lt;/code&gt;, se pueden transformar en una puntuación para ser usadas en &lt;code&gt;cross_validate&lt;/code&gt;. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo &lt;code&gt;neg_&lt;/code&gt;. Por ejemplo, &lt;code&gt;scoring=&amp;quot;neg_mean_absolute_error&amp;quot;&lt;/code&gt;. En este caso, el negativo del error medio absoluto calculado equivaldría a una puntuación.&lt;/p&gt;
+&lt;p&gt;Vamos a revertir la negación para obtener el error real:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;test_error&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;test_score&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;fit_time&lt;/th&gt;
+      &lt;th&gt;score_time&lt;/th&gt;
+      &lt;th&gt;test_score&lt;/th&gt;
+      &lt;th&gt;test_error&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;0.133615&lt;/td&gt;
+      &lt;td&gt;0.003504&lt;/td&gt;
+      &lt;td&gt;-47.329969&lt;/td&gt;
+      &lt;td&gt;47.329969&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;0.130112&lt;/td&gt;
+      &lt;td&gt;0.003503&lt;/td&gt;
+      &lt;td&gt;-45.871795&lt;/td&gt;
+      &lt;td&gt;45.871795&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;0.134116&lt;/td&gt;
+      &lt;td&gt;0.003002&lt;/td&gt;
+      &lt;td&gt;-46.721323&lt;/td&gt;
+      &lt;td&gt;46.721323&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;0.132114&lt;/td&gt;
+      &lt;td&gt;0.003003&lt;/td&gt;
+      &lt;td&gt;-46.637444&lt;/td&gt;
+      &lt;td&gt;46.637444&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;0.129111&lt;/td&gt;
+      &lt;td&gt;0.003002&lt;/td&gt;
+      &lt;td&gt;-46.978982&lt;/td&gt;
+      &lt;td&gt;46.978982&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;5&lt;/th&gt;
+      &lt;td&gt;0.132614&lt;/td&gt;
+      &lt;td&gt;0.003504&lt;/td&gt;
+      &lt;td&gt;-45.130082&lt;/td&gt;
+      &lt;td&gt;45.130082&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;6&lt;/th&gt;
+      &lt;td&gt;0.131113&lt;/td&gt;
+      &lt;td&gt;0.003503&lt;/td&gt;
+      &lt;td&gt;-47.191726&lt;/td&gt;
+      &lt;td&gt;47.191726&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;7&lt;/th&gt;
+      &lt;td&gt;0.130612&lt;/td&gt;
+      &lt;td&gt;0.003503&lt;/td&gt;
+      &lt;td&gt;-45.808697&lt;/td&gt;
+      &lt;td&gt;45.808697&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;8&lt;/th&gt;
+      &lt;td&gt;0.131613&lt;/td&gt;
+      &lt;td&gt;0.003503&lt;/td&gt;
+      &lt;td&gt;-45.814624&lt;/td&gt;
+      &lt;td&gt;45.814624&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;9&lt;/th&gt;
+      &lt;td&gt;0.133115&lt;/td&gt;
+      &lt;td&gt;0.003002&lt;/td&gt;
+      &lt;td&gt;-46.106001&lt;/td&gt;
+      &lt;td&gt;46.106001&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Obtenemos información del tiempo de entrenamiento y predicción de cada iteración de validación cruzada. También obtenemos la puntuación de prueba que corresponde al error de prueba de cada división.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;40
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Obtenemos 40 entradas en nuestro dataframe resultante debido a las 40 divisiones realizadas. Por lo tanto, podemos mostrar la distribución del error de prueba y, así, tener una estimación de su variabilidad.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;plt&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;test_error&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bins&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;edgecolor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;black&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xlabel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Error medio absoluto (k$)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Distribución del error de prueba&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/output_33_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Observamos que el error de prueba se agrupa en torno a 47 k y un rango de entre 45 k y 48.5 k.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;El error medio de validación cruzada es: &amp;#34;&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{cv_results[&amp;#39;test_error&amp;#39;].mean():.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;El error medio de validación cruzada es: 46.53 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;La desviación típica de validación cruzada es: &amp;#34;&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{cv_results[&amp;#39;test_error&amp;#39;].std():.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;La desviación típica de validación cruzada es: 0.83 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Observemos que la desviación típica es mucho más pequeña que la media. Podemos resumirlo como que nuestra estimación de validación cruzada del error de prueba es de 46.53 +/- 0.83 k$. Si tuviéramos que entrenar un único modelo en el dataset completo (sin validación cruzada) y luego después tuviéramos acceso a una cantidad ilimitada de datos de prueba, cabría esperar que el error de prueba verdadero cayera dentro de esa región.&lt;/p&gt;
+&lt;p&gt;Aunque esta información es interesante por sí misma, debería ser contrastada con la escala de la variabilidad natural del vector &lt;code&gt;objetivo&lt;/code&gt; de nuestro dataset. Vamos a dibujar la distribución de esta variable objetivo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bins&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;edgecolor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;black&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;xlabel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Valor medio de la vivienda (k$)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Distribución del objetivo&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/output_38_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;k&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;La desviación típica del objetivo es: {y.std():.2f} k$&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;La desviación típica del objetivo es: 115.40 k$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;El rango de la variable objetivo varía desde cercano a 0 hasta 500, con una desviación típica de 115. Remarquemos que la media estimada del error de prueba obtenido por validación cruzada es un poco más pequeño que la escala natural de variación de la variable objetivo. Además, la desviación típica de la validación cruzada estimada del error de prueba es incluso más pequeña. Esto es un buen comienzo, pero no necesariamente suficiente para decidir si el rendimiento de generalización es suficientemente bueno para que nuestra predicción sea útil en la práctica.&lt;/p&gt;
+&lt;p&gt;Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k. Sin embargo, sería un problema con una vivienda con un valor de 50 k. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.&lt;/p&gt;
+&lt;p&gt;En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.&lt;/p&gt;
+&lt;h2 id=&#34;más-detalles-sobre-cross_validate&#34;&gt;Más detalles sobre &lt;code&gt;cross_validate&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de &lt;code&gt;cross_validate&lt;/code&gt; es el resultado de uno de estos procedimientos &lt;code&gt;fit&lt;/code&gt; / &lt;code&gt;score&lt;/code&gt;. Para hacer explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción &lt;code&gt;return_estimator=True&lt;/code&gt; en &lt;code&gt;cross_validate&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cross_validate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;return_estimator&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;{&#39;fit_time&#39;: array([0.15413189, 0.15012884, 0.15012932, 0.15063   , 0.15162921]),
+ &#39;score_time&#39;: array([0.002002  , 0.00250196, 0.00250196, 0.00200152, 0.00250244]),
+ &#39;estimator&#39;: (DecisionTreeRegressor(random_state=42),
+  DecisionTreeRegressor(random_state=42),
+  DecisionTreeRegressor(random_state=42),
+  DecisionTreeRegressor(random_state=42),
+  DecisionTreeRegressor(random_state=42)),
+ &#39;test_score&#39;: array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;cv_results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;estimator&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;(DecisionTreeRegressor(random_state=42),
+ DecisionTreeRegressor(random_state=42),
+ DecisionTreeRegressor(random_state=42),
+ DecisionTreeRegressor(random_state=42),
+ DecisionTreeRegressor(random_state=42))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Los cinco regresores de árbol de decisión corresponden a los cinco árboles de decisión entrenados en las diferentes particiones. Tener acceso a estos regresores es útil porque permite inspeccionar los parametros entrenados internos de estos regresores.&lt;/p&gt;
+&lt;p&gt;En el caso de solo estemos interesados en la puntuación de prueba, scikit-learn provee una función &lt;code&gt;cross_val_score&lt;/code&gt;. Es idéntica a llamar a la función &lt;code&gt;cross_validate&lt;/code&gt; y seleccionar solo &lt;code&gt;test_score&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cross_val_score&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;scores&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cross_val_score&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;regressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;scores&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/categories/tutoriales/" term="tutoriales" label="tutoriales" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/overfitting/" term="overfitting" label="overfitting" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/underfitting/" term="underfitting" label="underfitting" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/validaci%C3%B3n-cruzada/" term="validación cruzada" label="validación cruzada" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Pipeline de modelado predictivo</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/predictive-modeling-pipeline/" />
