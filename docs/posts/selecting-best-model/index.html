@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.49400d21a299355489a0a02cf7737ef1e4e5fe75fe5bd16cd756376c2bb6b749.js"></script>
 
     
 
@@ -54,14 +54,14 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-03-18T11:28:41+01:00",
-        "dateModified": "2022-03-18T18:57:41+01:00",
+        "dateModified": "2022-03-22T19:39:19+01:00",
         "url": "https://sgtsteiner.github.io/posts/selecting-best-model/",
         "headline": "Selección del mejor modelo",
         "description": "En este post proporcionaremos una introducción intuitiva a los conceptos fundamentales de overfitting y underfitting en machine learning. Los modelos de machine learning nunca pueden hacer predicciones perfectas: el error de prueba nunca es exactamente cero. Esta carencia proviene del equilibrio fundamental entre la flexibilidad de modelado y el tamaño limitado del dataset de entrenamiento.",
         "inLanguage" : "es-ES",
         "articleSection": "posts",
-        "wordCount":  2281 ,
-        "image": ["https://sgtsteiner.github.io/images/cross_validation_shufflesplit.png","https://sgtsteiner.github.io/images/output_33_0.png","https://sgtsteiner.github.io/images/output_38_0.png"],
+        "wordCount":  3810 ,
+        "image": ["https://sgtsteiner.github.io/images/cross_validation_shufflesplit.png","https://sgtsteiner.github.io/images/output_33_0.png","https://sgtsteiner.github.io/images/output_38_0.png","https://sgtsteiner.github.io/images/output_53_0.png","https://sgtsteiner.github.io/images/output_57_0.png","https://sgtsteiner.github.io/images/output_59_0.png","https://sgtsteiner.github.io/images/output_67_0.png"],
         "author": {
             "@type": "Person",
             "description": "Sgt. Steiner",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/cross_validation_shufflesplit.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-03-18T11:28:41&#43;01:00" />
-    <meta property="article:modified_time" content="2022-03-18T18:57:41&#43;01:00" />
+    <meta property="article:modified_time" content="2022-03-22T19:39:19&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -241,7 +241,7 @@
     
     
         
-        <time datetime="2022-03-18T18:57:41&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;18.3.2022</time>
+        <time datetime="2022-03-22T19:39:19&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;22.3.2022</time>
     
     
     
@@ -255,11 +255,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2281</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3810</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;11&nbsp;</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;18&nbsp;</span>
     
     
     
@@ -271,34 +271,27 @@
               <p style="text-indent:0"><span class="drop-cap">E</span>n este post proporcionaremos una introducción intuitiva a los conceptos fundamentales de <strong>overfitting</strong> y <strong>underfitting</strong> en machine learning. Los modelos de machine learning nunca pueden hacer predicciones perfectas: el error de prueba nunca es exactamente cero. Esta carencia proviene del equilibrio fundamental entre la flexibilidad de modelado y el tamaño limitado del dataset de entrenamiento.</p>
 <p>En un primer momento definiremos ambos problemas y caracterizaremos cómo y por qué surgen.</p>
 <p>Posteriormente presentaremos una metodología para cuantificar estos problemas contrastando el error de entrenamiento con el error de prueba para varias opciones de la familia de modelos, los parámetros del modelo. Más importante aún, enfatizaremos el impacto del tamaño del dataset de entrenamiento en este equilibrio.</p>
-<p>Por último, relacionaremos overfitting y underfitting a los conceptos de varianza y sesgo (bias) estadísticos.</p>
+<p>En concreto mostraremos los siguientes aspectos:</p>
+<ul>
+<li>la necesidad de dividir los datos en un conjunto de entrenamiento y uno de prueba</li>
+<li>el significado de los errores de entrenamiento y prueba</li>
+<li>el framework global de validación cruzada con la posibilidad de estudiar las variaciones en el rendimiento de generalización</li>
+<li>cómo identificar si un modelo generaliza, existe overfitting o underfitting</li>
+<li>como comprobar la influencia de un hiperparámetro en el equilibrio underfitting/overfitting</li>
+<li>la influencia del número de muestras en un dataset, especialmente en la variabilidad de los errores reportados cuando ejecutamos validación cruzada</li>
+<li>la curva de aprendizaje, que es una representación visual de la capacidad de un modelo para mejorar añadiendo nuevas muestras
+&hellip;</li>
+</ul>
 <h1 id="framework-de-validación-cruzada"><a href="#framework-de-validación-cruzada" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Framework de validación cruzada</h1>
 <p>En posts anteriores vimos algunos conceptos relacionados con la evaluación de modelos predictivos. Ahora vamos a analizar algunos detalles del framework de validación cruzada. Antes de ir a ello, vamos a detenernos en las razones de tener siempre conjuntos de entrenamiento y prueba. En primer lugar, echemos un vistazo a la limitación de usar un dataset sin excluir ninguna muestra.</p>
 <p>Para ello vamos a usar el dataset de propiedades de California.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_california_housing</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_california_housing</span>
 
 <span class="n">housing</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">housing</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><p>En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las feautures recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos una modelo predictivo específico de regresión.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>.. _california_housing_dataset:
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">housing</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></code></pre></div>
+<p>En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las feautures recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos una modelo predictivo específico de regresión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span></code></pre></div>
+<pre><code>.. _california_housing_dataset:
 
 California Housing dataset
 --------------------------
@@ -339,15 +332,8 @@ It can be downloaded/loaded using the
     - Pace, R. Kelley and Ronald Barry, Sparse Spatial Autoregressions,
       Statistics and Probability Letters, 33 (1997) 291-297
 </code></pre>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -435,17 +421,9 @@ It can be downloaded/loaded using the
 </table></div>
 </div>
 <p>Para simplificar la visualización, vamos a transformar los precios del rango de cien mil dólares al rango de mil dólares.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span> <span class="o">*=</span> <span class="mi">100</span>
-<span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>0    452.6
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span> <span class="o">*=</span> <span class="mi">100</span>
+<span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<pre><code>0    452.6
 1    358.5
 2    352.1
 3    341.3
@@ -454,40 +432,19 @@ Name: MedHouseVal, dtype: float64
 </code></pre>
 <h2 id="error-de-entrenamiento-vs-error-de-prueba"><a href="#error-de-entrenamiento-vs-error-de-prueba" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Error de entrenamiento vs error de prueba</h2>
 <p>Para resolver esta tarea de regresión usaremos un arbol de decisión de regresión.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
 
 <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>DecisionTreeRegressor(random_state=42)
+<span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre></div>
+<pre><code>DecisionTreeRegressor(random_state=42)
 </code></pre>
 <p>Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error medio absoluto que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
 
 <span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">score</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;De media, nuestro regresor comete un error de {score:.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>De media, nuestro regresor comete un error de 0.00 k$
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;De media, nuestro regresor comete un error de {score:.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>De media, nuestro regresor comete un error de 0.00 k$
 </code></pre>
 <p>Obtenemos una predicción perfecta sin errores. Esto es demasiado optimista y casi siempre pone de manifiesto un problema metodológico cuando hacemos machine learning. De hecho, entrenamos y predecimos en el mismo dataset. Dado que nuestro árbol de decisión creció por completo, cada instancia del dataset está almacenada en un nodo hoja. Por tanto, nuestro árbol de decisión ha memorizado completamente el dataset durante el <code>fit</code> y, en consecuencia, no comete ningún error cuando predice.</p>
 <p>Este error calculado anteriormente se denomina <strong>error empírico</strong> o <strong>error de entrenamiento</strong>.</p>
@@ -500,62 +457,26 @@ Name: MedHouseVal, dtype: float64
 <li>estimar el error de prueba en el conjunto de prueba.</li>
 </ul>
 <p>Vamos a dividir nuestro dataset.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><p>Ahora lo entrenamos.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>DecisionTreeRegressor(random_state=42)
+<span class="p">)</span></code></pre></div>
+<p>Ahora lo entrenamos.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>DecisionTreeRegressor(random_state=42)
 </code></pre>
 <p>Finalmente, vamos a estimar los diferentes tipos de error. Empecemos calculando el error de entrenamiento.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 <span class="n">score</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error de entrenamiento de nuestro modelo es {score:.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>El error de entrenamiento de nuestro modelo es 0.00 k$
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error de entrenamiento de nuestro modelo es {score:.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>El error de entrenamiento de nuestro modelo es 0.00 k$
 </code></pre>
 <p>Observamos el mismo fenómeno que anteriormente: nuestro modelo memoriza el conjunto de entrenamiento. Sin embargo, vamos a calcular el error de prueba.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">score</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error de prueba de nuestro modelo es {score:.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>El error de prueba de nuestro modelo es 46.33 k$
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error de prueba de nuestro modelo es {score:.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>El error de prueba de nuestro modelo es 46.33 k$
 </code></pre>
 <p>Este es el error que realmente cabría esperar de nuestro modelo si lo pusiéramos en un entorno de producción.</p>
 <h2 id="estabilidad-de-las-estimaciones-de-validación-cruzada"><a href="#estabilidad-de-las-estimaciones-de-validación-cruzada" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Estabilidad de las estimaciones de validación cruzada</h2>
@@ -574,39 +495,17 @@ Name: MedHouseVal, dtype: float64
 <p>Este diagrama muestra el caso particular de la estrategia <strong>shuffle-split</strong> de validación cruzada usando <code>n_splits=5</code>. Por cada división de validación cruzada el procedimiento entrena un modelo en todos los ejemplo rojos y evalúa la puntuación del modelo en los ejemplos azules.</p>
 <p>En este caso estableceremos <code>n_splits=40</code>, lo que significa que entrenaremos 40 modelos en total y todos ellos serán descartados: solo registraremos el rendimiento de generalización de cada variante en el conjunto de prueba.</p>
 <p>Para evaluar el rendimiento de generalización de nuestro regresor podemos usar <code>sklearn.model_selection.cross_validate</code> con un objeto <code>sklearn.model_selection.ShuffleSplit</code>:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span>  <span class="n">cross_validate</span><span class="p">,</span> <span class="n">ShuffleSplit</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span>  <span class="n">cross_validate</span><span class="p">,</span> <span class="n">ShuffleSplit</span>
 
 <span class="n">cv</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span>
     <span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_absolute_error&#34;</span>
-<span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 
 <span class="n">cv_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span>
-<span class="n">cv_results</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><div>
+<span class="n">cv_results</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -632,31 +531,31 @@ Name: MedHouseVal, dtype: float64
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.133615</td>
-      <td>0.003504</td>
+      <td>0.135116</td>
+      <td>0.003503</td>
       <td>-47.329969</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.130112</td>
-      <td>0.003503</td>
+      <td>0.131113</td>
+      <td>0.003502</td>
       <td>-45.871795</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.134116</td>
-      <td>0.003002</td>
+      <td>0.132114</td>
+      <td>0.003503</td>
       <td>-46.721323</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.132114</td>
-      <td>0.003003</td>
+      <td>0.131615</td>
+      <td>0.003001</td>
       <td>-46.637444</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.129111</td>
+      <td>0.128611</td>
       <td>0.003002</td>
       <td>-46.978982</td>
     </tr>
@@ -666,17 +565,9 @@ Name: MedHouseVal, dtype: float64
 <p>Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro <code>scoring</code> in <code>cross_validate</code> siempre esepra una función que es una puntuación.</p>
 <p>Para hacerlo fácil, todas las métricas de errores en scikit-learn, como <code>mean_absolute_error</code>, se pueden transformar en una puntuación para ser usadas en <code>cross_validate</code>. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo <code>neg_</code>. Por ejemplo, <code>scoring=&quot;neg_mean_absolute_error&quot;</code>. En este caso, el negativo del error medio absoluto calculado equivaldría a una puntuación.</p>
 <p>Vamos a revertir la negación para obtener el error real:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_error&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span>
-<span class="n">cv_results</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_error&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span>
+<span class="n">cv_results</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></code></pre></div>
+<div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -703,35 +594,35 @@ Name: MedHouseVal, dtype: float64
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.133615</td>
-      <td>0.003504</td>
+      <td>0.135116</td>
+      <td>0.003503</td>
       <td>-47.329969</td>
       <td>47.329969</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.130112</td>
-      <td>0.003503</td>
+      <td>0.131113</td>
+      <td>0.003502</td>
       <td>-45.871795</td>
       <td>45.871795</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.134116</td>
-      <td>0.003002</td>
+      <td>0.132114</td>
+      <td>0.003503</td>
       <td>-46.721323</td>
       <td>46.721323</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.132114</td>
-      <td>0.003003</td>
+      <td>0.131615</td>
+      <td>0.003001</td>
       <td>-46.637444</td>
       <td>46.637444</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.129111</td>
+      <td>0.128611</td>
       <td>0.003002</td>
       <td>-46.978982</td>
       <td>46.978982</td>
@@ -739,7 +630,7 @@ Name: MedHouseVal, dtype: float64
     <tr>
       <th>5</th>
       <td>0.132614</td>
-      <td>0.003504</td>
+      <td>0.003503</td>
       <td>-45.130082</td>
       <td>45.130082</td>
     </tr>
@@ -752,22 +643,22 @@ Name: MedHouseVal, dtype: float64
     </tr>
     <tr>
       <th>7</th>
-      <td>0.130612</td>
-      <td>0.003503</td>
+      <td>0.131613</td>
+      <td>0.003504</td>
       <td>-45.808697</td>
       <td>45.808697</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>0.131613</td>
+      <td>0.132113</td>
       <td>0.003503</td>
       <td>-45.814624</td>
       <td>45.814624</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>0.133115</td>
-      <td>0.003002</td>
+      <td>0.133615</td>
+      <td>0.003503</td>
       <td>-46.106001</td>
       <td>46.106001</td>
     </tr>
@@ -775,101 +666,43 @@ Name: MedHouseVal, dtype: float64
 </table></div>
 </div>
 <p>Obtenemos información del tiempo de entrenamiento y predicción de cada iteración de validación cruzada. También obtenemos la puntuación de prueba que corresponde al error de prueba de cada división.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">len</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>40
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">len</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span></code></pre></div>
+<pre><code>40
 </code></pre>
 <p>Obtenemos 40 entradas en nuestro dataframe resultante debido a las 40 divisiones realizadas. Por lo tanto, podemos mostrar la distribución del error de prueba y, así, tener una estimación de su variabilidad.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_error&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Error medio absoluto (k$)&#34;</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución del error de prueba&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><p><img src="/images/output_33_0.png" alt="png"></p>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución del error de prueba&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_33_0.png" alt="png"></p>
 <p>Observamos que el error de prueba se agrupa en torno a 47 k y un rango de entre 45 k y 48.5 k.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error medio de validación cruzada es: &#34;</span>
-      <span class="n">f</span><span class="s2">&#34;{cv_results[&#39;test_error&#39;].mean():.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>El error medio de validación cruzada es: 46.53 k$
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error medio de validación cruzada es: &#34;</span>
+      <span class="n">f</span><span class="s2">&#34;{cv_results[&#39;test_error&#39;].mean():.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>El error medio de validación cruzada es: 46.53 k$
 </code></pre>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;La desviación típica de validación cruzada es: &#34;</span>
-      <span class="n">f</span><span class="s2">&#34;{cv_results[&#39;test_error&#39;].std():.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>La desviación típica de validación cruzada es: 0.83 k$
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;La desviación típica de validación cruzada es: &#34;</span>
+      <span class="n">f</span><span class="s2">&#34;{cv_results[&#39;test_error&#39;].std():.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>La desviación típica de validación cruzada es: 0.83 k$
 </code></pre>
 <p>Observemos que la desviación típica es mucho más pequeña que la media. Podemos resumirlo como que nuestra estimación de validación cruzada del error de prueba es de 46.53 +/- 0.83 k$. Si tuviéramos que entrenar un único modelo en el dataset completo (sin validación cruzada) y luego después tuviéramos acceso a una cantidad ilimitada de datos de prueba, cabría esperar que el error de prueba verdadero cayera dentro de esa región.</p>
 <p>Aunque esta información es interesante por sí misma, debería ser contrastada con la escala de la variabilidad natural del vector <code>objetivo</code> de nuestro dataset. Vamos a dibujar la distribución de esta variable objetivo:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Valor medio de la vivienda (k$)&#34;</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución del objetivo&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><p><img src="/images/output_38_0.png" alt="png"></p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;La desviación típica del objetivo es: {y.std():.2f} k$&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>La desviación típica del objetivo es: 115.40 k$
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución del objetivo&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_38_0.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;La desviación típica del objetivo es: {y.std():.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>La desviación típica del objetivo es: 115.40 k$
 </code></pre>
 <p>El rango de la variable objetivo varía desde cercano a 0 hasta 500, con una desviación típica de 115. Remarquemos que la media estimada del error de prueba obtenido por validación cruzada es un poco más pequeño que la escala natural de variación de la variable objetivo. Además, la desviación típica de la validación cruzada estimada del error de prueba es incluso más pequeña. Esto es un buen comienzo, pero no necesariamente suficiente para decidir si el rendimiento de generalización es suficientemente bueno para que nuestra predicción sea útil en la práctica.</p>
 <p>Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k. Sin embargo, sería un problema con una vivienda con un valor de 50 k. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.</p>
 <p>En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.</p>
 <h2 id="más-detalles-sobre-cross_validate"><a href="#más-detalles-sobre-cross_validate" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Más detalles sobre <code>cross_validate</code></h2>
 <p>Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de <code>cross_validate</code> es el resultado de uno de estos procedimientos <code>fit</code> / <code>score</code>. Para hacer explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción <code>return_estimator=True</code> en <code>cross_validate</code>.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">cv_results</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>{'fit_time': array([0.15413189, 0.15012884, 0.15012932, 0.15063   , 0.15162921]),
- 'score_time': array([0.002002  , 0.00250196, 0.00250196, 0.00200152, 0.00250244]),
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cv_results</span></code></pre></div>
+<pre><code>{'fit_time': array([0.15363216, 0.15012908, 0.15063   , 0.15063   , 0.14562511]),
+ 'score_time': array([0.00250292, 0.00250196, 0.00250196, 0.00250268, 0.00250244]),
  'estimator': (DecisionTreeRegressor(random_state=42),
   DecisionTreeRegressor(random_state=42),
   DecisionTreeRegressor(random_state=42),
@@ -877,15 +710,8 @@ Name: MedHouseVal, dtype: float64
   DecisionTreeRegressor(random_state=42)),
  'test_score': array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])}
 </code></pre>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;estimator&#34;</span><span class="p">]</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>(DecisionTreeRegressor(random_state=42),
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;estimator&#34;</span><span class="p">]</span></code></pre></div>
+<pre><code>(DecisionTreeRegressor(random_state=42),
  DecisionTreeRegressor(random_state=42),
  DecisionTreeRegressor(random_state=42),
  DecisionTreeRegressor(random_state=42),
@@ -893,31 +719,150 @@ Name: MedHouseVal, dtype: float64
 </code></pre>
 <p>Los cinco regresores de árbol de decisión corresponden a los cinco árboles de decisión entrenados en las diferentes particiones. Tener acceso a estos regresores es útil porque permite inspeccionar los parametros entrenados internos de estos regresores.</p>
 <p>En el caso de solo estemos interesados en la puntuación de prueba, scikit-learn provee una función <code>cross_val_score</code>. Es idéntica a llamar a la función <code>cross_validate</code> y seleccionar solo <code>test_score</code>.</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
 
 <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">scores</span>
-</code></pre></td></tr></table></div>
-</div>
-</div><pre><code>array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])
+<span class="n">scores</span></code></pre></div>
+<pre><code>array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])
 </code></pre>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python">
-</code></pre></td></tr></table></div>
-</div>
-</div>
+<h1 id="overfit-generalización-underfit"><a href="#overfit-generalización-underfit" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Overfit-generalización-underfit</h1>
+<p>Anteriormente presentamos el frameword de validación cruzada general y cómo nos ayuda e cuantificar los errores de entrenamiento y prueba así como sus fluctuaciones.</p>
+<p>Ahora pondremos estos errores en perspectiva y mostraremos cómo nos pueden ayudar a saber si nuestro modelo generaliza, se produce overfitting o underfitting.</p>
+<p>Usaremos de nuevo el mismo dataset y crearemos el mismo modelo que anteriormente.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">housing</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">housing</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">*=</span> <span class="mi">100</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span></code></pre></div>
+<h2 id="overfittin-vs-underfitting"><a href="#overfittin-vs-underfitting" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Overfittin vs underfitting</h2>
+<p>Para comprender mejor el rendimiento de generalización de nuestro modelo y encontrar quizás alguna percepción de cómo mejorarlo, compararemos el error de prueba con el error de entrenamiento. Por tanto, necesitamos calcular el error en el conjunto de entrenamiento, lo cual es posible utilizando la función <code>cross_validate</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_absolute_error&#34;</span><span class="p">,</span>
+                            <span class="n">return_train_score</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">cv_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cv_results</span><span class="p">)</span></code></pre></div>
+<p>La validación cruzada usa el error absoluto medio negativo. Lo transformamos a positivo:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">scores</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">scores</span><span class="p">[[</span><span class="s2">&#34;train_error&#34;</span><span class="p">,</span> <span class="s2">&#34;test_error&#34;</span><span class="p">]]</span> <span class="o">=</span> <span class="o">-</span><span class="n">cv_results</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&#34;train_score&#34;</span><span class="p">,</span> <span class="s2">&#34;test_score&#34;</span><span class="p">]</span>
+<span class="p">]</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">scores</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Error absoluto medio (k$)&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución errores entrenamiento y prueba via validación cruzada&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_53_0.png" alt="png"></p>
+<p>Al dibujar la distribución de los errores de entrenamiento y prueba, obtenemos información sobre si en nuestro modelo se produce overfitting, underfitting o ambos a la vez.</p>
+<p>Aquí observamos un <strong>pequeño error de entrenamiento</strong> (realmente cero), lo que significa que el modelo <strong>no realiza underfitting</strong>: es los suficientemente flexible para capturar cualquier variación presente en el conjunto de entrenamiento. Sin embargo, el <strong>significativamente grande error de prueba</strong> nos dice que sí existe overfitting: el modelo ha memorizado muchas variaciones del conjunto de entrenamiento que podrían considerarse &ldquo;ruidosas&rdquo; porque no generalizan para ayudarnos a realizar una buena predicción en el conjunto de prueba.</p>
+<h2 id="curva-de-validación"><a href="#curva-de-validación" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Curva de validación</h2>
+<p>Algunos hiperparámetros del modelo suelen ser la clave para evolucionar de un modelo que realiza underfitting a un modelo que hace overfitting, con suerte pasando por una región donde podemos obtener un buen equilibrio entre los dos. Podemos adquirir conocimiento dibujando un curva llamada <strong>curva de validación</strong>. Esta curva también se puede aplicar al ejemplo anterior para variar el valor de un hiperparámetro.</p>
+<p>Para un árbol de decisión, el paramétro <code>max_depth</code> se usa para controlar el equilibrio entre underfitting y overfitting.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">validation_curve</span>
+
+<span class="n">max_depth</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">train_scores</span><span class="p">,</span> <span class="n">test_scores</span> <span class="o">=</span> <span class="n">validation_curve</span><span class="p">(</span>
+    <span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">param_name</span><span class="o">=</span><span class="s2">&#34;max_depth&#34;</span><span class="p">,</span> <span class="n">param_range</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_absolute_error&#34;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">train_errors</span><span class="p">,</span> <span class="n">test_errors</span> <span class="o">=</span> <span class="o">-</span><span class="n">train_scores</span><span class="p">,</span> <span class="o">-</span><span class="n">test_scores</span></code></pre></div>
+<pre><code>Wall time: 1.86 s
+</code></pre>
+<p>Ahora que hemos coleccionado los resultados mostraremos la curva de validación dibujando los errores de entrenamiento y prueba (así como sus desviaciones).</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">train_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error entrenamiento&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">test_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error prueba&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Máxima profundidad del árbol de decisión&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Error absoluto medio (k$)&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Curva de decisión para el árbol de decisión&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_57_0.png" alt="png"></p>
+<p>La curva de validación se puede dividir en 3 zonas:</p>
+<ul>
+<li>
+<p>Para <code>max_depth &lt; 10</code>, el árbol de decisión produce underfitting. Tanto el error de entrenamiento como el de prueba son altos. El modelo es demasiado restrictivo y no puede capturar muchas de la variabilidad de la variable objetivo.</p>
+</li>
+<li>
+<p>La región alrededor de <code>max_depth = 10</code> corresponde con el parámetro para el cual el árbol de decisión generaliza mejor. Es lo suficientemente flexible para capturar una fracción de la variabilidad del objetivo que se generaliza, mientras que no memoriza todo el ruido en el objetivo.</p>
+</li>
+<li>
+<p>Para <code>max_depth &gt; 10</code>, el árbol de decisión produce overfitting. El error de entrenamiento se convierte en muy pequeño, mientras que el error de prueba incrementa. En esta región, los modelos crean decisiones específicamente para muestras ruidosas que dañan su capacidad para generalizar a los datos de prueba.</p>
+</li>
+</ul>
+<p>Observemos que para <code>max_depth = 10</code> el modelo produce un poco de overfitting ya que hay una brecha entre el error de entrenamiento y el error de prueba. Al mismo tiempo también produce underfitting ya que el error de entrenamiento aún está lejos de cero (más de 30 k), lo que significa que el modelo aún podría estar limitado para modelar partes interesantes de los datos. Sin embargo, el error de prueba es mínimo y esto es lo que realmente inmporta. Este es el mejor compromiso que podemos alcanzar ajustando únicamente este hiperparámetro.</p>
+<p>Tengamos en cuenta que mirar los errores medios es bastante limitante. También debemos observar la desviación típica para comprobar la dispersión de la puntuación. Podemos repetir el mismo gráfico de antes, pero añadiendo alguna información para mostrar también la desviación típica de los errores.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">train_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="n">yerr</span><span class="o">=</span><span class="n">train_errors</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error entrenamiento&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">test_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="n">yerr</span><span class="o">=</span><span class="n">test_errors</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error prueba&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Máxima profundidad del árbol de decisión&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Error absoluto medio (k$)&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Curva de decisión para el árbol de decisión&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_59_0.png" alt="png"></p>
+<p>Tuvimos suerte de que la varianza de los errores fuera pequeña en comparación con sus respectivos valores, por tanto las conclusiones anteriores son claras, aunque esto no es necesariamente siempre el caso.</p>
+<h1 id="efecto-del-tamaño-de-la-muestra-en-la-validación-cruzada"><a href="#efecto-del-tamaño-de-la-muestra-en-la-validación-cruzada" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Efecto del tamaño de la muestra en la validación cruzada</h1>
+<p>Hemos visto anteriormente el framework de validación cruzada general y cómo evaluar si en un modelo se produce underfitting, overfitting o generalización. Además de estos aspectos, también es importante comprender cómo los diferentes errores se ven influenciados por el número de muestras disponibles. Vamos a mostrar este aspecto al observar la variablidad de los diferentes errores.</p>
+<p>Partimos del mismo dataset y modelo que teníamos anteriormente (<code>X</code>, <code>y</code> y <code>regressor</code>)</p>
+<h2 id="curva-de-aprendizaje"><a href="#curva-de-aprendizaje" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Curva de aprendizaje</h2>
+<p>Para comprender el impacto del número de muestras disponibles para entrenamiento en el rendimiento de generalización de un modelo predictivo, es posible reducir sintéticamente el número de muestras usadas para entrenar el modelo predictivo y verificar los errores de entrenamiento y prueba.</p>
+<p>Por tanto, podemos variar el número de muestras del conjunto de entrenamiento y repetir el entrenamiento. Las puntuaciones de entrenamiento y prueba de pueden dibujar de forma similar a la curva de validación, pero en lugar de variar un hiperparámetro, variamos el número de muestra de entrenamiento. Esta curva se llama <strong>curva de aprendizaje</strong>. Proporciona información sobre el beneficio de añadir nuevas muestras de entrenamiento para mejorar el rendimiento de generalización de un modelo.</p>
+<p>Vamos a calcular la curva de aprendizaje de un árbol de decisión y a variar la proporción del conjunto de entrenamiento del 10% al 100%.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">train_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">train_sizes</span></code></pre></div>
+<pre><code>array([0.1  , 0.325, 0.55 , 0.775, 1.   ])
+</code></pre>
+<p>Usaremos <code>ShuffleSplit</code> de validación cruzada para evaluar nuestro modelo predictivo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span></code></pre></div>
+<p>Ahora ya tenemos todo configurado para comenzar el experimento.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">learning_curve</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">learning_curve</span><span class="p">(</span>
+    <span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_sizes</span><span class="o">=</span><span class="n">train_sizes</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&#34;neg_mean_absolute_error&#34;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">train_size</span><span class="p">,</span> <span class="n">train_scores</span><span class="p">,</span> <span class="n">test_scores</span> <span class="o">=</span> <span class="n">results</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="c1"># Convierte las puntuaciones en errores</span>
+<span class="n">train_errors</span><span class="p">,</span> <span class="n">test_errors</span> <span class="o">=</span> <span class="o">-</span><span class="n">train_scores</span><span class="p">,</span> <span class="o">-</span><span class="n">test_scores</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span> <span class="n">train_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="n">yerr</span><span class="o">=</span><span class="n">train_errors</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error entrenamiento&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span> <span class="n">test_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="n">yerr</span><span class="o">=</span><span class="n">test_errors</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error prueba&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&#34;log&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Nº de muestras en el conjunto entrenamiento&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Error absoluto medio (k$)&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Curva de aprendizaje para el árbol de decisión&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_67_0.png" alt="png"></p>
+<p>Observando por separado el error de entrenamiento, vemos que obtenemos un error de 0 k. Lo que significa que en el modelo produce claramente overfitting de los datos de entrenamiento.</p>
+<p>Observando por separado el error de prueba, vemos que cuantas más muestras se añaden al conjunto de entrenamiento, menor es el error de prueba. Además, estamos buscando la meseta del error de prueba para la cual ya no existe beneficio de seguir añadiendo muestras o evaluar la potencial ganancia de añadir más muestras en el conjunto de entrenamiento. Si alcanzamos una meseta y añadir nuevas muestras al conjunto de entrenamiento no reduce el error de prueba, es posible que hayamos alcanzado la tasa de error de Bayes utilizando el modelo disponible. El uso de un modelo más complejo podría ser la única posibilidad de reducir aún más el error de prueba.</p>
+<h1 id="resumen"><a href="#resumen" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Resumen</h1>
+<ul>
+<li>
+<p>El <strong>overfitting</strong> es causado por el tamaño limitado del conjunto de entrenamiento, el ruido en los datos y la alta flexibilidad de los modelos de machine learning comunes.</p>
+</li>
+<li>
+<p>El <strong>underfitting</strong> sucede cuando las funciones de predicción aprendidas sufren de <strong>errores sistemáticos</strong>. Esto se puede producir por la elección de la familia del modelo y los parámetros, lo cuales conducen a una <strong>carencia de flexibilidad</strong> para capturar la estructura repetible del verdadero proceso de generación de datos.</p>
+</li>
+<li>
+<p>Para un conjunto de entrenamiento dado, el objetivo es <strong>minimizar el error de preba</strong> ajustando la familia del modelo y sus parámetros para encontrar el <strong>mejor equilibrio entre overfitting y underfitting</strong>.</p>
+</li>
+<li>
+<p>Para una familia de modelo y parámetros dados, <strong>incrementar el tamaño del conjunto de entrenamiento disminuirá el overfitting</strong>, pero puede causar un incremento del underfitting.</p>
+</li>
+<li>
+<p>El error de prueba de un modelo que no tiene overfitting ni underfitting puede ser alto todavía si las variaciones de la variable objetivo no pueden ser determinadas completamente por las variables de entrada. Este error irreductible es causado por lo que algunas veces llamamos error de etiqueta. En la práctica, esto sucede a menudo cuando por una razón u otra no tenemos acceso a features importantes.</p>
+</li>
+</ul>
+<p>Algunas referencias a seguir con ejemplos de algunos conceptos mencionados:</p>
+<ul>
+<li><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py" target="_blank" rel="noopener">Ilustración de los conceptos de underfitting y overfitting</a>.</li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_train_error_vs_test_error.html#sphx-glr-auto-examples-model-selection-plot-train-error-vs-test-error-py" target="_blank" rel="noopener">Diferencia entre puntuación de entrenamiento y prueba</a>.</li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_validation_curve.html#sphx-glr-auto-examples-model-selection-plot-validation-curve-py" target="_blank" rel="noopener">Ejemplo de curva de validación</a></li>
+</ul>
+
             </div>
 
             
@@ -945,9 +890,9 @@ Name: MedHouseVal, dtype: float64
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-03-18 18:57:41 CET" style="cursor:help">
+        <span title="Updated @ 2022-03-22 19:39:19 CET" style="cursor:help">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-03-18</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-03-18</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-03-22</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-03-22</text></g></svg>
         </span></div>
 
 
@@ -964,7 +909,7 @@ Name: MedHouseVal, dtype: float64
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/selecting-best-model/&amp;text=Selecci%c3%b3n%20del%20mejor%20modelo&amp;hashtags=overfitting,underfitting,validaci%c3%b3ncruzada,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/selecting-best-model/&amp;text=Selecci%c3%b3n%20del%20mejor%20modelo&amp;hashtags=overfitting,underfitting,validaci%c3%b3ncruzada,curvadevalidaci%c3%b3n,curvadeaprendizaje,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -1072,6 +1017,22 @@ Name: MedHouseVal, dtype: float64
                 
                     
                     <a href="/tags/validaci%C3%B3n-cruzada/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>validación cruzada</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/curva-de-validaci%C3%B3n/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>curva de validación</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/curva-de-aprendizaje/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>curva de aprendizaje</a>
                 
             
         </div>

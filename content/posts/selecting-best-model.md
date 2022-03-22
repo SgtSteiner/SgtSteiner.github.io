@@ -1,7 +1,7 @@
 ---
 title: "Selección del mejor modelo"
 date: 2022-03-18T11:28:41+01:00
-tags: [overfitting, underfitting, validación cruzada]
+tags: [overfitting, underfitting, validación cruzada, curva de validación, curva de aprendizaje]
 categories: [tutoriales]
 ---
 
@@ -11,7 +11,16 @@ En un primer momento definiremos ambos problemas y caracterizaremos cómo y por 
 
 Posteriormente presentaremos una metodología para cuantificar estos problemas contrastando el error de entrenamiento con el error de prueba para varias opciones de la familia de modelos, los parámetros del modelo. Más importante aún, enfatizaremos el impacto del tamaño del dataset de entrenamiento en este equilibrio.
 
-Por último, relacionaremos overfitting y underfitting a los conceptos de varianza y sesgo (bias) estadísticos.
+En concreto mostraremos los siguientes aspectos:
+
++ la necesidad de dividir los datos en un conjunto de entrenamiento y uno de prueba;
++ el significado de los errores de entrenamiento y prueba;
++ el framework global de validación cruzada con la posibilidad de estudiar las variaciones en el rendimiento de generalización;
++ cómo identificar si un modelo generaliza, existe overfitting o underfitting;
++ cómo comprobar la influencia de un hiperparámetro en el equilibrio underfitting/overfitting;
++ la influencia del número de muestras en un dataset, especialmente en la variabilidad de los errores reportados cuando ejecutamos validación cruzada;
++ la curva de aprendizaje, que es una representación visual de la capacidad de un modelo para mejorar añadiendo nuevas muestras.
+
 
 # Framework de validación cruzada
 
@@ -20,19 +29,19 @@ En posts anteriores vimos algunos conceptos relacionados con la evaluación de m
 Para ello vamos a usar el dataset de propiedades de California.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.datasets import fetch_california_housing
 
 housing = fetch_california_housing(as_frame=True)
 X, y = housing.data.copy(), housing.target.copy()
-```
+{{< /highlight >}}
 
-En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las feautures recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos una modelo predictivo específico de regresión.
+En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las features recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos un modelo predictivo específico de regresión.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(housing.DESCR)
-```
+{{< /highlight >}}
 
     .. _california_housing_dataset:
     
@@ -78,9 +87,9 @@ print(housing.DESCR)
     
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 X.head()
-```
+{{< /highlight >}}
 
 
 
@@ -178,10 +187,10 @@ X.head()
 Para simplificar la visualización, vamos a transformar los precios del rango de cien mil dólares al rango de mil dólares.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 y *= 100
 y.head()
-```
+{{< /highlight >}}
 
 
 
@@ -200,12 +209,12 @@ y.head()
 Para resolver esta tarea de regresión usaremos un arbol de decisión de regresión.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.tree import DecisionTreeRegressor
 
 regressor = DecisionTreeRegressor(random_state=42)
 regressor.fit(X, y)
-```
+{{< /highlight >}}
 
 
 
@@ -214,16 +223,16 @@ regressor.fit(X, y)
 
 
 
-Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error medio absoluto que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.
+Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error absoluto medio que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.metrics import mean_absolute_error
 
 y_predicted = regressor.predict(X)
 score = mean_absolute_error(y, y_predicted)
 print(f"De media, nuestro regresor comete un error de {score:.2f} k$")
-```
+{{< /highlight >}}
 
     De media, nuestro regresor comete un error de 0.00 k$
     
@@ -244,20 +253,20 @@ De esta forma, la evaluación más básica supone:
 Vamos a dividir nuestro dataset.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=42
 )
-```
+{{< /highlight >}}
 
 Ahora lo entrenamos.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 regressor.fit(X_train, y_train)
-```
+{{< /highlight >}}
 
 
 
@@ -269,11 +278,11 @@ regressor.fit(X_train, y_train)
 Finalmente, vamos a estimar los diferentes tipos de error. Empecemos calculando el error de entrenamiento.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 y_predicted = regressor.predict(X_train)
 score = mean_absolute_error(y_train, y_predicted)
 print(f"El error de entrenamiento de nuestro modelo es {score:.2f} k$")
-```
+{{< /highlight >}}
 
     El error de entrenamiento de nuestro modelo es 0.00 k$
     
@@ -281,11 +290,11 @@ print(f"El error de entrenamiento de nuestro modelo es {score:.2f} k$")
 Observamos el mismo fenómeno que anteriormente: nuestro modelo memoriza el conjunto de entrenamiento. Sin embargo, vamos a calcular el error de prueba.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 y_predicted = regressor.predict(X_test)
 score = mean_absolute_error(y_test, y_predicted)
 print(f"El error de prueba de nuestro modelo es {score:.2f} k$")
-```
+{{< /highlight >}}
 
     El error de prueba de nuestro modelo es 46.33 k$
     
@@ -318,22 +327,22 @@ En este caso estableceremos `n_splits=40`, lo que significa que entrenaremos 40 
 Para evaluar el rendimiento de generalización de nuestro regresor podemos usar `sklearn.model_selection.cross_validate` con un objeto `sklearn.model_selection.ShuffleSplit`:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.model_selection import  cross_validate, ShuffleSplit
 
 cv = ShuffleSplit(n_splits=40, test_size=0.3, random_state=42)
 cv_results = cross_validate(
     regressor, X, y, cv=cv, scoring="neg_mean_absolute_error"
 )
-```
+{{< /highlight >}}
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 import pandas as pd
 
 cv_results = pd.DataFrame(cv_results)
 cv_results.head()
-```
+{{< /highlight >}}
 
 
 
@@ -364,31 +373,31 @@ cv_results.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.133615</td>
-      <td>0.003504</td>
+      <td>0.135116</td>
+      <td>0.003503</td>
       <td>-47.329969</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.130112</td>
-      <td>0.003503</td>
+      <td>0.131113</td>
+      <td>0.003502</td>
       <td>-45.871795</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.134116</td>
-      <td>0.003002</td>
+      <td>0.132114</td>
+      <td>0.003503</td>
       <td>-46.721323</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.132114</td>
-      <td>0.003003</td>
+      <td>0.131615</td>
+      <td>0.003001</td>
       <td>-46.637444</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.129111</td>
+      <td>0.128611</td>
       <td>0.003002</td>
       <td>-46.978982</td>
     </tr>
@@ -398,17 +407,17 @@ cv_results.head()
 
 
 
-Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro `scoring` in `cross_validate` siempre esepra una función que es una puntuación.
+Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro `scoring` en `cross_validate` siempre espera una función que es una puntuación.
 
-Para hacerlo fácil, todas las métricas de errores en scikit-learn, como `mean_absolute_error`, se pueden transformar en una puntuación para ser usadas en `cross_validate`. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo `neg_`. Por ejemplo, `scoring="neg_mean_absolute_error"`. En este caso, el negativo del error medio absoluto calculado equivaldría a una puntuación.
+Para hacerlo fácil, todas las métricas de errores en scikit-learn, como `mean_absolute_error`, se pueden transformar en una puntuación para ser usadas en `cross_validate`. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo `neg_`. Por ejemplo, `scoring="neg_mean_absolute_error"`. En este caso, el negativo del error absoluto medio calculado equivaldría a una puntuación.
 
 Vamos a revertir la negación para obtener el error real:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 cv_results["test_error"] = -cv_results["test_score"]
 cv_results.head(10)
-```
+{{< /highlight >}}
 
 
 
@@ -440,35 +449,35 @@ cv_results.head(10)
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.133615</td>
-      <td>0.003504</td>
+      <td>0.135116</td>
+      <td>0.003503</td>
       <td>-47.329969</td>
       <td>47.329969</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.130112</td>
-      <td>0.003503</td>
+      <td>0.131113</td>
+      <td>0.003502</td>
       <td>-45.871795</td>
       <td>45.871795</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.134116</td>
-      <td>0.003002</td>
+      <td>0.132114</td>
+      <td>0.003503</td>
       <td>-46.721323</td>
       <td>46.721323</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.132114</td>
-      <td>0.003003</td>
+      <td>0.131615</td>
+      <td>0.003001</td>
       <td>-46.637444</td>
       <td>46.637444</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.129111</td>
+      <td>0.128611</td>
       <td>0.003002</td>
       <td>-46.978982</td>
       <td>46.978982</td>
@@ -476,7 +485,7 @@ cv_results.head(10)
     <tr>
       <th>5</th>
       <td>0.132614</td>
-      <td>0.003504</td>
+      <td>0.003503</td>
       <td>-45.130082</td>
       <td>45.130082</td>
     </tr>
@@ -489,22 +498,22 @@ cv_results.head(10)
     </tr>
     <tr>
       <th>7</th>
-      <td>0.130612</td>
-      <td>0.003503</td>
+      <td>0.131613</td>
+      <td>0.003504</td>
       <td>-45.808697</td>
       <td>45.808697</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>0.131613</td>
+      <td>0.132113</td>
       <td>0.003503</td>
       <td>-45.814624</td>
       <td>45.814624</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>0.133115</td>
-      <td>0.003002</td>
+      <td>0.133615</td>
+      <td>0.003503</td>
       <td>-46.106001</td>
       <td>46.106001</td>
     </tr>
@@ -517,9 +526,9 @@ cv_results.head(10)
 Obtenemos información del tiempo de entrenamiento y predicción de cada iteración de validación cruzada. También obtenemos la puntuación de prueba que corresponde al error de prueba de cada división.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 len(cv_results)
-```
+{{< /highlight >}}
 
 
 
@@ -531,13 +540,13 @@ len(cv_results)
 Obtenemos 40 entradas en nuestro dataframe resultante debido a las 40 divisiones realizadas. Por lo tanto, podemos mostrar la distribución del error de prueba y, así, tener una estimación de su variabilidad.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 import matplotlib.pyplot as plt
 
 cv_results["test_error"].plot.hist(bins=10, edgecolor="black")
-plt.xlabel("Error medio absoluto (k$)")
+plt.xlabel("error absoluto medio (k$)")
 _ = plt.title("Distribución del error de prueba")
-```
+{{< /highlight >}}
 
 
     
@@ -545,22 +554,22 @@ _ = plt.title("Distribución del error de prueba")
     
 
 
-Observamos que el error de prueba se agrupa en torno a 47 k y un rango de entre 45 k y 48.5 k.
+Observamos que el error de prueba se agrupa en torno a 47 k$ y un rango de entre 45 k$ y 48.5 k$.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(f"El error medio de validación cruzada es: "
       f"{cv_results['test_error'].mean():.2f} k$")
-```
+{{< /highlight >}}
 
     El error medio de validación cruzada es: 46.53 k$
     
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(f"La desviación típica de validación cruzada es: "
       f"{cv_results['test_error'].std():.2f} k$")
-```
+{{< /highlight >}}
 
     La desviación típica de validación cruzada es: 0.83 k$
     
@@ -570,11 +579,11 @@ Observemos que la desviación típica es mucho más pequeña que la media. Podem
 Aunque esta información es interesante por sí misma, debería ser contrastada con la escala de la variabilidad natural del vector `objetivo` de nuestro dataset. Vamos a dibujar la distribución de esta variable objetivo:
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 y.plot.hist(bins=20, edgecolor="black")
 plt.xlabel("Valor medio de la vivienda (k$)")
 _ = plt.title("Distribución del objetivo")
-```
+{{< /highlight >}}
 
 
     
@@ -583,34 +592,34 @@ _ = plt.title("Distribución del objetivo")
 
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 print(f"La desviación típica del objetivo es: {y.std():.2f} k$")
-```
+{{< /highlight >}}
 
     La desviación típica del objetivo es: 115.40 k$
     
 
 El rango de la variable objetivo varía desde cercano a 0 hasta 500, con una desviación típica de 115. Remarquemos que la media estimada del error de prueba obtenido por validación cruzada es un poco más pequeño que la escala natural de variación de la variable objetivo. Además, la desviación típica de la validación cruzada estimada del error de prueba es incluso más pequeña. Esto es un buen comienzo, pero no necesariamente suficiente para decidir si el rendimiento de generalización es suficientemente bueno para que nuestra predicción sea útil en la práctica.
 
-Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k. Sin embargo, sería un problema con una vivienda con un valor de 50 k. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.
+Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k$. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k$. Sin embargo, sería un problema con una vivienda con un valor de 50 k$. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.
 
-En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.
+En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k$ podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.
 
 ## Más detalles sobre `cross_validate`
 
-Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de `cross_validate` es el resultado de uno de estos procedimientos `fit` / `score`. Para hacer explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción `return_estimator=True` en `cross_validate`.
+Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de `cross_validate` es el resultado de uno de estos procedimientos `fit` / `score`. Para hacerlo explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción `return_estimator=True` en `cross_validate`.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 cv_results = cross_validate(regressor, X, y, return_estimator=True)
 cv_results
-```
+{{< /highlight >}}
 
 
 
 
-    {'fit_time': array([0.15413189, 0.15012884, 0.15012932, 0.15063   , 0.15162921]),
-     'score_time': array([0.002002  , 0.00250196, 0.00250196, 0.00200152, 0.00250244]),
+    {'fit_time': array([0.15363216, 0.15012908, 0.15063   , 0.15063   , 0.14562511]),
+     'score_time': array([0.00250292, 0.00250196, 0.00250196, 0.00250268, 0.00250244]),
      'estimator': (DecisionTreeRegressor(random_state=42),
       DecisionTreeRegressor(random_state=42),
       DecisionTreeRegressor(random_state=42),
@@ -621,9 +630,9 @@ cv_results
 
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 cv_results["estimator"]
-```
+{{< /highlight >}}
 
 
 
@@ -638,15 +647,15 @@ cv_results["estimator"]
 
 Los cinco regresores de árbol de decisión corresponden a los cinco árboles de decisión entrenados en las diferentes particiones. Tener acceso a estos regresores es útil porque permite inspeccionar los parametros entrenados internos de estos regresores.
 
-En el caso de solo estemos interesados en la puntuación de prueba, scikit-learn provee una función `cross_val_score`. Es idéntica a llamar a la función `cross_validate` y seleccionar solo `test_score`.
+En el caso de que solo estemos interesados en la puntuación de prueba, scikit-learn provee una función `cross_val_score`. Es idéntica a llamar a la función `cross_validate` y seleccionar solo `test_score`.
 
 
-```python
+{{< highlight "python" "linenos=false">}}
 from sklearn.model_selection import cross_val_score
 
 scores = cross_val_score(regressor, X, y)
 scores
-```
+{{< /highlight >}}
 
 
 
@@ -655,7 +664,230 @@ scores
 
 
 
+# Overfit-generalización-underfit
 
-```python
+Anteriormente presentamos el frameword de validación cruzada general y cómo nos ayuda a cuantificar los errores de entrenamiento y prueba, así como sus fluctuaciones.
 
-```
+Ahora pondremos estos errores en perspectiva y mostraremos cómo nos pueden ayudar a saber si nuestro modelo generaliza, se produce overfitting o underfitting.
+
+Usaremos de nuevo el mismo dataset y crearemos el mismo modelo que anteriormente.
+
+
+{{< highlight "python" "linenos=false">}}
+housing = fetch_california_housing(as_frame=True)
+X, y = housing.data.copy(), housing.target.copy()
+y *= 100
+{{< /highlight >}}
+
+
+{{< highlight "python" "linenos=false">}}
+regressor = DecisionTreeRegressor()
+{{< /highlight >}}
+
+## Overfittin vs underfitting
+
+Para comprender mejor el rendimiento de generalización de nuestro modelo y encontrar quizás alguna percepción de cómo mejorarlo, compararemos el error de prueba con el error de entrenamiento. Por tanto, necesitamos calcular el error en el conjunto de entrenamiento, lo cual es posible utilizando la función `cross_validate`.
+
+
+{{< highlight "python" "linenos=false">}}
+cv = ShuffleSplit(n_splits=30, test_size=0.3, random_state=42)
+cv_results = cross_validate(regressor, X, y,
+                            cv=cv, scoring="neg_mean_absolute_error",
+                            return_train_score=True, n_jobs=-1
+)
+cv_results = pd.DataFrame(cv_results)
+{{< /highlight >}}
+
+La validación cruzada usa el error absoluto medio negativo. Lo transformamos a positivo:
+
+
+{{< highlight "python" "linenos=false">}}
+scores = pd.DataFrame()
+scores[["train_error", "test_error"]] = -cv_results[
+    ["train_score", "test_score"]
+]
+{{< /highlight >}}
+
+
+{{< highlight "python" "linenos=false">}}
+scores.plot.hist(bins=50, edgecolor="black")
+plt.xlabel("Error absoluto medio (k$)")
+_ = plt.title("Distribución errores entrenamiento y prueba via validación cruzada")
+{{< /highlight >}}
+
+
+    
+![png](/images/output_53_0.png)
+    
+
+
+Al dibujar la distribución de los errores de entrenamiento y prueba, obtenemos información sobre si en nuestro modelo se produce overfitting, underfitting o ambos a la vez.
+
+Aquí observamos un **pequeño error de entrenamiento** (realmente cero), lo que significa que el modelo **no realiza underfitting**: es lo suficientemente flexible para capturar cualquier variación presente en el conjunto de entrenamiento. Sin embargo, el **significativamente grande error de prueba** nos dice que sí existe overfitting: el modelo ha memorizado muchas variaciones del conjunto de entrenamiento que podrían considerarse "ruidosas" porque no generalizan para ayudarnos a realizar una buena predicción en el conjunto de prueba.
+
+## Curva de validación
+
+Algunos hiperparámetros del modelo suelen ser la clave para evolucionar de un modelo que realiza underfitting a un modelo que hace overfitting, con suerte pasando por una región donde podemos obtener un buen equilibrio entre ambos. Podemos adquirir conocimiento dibujando una curva llamada **curva de validación**. Esta curva también se puede aplicar al ejemplo anterior para variar el valor de un hiperparámetro.
+
+Para un árbol de decisión, el paramétro `max_depth` se usa para controlar el equilibrio entre underfitting y overfitting.
+
+
+{{< highlight "python" "linenos=false">}}
+%%time
+from sklearn.model_selection import validation_curve
+
+max_depth = [1, 5, 10, 15, 20, 25]
+train_scores, test_scores = validation_curve(
+    regressor, X, y, param_name="max_depth", param_range=max_depth,
+    cv=cv, scoring="neg_mean_absolute_error", n_jobs=-1
+)
+train_errors, test_errors = -train_scores, -test_scores
+{{< /highlight >}}
+
+    Wall time: 1.86 s
+    
+
+Ahora que hemos coleccionado los resultados mostraremos la curva de validación dibujando los errores de entrenamiento y prueba (así como sus desviaciones).
+
+
+{{< highlight "python" "linenos=false">}}
+plt.plot(max_depth, train_errors.mean(axis=1), label="Error entrenamiento")
+plt.plot(max_depth, test_errors.mean(axis=1), label="Error prueba")
+plt.legend()
+
+plt.xlabel("Máxima profundidad del árbol de decisión")
+plt.ylabel("Error absoluto medio (k$)")
+_ = plt.title("Curva de decisión para el árbol de decisión")
+{{< /highlight >}}
+
+
+    
+![png](/images/output_57_0.png)
+    
+
+
+La curva de validación se puede dividir en 3 zonas:
+
++ Para `max_depth < 10`, el árbol de decisión produce underfitting. Tanto el error de entrenamiento como el de prueba son altos. El modelo es demasiado restrictivo y no puede capturar mucha de la variabilidad de la variable objetivo.
+
++ La región alrededor de `max_depth = 10` corresponde con el parámetro para el cual el árbol de decisión generaliza mejor. Es lo suficientemente flexible para capturar una fracción de la variabilidad del objetivo que se generaliza, mientras que no memoriza todo el ruido en el objetivo.
+
++ Para `max_depth > 10`, el árbol de decisión produce overfitting. El error de entrenamiento se convierte en muy pequeño, mientras que el error de prueba aumenta. En esta región, los modelos crean decisiones específicamente para muestras ruidosas que dañan su capacidad para generalizar a los datos de prueba.
+
+Observemos que para `max_depth = 10` el modelo produce un poco de overfitting ya que hay una brecha entre el error de entrenamiento y el error de prueba. Al mismo tiempo también produce underfitting, ya que el error de entrenamiento aún está lejos de cero (más de 30 k$), lo que significa que el modelo aún podría estar limitado para modelar partes interesantes de los datos. Sin embargo, el error de prueba es mínimo y esto es lo que realmente importa. Este es el mejor compromiso que podemos alcanzar ajustando únicamente este hiperparámetro.
+
+Tengamos en cuenta que mirar los errores medios es bastante limitante. También debemos observar la desviación típica para comprobar la dispersión de la puntuación. Podemos repetir el mismo gráfico de antes, pero añadiendo alguna información para mostrar también la desviación típica de los errores.
+
+
+{{< highlight "python" "linenos=false">}}
+plt.errorbar(max_depth, train_errors.mean(axis=1),
+             yerr=train_errors.std(axis=1), label="Error entrenamiento")
+plt.errorbar(max_depth, test_errors.mean(axis=1),
+             yerr=test_errors.std(axis=1), label="Error prueba")
+plt.legend()
+
+plt.xlabel("Máxima profundidad del árbol de decisión")
+plt.ylabel("Error absoluto medio (k$)")
+_ = plt.title("Curva de decisión para el árbol de decisión")
+{{< /highlight >}}
+
+
+    
+![png](/images/output_59_0.png)
+    
+
+
+Tuvimos suerte de que la varianza de los errores fuera pequeña en comparación con sus respectivos valores, por tanto las conclusiones anteriores son claras, aunque esto no es necesariamente siempre el caso.
+
+# Efecto del tamaño de la muestra en la validación cruzada
+
+Hemos visto anteriormente el framework de validación cruzada general y cómo evaluar si en un modelo se produce underfitting, overfitting o generalización. Además de estos aspectos, también es importante comprender cómo los diferentes errores se ven influenciados por el número de muestras disponibles. Vamos a mostrar este aspecto al observar la variablidad de los diferentes errores.
+
+Partimos del mismo dataset y modelo que teníamos anteriormente (`X`, `y` y `regressor`)
+
+## Curva de aprendizaje
+
+Para comprender el impacto del número de muestras disponibles para entrenamiento en el rendimiento de generalización de un modelo predictivo, es posible reducir sintéticamente el número de muestras usadas para entrenar el modelo predictivo y verificar los errores de entrenamiento y prueba.
+
+Por tanto, podemos variar el número de muestras del conjunto de entrenamiento y repetir el entrenamiento. Las puntuaciones de entrenamiento y prueba se pueden dibujar de forma similar a la curva de validación, pero en lugar de variar un hiperparámetro, variamos el número de muestras de entrenamiento. Esta curva se llama **curva de aprendizaje**. Proporciona información sobre el beneficio de añadir nuevas muestras de entrenamiento para mejorar el rendimiento de generalización de un modelo.
+
+Vamos a calcular la curva de aprendizaje de un árbol de decisión y a variar la proporción del conjunto de entrenamiento del 10% al 100%.
+
+
+{{< highlight "python" "linenos=false">}}
+import numpy as np
+
+train_sizes = np.linspace(0.1, 1.0, num=5, endpoint=True)
+train_sizes
+{{< /highlight >}}
+
+
+
+
+    array([0.1  , 0.325, 0.55 , 0.775, 1.   ])
+
+
+
+Usaremos `ShuffleSplit` de validación cruzada para evaluar nuestro modelo predictivo.
+
+
+{{< highlight "python" "linenos=false">}}
+cv = ShuffleSplit(n_splits=30, test_size=0.2)
+{{< /highlight >}}
+
+Ahora ya tenemos todo configurado para comenzar el experimento.
+
+
+{{< highlight "python" "linenos=false">}}
+from sklearn.model_selection import learning_curve
+
+results = learning_curve(
+    regressor, X, y, train_sizes=train_sizes, cv=cv,
+    scoring="neg_mean_absolute_error", n_jobs=-1
+)
+train_size, train_scores, test_scores = results[:3]
+# Convierte las puntuaciones en errores
+train_errors, test_errors = -train_scores, -test_scores
+{{< /highlight >}}
+
+
+{{< highlight "python" "linenos=false">}}
+plt.errorbar(train_size, train_errors.mean(axis=1),
+             yerr=train_errors.std(axis=1), label="Error entrenamiento")
+plt.errorbar(train_size, test_errors.mean(axis=1),
+             yerr=test_errors.std(axis=1), label="Error prueba")
+plt.legend()
+
+plt.xscale("log")
+plt.xlabel("Nº de muestras en el conjunto entrenamiento")
+plt.ylabel("Error absoluto medio (k$)")
+_ = plt.title("Curva de aprendizaje para el árbol de decisión")
+{{< /highlight >}}
+
+
+    
+![png](/images/output_67_0.png)
+    
+
+
+Observando por separado el error de entrenamiento, vemos que obtenemos un error de 0 k$. Lo que significa que en el modelo se produce claramente overfitting de los datos de entrenamiento.
+
+Observando por separado el error de prueba, vemos que cuantas más muestras se añaden al conjunto de entrenamiento, menor es el error de prueba. Además, estamos buscando la meseta del error de prueba para la cual ya no existe beneficio de seguir añadiendo muestras o evaluar la potencial ganancia de añadir más muestras en el conjunto de entrenamiento. Si alcanzamos una meseta y añadir nuevas muestras al conjunto de entrenamiento no reduce el error de prueba, es posible que hayamos alcanzado la tasa de error de Bayes utilizando el modelo disponible. El uso de un modelo más complejo podría ser la única posibilidad de reducir aún más el error de prueba.
+
+# Resumen
+
++ El **overfitting** es causado por el tamaño limitado del conjunto de entrenamiento, el ruido en los datos y la alta flexibilidad de los modelos de machine learning comunes.
+
++ El **underfitting** sucede cuando las funciones de predicción aprendidas sufren de **errores sistemáticos**. Esto se puede producir por la elección de la familia del modelo y los parámetros, los cuales conducen a una **carencia de flexibilidad** para capturar la estructura repetible del verdadero proceso de generación de datos.
+
++ Para un conjunto de entrenamiento dado, el objetivo es **minimizar el error de prueba** ajustando la familia del modelo y sus parámetros para encontrar el **mejor equilibrio entre overfitting y underfitting**.
+
++ Para una familia de modelo y parámetros dados, **incrementar el tamaño del conjunto de entrenamiento disminuirá el overfitting**, pero puede causar un incremento del underfitting.
+
++ El error de prueba de un modelo que no tiene overfitting ni underfitting puede ser alto todavía si las variaciones de la variable objetivo no pueden ser determinadas completamente por las variables de entrada. Este error irreductible es causado por lo que algunas veces llamamos error de etiqueta. En la práctica, esto sucede a menudo cuando por una razón u otra no tenemos acceso a features importantes.
+
+Algunas referencias a seguir con ejemplos de algunos conceptos mencionados:
+
++ [Ilustración de los conceptos de underfitting y overfitting](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py).
++ [Diferencia entre puntuación de entrenamiento y prueba](https://scikit-learn.org/stable/auto_examples/model_selection/plot_train_error_vs_test_error.html#sphx-glr-auto-examples-model-selection-plot-train-error-vs-test-error-py).
++ [Ejemplo de curva de validación](https://scikit-learn.org/stable/auto_examples/model_selection/plot_validation_curve.html#sphx-glr-auto-examples-model-selection-plot-validation-curve-py)

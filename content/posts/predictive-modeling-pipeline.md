@@ -2400,3 +2400,19 @@ print("La precisión media por validación cruzada es: "
     
 
 El modelo compuesto tiene una mayor precisión predicitiva que los dos modelos que utilizan variables numéricas y categóricas por separado.
+
+# Resumen
+
+A modo de resumen hemos visto:
+
++ cómo crear un modelo predictivo con scikit-learn;
++ la API de scikit-learn para entrenar y probar un modelo predictivo;
++ procesar datos numéricos, en particular usando un `Pipeline`;
++ procesar datos categóricos, en particular usando `OneHotEncoder` y `OrdinalEncoder`;
++ manejar y procesar tipos de datos mixtos (es decir, datos numéricos y categóricos), en particular usando `ColumnTransformer`.
+
+Algunas referencias a seguir con ejemplos de algunos conceptos mencionados:
+
++ [Pipeline predictivo de machine learning con tipos de datos mixtos](https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html#sphx-glr-auto-examples-compose-plot-column-transformer-mixed-types-py).
++ [Importancia del escalado de features](https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html#sphx-glr-auto-examples-preprocessing-plot-scaling-importance-py).
+
