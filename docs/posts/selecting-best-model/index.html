@@ -54,7 +54,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-03-18T11:28:41+01:00",
-        "dateModified": "2022-03-22T19:39:19+01:00",
+        "dateModified": "2022-03-22T20:12:10+01:00",
         "url": "https://sgtsteiner.github.io/posts/selecting-best-model/",
         "headline": "Selección del mejor modelo",
         "description": "En este post proporcionaremos una introducción intuitiva a los conceptos fundamentales de overfitting y underfitting en machine learning. Los modelos de machine learning nunca pueden hacer predicciones perfectas: el error de prueba nunca es exactamente cero. Esta carencia proviene del equilibrio fundamental entre la flexibilidad de modelado y el tamaño limitado del dataset de entrenamiento.",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/cross_validation_shufflesplit.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-03-18T11:28:41&#43;01:00" />
-    <meta property="article:modified_time" content="2022-03-22T19:39:19&#43;01:00" />
+    <meta property="article:modified_time" content="2022-03-22T20:12:10&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -241,7 +241,7 @@
     
     
         
-        <time datetime="2022-03-22T19:39:19&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;22.3.2022</time>
+        <time datetime="2022-03-22T20:12:10&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;22.3.2022</time>
     
     
     
@@ -273,14 +273,13 @@
 <p>Posteriormente presentaremos una metodología para cuantificar estos problemas contrastando el error de entrenamiento con el error de prueba para varias opciones de la familia de modelos, los parámetros del modelo. Más importante aún, enfatizaremos el impacto del tamaño del dataset de entrenamiento en este equilibrio.</p>
 <p>En concreto mostraremos los siguientes aspectos:</p>
 <ul>
-<li>la necesidad de dividir los datos en un conjunto de entrenamiento y uno de prueba</li>
-<li>el significado de los errores de entrenamiento y prueba</li>
-<li>el framework global de validación cruzada con la posibilidad de estudiar las variaciones en el rendimiento de generalización</li>
-<li>cómo identificar si un modelo generaliza, existe overfitting o underfitting</li>
-<li>como comprobar la influencia de un hiperparámetro en el equilibrio underfitting/overfitting</li>
-<li>la influencia del número de muestras en un dataset, especialmente en la variabilidad de los errores reportados cuando ejecutamos validación cruzada</li>
-<li>la curva de aprendizaje, que es una representación visual de la capacidad de un modelo para mejorar añadiendo nuevas muestras
-&hellip;</li>
+<li>la necesidad de dividir los datos en un conjunto de entrenamiento y uno de prueba;</li>
+<li>el significado de los errores de entrenamiento y prueba;</li>
+<li>el framework global de validación cruzada con la posibilidad de estudiar las variaciones en el rendimiento de generalización;</li>
+<li>cómo identificar si un modelo generaliza, existe overfitting o underfitting;</li>
+<li>cómo comprobar la influencia de un hiperparámetro en el equilibrio underfitting/overfitting;</li>
+<li>la influencia del número de muestras en un dataset, especialmente en la variabilidad de los errores reportados cuando ejecutamos validación cruzada;</li>
+<li>la curva de aprendizaje, que es una representación visual de la capacidad de un modelo para mejorar añadiendo nuevas muestras.</li>
 </ul>
 <h1 id="framework-de-validación-cruzada"><a href="#framework-de-validación-cruzada" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Framework de validación cruzada</h1>
 <p>En posts anteriores vimos algunos conceptos relacionados con la evaluación de modelos predictivos. Ahora vamos a analizar algunos detalles del framework de validación cruzada. Antes de ir a ello, vamos a detenernos en las razones de tener siempre conjuntos de entrenamiento y prueba. En primer lugar, echemos un vistazo a la limitación de usar un dataset sin excluir ninguna muestra.</p>
@@ -289,7 +288,7 @@
 
 <span class="n">housing</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">housing</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></code></pre></div>
-<p>En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las feautures recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos una modelo predictivo específico de regresión.</p>
+<p>En este dataset, el objetivo es predecir el valor medio de las casas en un área de California. Las features recopiladas se basan en el mercado de la propiedad y en información geográfica. En este caso, el objetivo a predecir es una variable continua. Por tanto, es una tarea de regresión. Usaremos un modelo predictivo específico de regresión.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span></code></pre></div>
 <pre><code>.. _california_housing_dataset:
 
@@ -438,7 +437,7 @@ Name: MedHouseVal, dtype: float64
 <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre></div>
 <pre><code>DecisionTreeRegressor(random_state=42)
 </code></pre>
-<p>Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error medio absoluto que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.</p>
+<p>Después de entrenar el regresor, nos gustaría saber su potencial rendimiento de generalización una vez lo despleguemos en producción. Para ello, usaremos el error absoluto medio que nos proporciona un error en las mismas unidades del objetivo, es decir, en miles de dólares.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
 
 <span class="n">y_predicted</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -562,8 +561,8 @@ Name: MedHouseVal, dtype: float64
   </tbody>
 </table></div>
 </div>
-<p>Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro <code>scoring</code> in <code>cross_validate</code> siempre esepra una función que es una puntuación.</p>
-<p>Para hacerlo fácil, todas las métricas de errores en scikit-learn, como <code>mean_absolute_error</code>, se pueden transformar en una puntuación para ser usadas en <code>cross_validate</code>. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo <code>neg_</code>. Por ejemplo, <code>scoring=&quot;neg_mean_absolute_error&quot;</code>. En este caso, el negativo del error medio absoluto calculado equivaldría a una puntuación.</p>
+<p>Una puntuación es una métrica donde cuanto más grande sea su valor mejores resultados. Por el contrario, un error es una métrica donde cuanto más pequeño sea su valor mejores resultados. El parámetro <code>scoring</code> en <code>cross_validate</code> siempre espera una función que es una puntuación.</p>
+<p>Para hacerlo fácil, todas las métricas de errores en scikit-learn, como <code>mean_absolute_error</code>, se pueden transformar en una puntuación para ser usadas en <code>cross_validate</code>. Para hacerlo necesitamos pasar el nombre de la métrica de error con el prefijo <code>neg_</code>. Por ejemplo, <code>scoring=&quot;neg_mean_absolute_error&quot;</code>. En este caso, el negativo del error absoluto medio calculado equivaldría a una puntuación.</p>
 <p>Vamos a revertir la negación para obtener el error real:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_error&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span>
 <span class="n">cv_results</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></code></pre></div>
@@ -673,10 +672,10 @@ Name: MedHouseVal, dtype: float64
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_error&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;Error medio absoluto (k$)&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&#34;error absoluto medio (k$)&#34;</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución del error de prueba&#34;</span><span class="p">)</span></code></pre></div>
 <p><img src="/images/output_33_0.png" alt="png"></p>
-<p>Observamos que el error de prueba se agrupa en torno a 47 k y un rango de entre 45 k y 48.5 k.</p>
+<p>Observamos que el error de prueba se agrupa en torno a 47 k$ y un rango de entre 45 k$ y 48.5 k$.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;El error medio de validación cruzada es: &#34;</span>
       <span class="n">f</span><span class="s2">&#34;{cv_results[&#39;test_error&#39;].mean():.2f} k$&#34;</span><span class="p">)</span></code></pre></div>
 <pre><code>El error medio de validación cruzada es: 46.53 k$
@@ -695,10 +694,10 @@ Name: MedHouseVal, dtype: float64
 <pre><code>La desviación típica del objetivo es: 115.40 k$
 </code></pre>
 <p>El rango de la variable objetivo varía desde cercano a 0 hasta 500, con una desviación típica de 115. Remarquemos que la media estimada del error de prueba obtenido por validación cruzada es un poco más pequeño que la escala natural de variación de la variable objetivo. Además, la desviación típica de la validación cruzada estimada del error de prueba es incluso más pequeña. Esto es un buen comienzo, pero no necesariamente suficiente para decidir si el rendimiento de generalización es suficientemente bueno para que nuestra predicción sea útil en la práctica.</p>
-<p>Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k. Sin embargo, sería un problema con una vivienda con un valor de 50 k. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.</p>
-<p>En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.</p>
+<p>Recordemos que nuestro modelo tiene, de media, un error de alrededor de 47 k$. Con esta información y mirando la distribución del objetivo, tal error podría ser aceptable cuando predecimos viviendas con un valor de 500 k$. Sin embargo, sería un problema con una vivienda con un valor de 50 k$. Por tanto, esto indica que nuestra métrica (Error Absoluto Medio) no es ideal.</p>
+<p>En su lugar podríamos elegir una métrica relativa al valor del objetivo a predecir: el error porcentual absoluto medio habría sido una mejor opción. Pero en todos los casos, un error de 47 k$ podría ser demasiado grande para usar automáticamente nuestro modelo para etiquetar viviendas sin la supervisión de un experto.</p>
 <h2 id="más-detalles-sobre-cross_validate"><a href="#más-detalles-sobre-cross_validate" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Más detalles sobre <code>cross_validate</code></h2>
-<p>Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de <code>cross_validate</code> es el resultado de uno de estos procedimientos <code>fit</code> / <code>score</code>. Para hacer explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción <code>return_estimator=True</code> en <code>cross_validate</code>.</p>
+<p>Durante la validación cruzada, se entrenan y evalúan muchos modelos. De hecho, el número de elementos de cada matriz de salida de <code>cross_validate</code> es el resultado de uno de estos procedimientos <code>fit</code> / <code>score</code>. Para hacerlo explícito, es posible recuperar estos modelos entrenados para cada una de las divisiones/particiones pasando la opción <code>return_estimator=True</code> en <code>cross_validate</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">cv_results</span></code></pre></div>
 <pre><code>{'fit_time': array([0.15363216, 0.15012908, 0.15063   , 0.15063   , 0.14562511]),
@@ -718,7 +717,7 @@ Name: MedHouseVal, dtype: float64
  DecisionTreeRegressor(random_state=42))
 </code></pre>
 <p>Los cinco regresores de árbol de decisión corresponden a los cinco árboles de decisión entrenados en las diferentes particiones. Tener acceso a estos regresores es útil porque permite inspeccionar los parametros entrenados internos de estos regresores.</p>
-<p>En el caso de solo estemos interesados en la puntuación de prueba, scikit-learn provee una función <code>cross_val_score</code>. Es idéntica a llamar a la función <code>cross_validate</code> y seleccionar solo <code>test_score</code>.</p>
+<p>En el caso de que solo estemos interesados en la puntuación de prueba, scikit-learn provee una función <code>cross_val_score</code>. Es idéntica a llamar a la función <code>cross_validate</code> y seleccionar solo <code>test_score</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
 
 <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -726,7 +725,7 @@ Name: MedHouseVal, dtype: float64
 <pre><code>array([0.28326244, 0.4226389 , 0.45552292, 0.23727262, 0.41430376])
 </code></pre>
 <h1 id="overfit-generalización-underfit"><a href="#overfit-generalización-underfit" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Overfit-generalización-underfit</h1>
-<p>Anteriormente presentamos el frameword de validación cruzada general y cómo nos ayuda e cuantificar los errores de entrenamiento y prueba así como sus fluctuaciones.</p>
+<p>Anteriormente presentamos el frameword de validación cruzada general y cómo nos ayuda a cuantificar los errores de entrenamiento y prueba, así como sus fluctuaciones.</p>
 <p>Ahora pondremos estos errores en perspectiva y mostraremos cómo nos pueden ayudar a saber si nuestro modelo generaliza, se produce overfitting o underfitting.</p>
 <p>Usaremos de nuevo el mismo dataset y crearemos el mismo modelo que anteriormente.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">housing</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -751,9 +750,9 @@ Name: MedHouseVal, dtype: float64
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Distribución errores entrenamiento y prueba via validación cruzada&#34;</span><span class="p">)</span></code></pre></div>
 <p><img src="/images/output_53_0.png" alt="png"></p>
 <p>Al dibujar la distribución de los errores de entrenamiento y prueba, obtenemos información sobre si en nuestro modelo se produce overfitting, underfitting o ambos a la vez.</p>
-<p>Aquí observamos un <strong>pequeño error de entrenamiento</strong> (realmente cero), lo que significa que el modelo <strong>no realiza underfitting</strong>: es los suficientemente flexible para capturar cualquier variación presente en el conjunto de entrenamiento. Sin embargo, el <strong>significativamente grande error de prueba</strong> nos dice que sí existe overfitting: el modelo ha memorizado muchas variaciones del conjunto de entrenamiento que podrían considerarse &ldquo;ruidosas&rdquo; porque no generalizan para ayudarnos a realizar una buena predicción en el conjunto de prueba.</p>
+<p>Aquí observamos un <strong>pequeño error de entrenamiento</strong> (realmente cero), lo que significa que el modelo <strong>no realiza underfitting</strong>: es lo suficientemente flexible para capturar cualquier variación presente en el conjunto de entrenamiento. Sin embargo, el <strong>significativamente grande error de prueba</strong> nos dice que sí existe overfitting: el modelo ha memorizado muchas variaciones del conjunto de entrenamiento que podrían considerarse &ldquo;ruidosas&rdquo; porque no generalizan para ayudarnos a realizar una buena predicción en el conjunto de prueba.</p>
 <h2 id="curva-de-validación"><a href="#curva-de-validación" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Curva de validación</h2>
-<p>Algunos hiperparámetros del modelo suelen ser la clave para evolucionar de un modelo que realiza underfitting a un modelo que hace overfitting, con suerte pasando por una región donde podemos obtener un buen equilibrio entre los dos. Podemos adquirir conocimiento dibujando un curva llamada <strong>curva de validación</strong>. Esta curva también se puede aplicar al ejemplo anterior para variar el valor de un hiperparámetro.</p>
+<p>Algunos hiperparámetros del modelo suelen ser la clave para evolucionar de un modelo que realiza underfitting a un modelo que hace overfitting, con suerte pasando por una región donde podemos obtener un buen equilibrio entre ambos. Podemos adquirir conocimiento dibujando una curva llamada <strong>curva de validación</strong>. Esta curva también se puede aplicar al ejemplo anterior para variar el valor de un hiperparámetro.</p>
 <p>Para un árbol de decisión, el paramétro <code>max_depth</code> se usa para controlar el equilibrio entre underfitting y overfitting.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">validation_curve</span>
@@ -778,16 +777,16 @@ Name: MedHouseVal, dtype: float64
 <p>La curva de validación se puede dividir en 3 zonas:</p>
 <ul>
 <li>
-<p>Para <code>max_depth &lt; 10</code>, el árbol de decisión produce underfitting. Tanto el error de entrenamiento como el de prueba son altos. El modelo es demasiado restrictivo y no puede capturar muchas de la variabilidad de la variable objetivo.</p>
+<p>Para <code>max_depth &lt; 10</code>, el árbol de decisión produce underfitting. Tanto el error de entrenamiento como el de prueba son altos. El modelo es demasiado restrictivo y no puede capturar mucha de la variabilidad de la variable objetivo.</p>
 </li>
 <li>
 <p>La región alrededor de <code>max_depth = 10</code> corresponde con el parámetro para el cual el árbol de decisión generaliza mejor. Es lo suficientemente flexible para capturar una fracción de la variabilidad del objetivo que se generaliza, mientras que no memoriza todo el ruido en el objetivo.</p>
 </li>
 <li>
-<p>Para <code>max_depth &gt; 10</code>, el árbol de decisión produce overfitting. El error de entrenamiento se convierte en muy pequeño, mientras que el error de prueba incrementa. En esta región, los modelos crean decisiones específicamente para muestras ruidosas que dañan su capacidad para generalizar a los datos de prueba.</p>
+<p>Para <code>max_depth &gt; 10</code>, el árbol de decisión produce overfitting. El error de entrenamiento se convierte en muy pequeño, mientras que el error de prueba aumenta. En esta región, los modelos crean decisiones específicamente para muestras ruidosas que dañan su capacidad para generalizar a los datos de prueba.</p>
 </li>
 </ul>
-<p>Observemos que para <code>max_depth = 10</code> el modelo produce un poco de overfitting ya que hay una brecha entre el error de entrenamiento y el error de prueba. Al mismo tiempo también produce underfitting ya que el error de entrenamiento aún está lejos de cero (más de 30 k), lo que significa que el modelo aún podría estar limitado para modelar partes interesantes de los datos. Sin embargo, el error de prueba es mínimo y esto es lo que realmente inmporta. Este es el mejor compromiso que podemos alcanzar ajustando únicamente este hiperparámetro.</p>
+<p>Observemos que para <code>max_depth = 10</code> el modelo produce un poco de overfitting ya que hay una brecha entre el error de entrenamiento y el error de prueba. Al mismo tiempo también produce underfitting, ya que el error de entrenamiento aún está lejos de cero (más de 30 k$), lo que significa que el modelo aún podría estar limitado para modelar partes interesantes de los datos. Sin embargo, el error de prueba es mínimo y esto es lo que realmente importa. Este es el mejor compromiso que podemos alcanzar ajustando únicamente este hiperparámetro.</p>
 <p>Tengamos en cuenta que mirar los errores medios es bastante limitante. También debemos observar la desviación típica para comprobar la dispersión de la puntuación. Podemos repetir el mismo gráfico de antes, pero añadiendo alguna información para mostrar también la desviación típica de los errores.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">train_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
              <span class="n">yerr</span><span class="o">=</span><span class="n">train_errors</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Error entrenamiento&#34;</span><span class="p">)</span>
@@ -805,7 +804,7 @@ Name: MedHouseVal, dtype: float64
 <p>Partimos del mismo dataset y modelo que teníamos anteriormente (<code>X</code>, <code>y</code> y <code>regressor</code>)</p>
 <h2 id="curva-de-aprendizaje"><a href="#curva-de-aprendizaje" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Curva de aprendizaje</h2>
 <p>Para comprender el impacto del número de muestras disponibles para entrenamiento en el rendimiento de generalización de un modelo predictivo, es posible reducir sintéticamente el número de muestras usadas para entrenar el modelo predictivo y verificar los errores de entrenamiento y prueba.</p>
-<p>Por tanto, podemos variar el número de muestras del conjunto de entrenamiento y repetir el entrenamiento. Las puntuaciones de entrenamiento y prueba de pueden dibujar de forma similar a la curva de validación, pero en lugar de variar un hiperparámetro, variamos el número de muestra de entrenamiento. Esta curva se llama <strong>curva de aprendizaje</strong>. Proporciona información sobre el beneficio de añadir nuevas muestras de entrenamiento para mejorar el rendimiento de generalización de un modelo.</p>
+<p>Por tanto, podemos variar el número de muestras del conjunto de entrenamiento y repetir el entrenamiento. Las puntuaciones de entrenamiento y prueba se pueden dibujar de forma similar a la curva de validación, pero en lugar de variar un hiperparámetro, variamos el número de muestras de entrenamiento. Esta curva se llama <strong>curva de aprendizaje</strong>. Proporciona información sobre el beneficio de añadir nuevas muestras de entrenamiento para mejorar el rendimiento de generalización de un modelo.</p>
 <p>Vamos a calcular la curva de aprendizaje de un árbol de decisión y a variar la proporción del conjunto de entrenamiento del 10% al 100%.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -836,7 +835,7 @@ Name: MedHouseVal, dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Error absoluto medio (k$)&#34;</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Curva de aprendizaje para el árbol de decisión&#34;</span><span class="p">)</span></code></pre></div>
 <p><img src="/images/output_67_0.png" alt="png"></p>
-<p>Observando por separado el error de entrenamiento, vemos que obtenemos un error de 0 k. Lo que significa que en el modelo produce claramente overfitting de los datos de entrenamiento.</p>
+<p>Observando por separado el error de entrenamiento, vemos que obtenemos un error de 0 k$. Lo que significa que en el modelo se produce claramente overfitting de los datos de entrenamiento.</p>
 <p>Observando por separado el error de prueba, vemos que cuantas más muestras se añaden al conjunto de entrenamiento, menor es el error de prueba. Además, estamos buscando la meseta del error de prueba para la cual ya no existe beneficio de seguir añadiendo muestras o evaluar la potencial ganancia de añadir más muestras en el conjunto de entrenamiento. Si alcanzamos una meseta y añadir nuevas muestras al conjunto de entrenamiento no reduce el error de prueba, es posible que hayamos alcanzado la tasa de error de Bayes utilizando el modelo disponible. El uso de un modelo más complejo podría ser la única posibilidad de reducir aún más el error de prueba.</p>
 <h1 id="resumen"><a href="#resumen" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Resumen</h1>
 <ul>
@@ -844,10 +843,10 @@ Name: MedHouseVal, dtype: float64
 <p>El <strong>overfitting</strong> es causado por el tamaño limitado del conjunto de entrenamiento, el ruido en los datos y la alta flexibilidad de los modelos de machine learning comunes.</p>
 </li>
 <li>
-<p>El <strong>underfitting</strong> sucede cuando las funciones de predicción aprendidas sufren de <strong>errores sistemáticos</strong>. Esto se puede producir por la elección de la familia del modelo y los parámetros, lo cuales conducen a una <strong>carencia de flexibilidad</strong> para capturar la estructura repetible del verdadero proceso de generación de datos.</p>
+<p>El <strong>underfitting</strong> sucede cuando las funciones de predicción aprendidas sufren de <strong>errores sistemáticos</strong>. Esto se puede producir por la elección de la familia del modelo y los parámetros, los cuales conducen a una <strong>carencia de flexibilidad</strong> para capturar la estructura repetible del verdadero proceso de generación de datos.</p>
 </li>
 <li>
-<p>Para un conjunto de entrenamiento dado, el objetivo es <strong>minimizar el error de preba</strong> ajustando la familia del modelo y sus parámetros para encontrar el <strong>mejor equilibrio entre overfitting y underfitting</strong>.</p>
+<p>Para un conjunto de entrenamiento dado, el objetivo es <strong>minimizar el error de prueba</strong> ajustando la familia del modelo y sus parámetros para encontrar el <strong>mejor equilibrio entre overfitting y underfitting</strong>.</p>
 </li>
 <li>
 <p>Para una familia de modelo y parámetros dados, <strong>incrementar el tamaño del conjunto de entrenamiento disminuirá el overfitting</strong>, pero puede causar un incremento del underfitting.</p>
@@ -890,7 +889,7 @@ Name: MedHouseVal, dtype: float64
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-03-22 19:39:19 CET" style="cursor:help">
+        <span title="Updated @ 2022-03-22 20:12:10 CET" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-03-22</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-03-22</text></g></svg>
         </span></div>
@@ -971,6 +970,10 @@ Name: MedHouseVal, dtype: float64
                 
                     <li class="related-item">
                         <a href="/posts/predictive-modeling-pipeline/" class="related-link">Pipeline de modelado predictivo</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/hyperparameters-tuning/" class="related-link">Ajuste de hiperparámetros</a>
                     </li>
                 
                     <li class="related-item">
@@ -1055,6 +1058,10 @@ Name: MedHouseVal, dtype: float64
     
     
         <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/hyperparameters-tuning/" rel="prev">&lt; Ajuste de hiperparámetros</a>
+                </li>
             
             
                 <li class="post-nav-next">
