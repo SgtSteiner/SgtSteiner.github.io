@@ -1,7 +1,7 @@
 ---
 title: "Ajuste de hiperparámetros"
 date: 2022-03-23T12:31:47+01:00
-tags: [hiperparámetros, ]
+tags: [hiperparámetros, grid-search, randomized-search, nested-cross-validation, parallel coordinates, ]
 categories: [tutoriales]
 ---
 
@@ -1747,3 +1747,26 @@ Es interesante ver si el procedimiento de ajuste de hiperparámetros siempre sel
 Pero también es posible que algunos hiperparámetros no tengan ninguna importancia y, como resultado de diferentes sesiones de ajuste, den resultados diferentes. En este caso, servirá cualquier valor. Normalmente esto se puede confirmar haciendo un gráfico de coordenadas paralelas de los resultados de una gran búsqueda de hiperparáemtros, como ya vimos.
 
 Desde el punto de vista de la implementación, se podría optar por implementar todos los modelos encontrados en el ciclo de validación cruzada externa y votar para obtener las predicciones finales. Sin embargo, esto puede causar problemas operativos debido a que usa más memoria y hace que la predicción sea más lenta, lo que resulta en un mayor uso de recursos computacionales por predicción.
+
+# Resumen
+
++ Los hiperparámetros tienen un impacto en el rendimiento de los modelos y deben ser elegirse sabiamente;
++ La búsqueda de los mejores hiperparámetros se puede automatizar con un enfoque de grid-search o búsqueda automática;
++ Grid-search es costoso y no escala cuando el número de hiperparámetros a optimizar incrementa. Además, la combinación se muestrea únicamente en una retícula regular.
++ Una búsqueda aleatoria permite buscar con una propuesta fija incluso con un número creciente de hiperparámetros. Además, la combinación se muestrea en una retícula no regular.
+
++ El **overfitting** es causado por el tamaño limitado del conjunto de entrenamiento, el ruido en los datos y la alta flexibilidad de los modelos de machine learning comunes.
+
++ El **underfitting** sucede cuando las funciones de predicción aprendidas sufren de **errores sistemáticos**. Esto se puede producir por la elección de la familia del modelo y los parámetros, lo cuales conducen a una **carencia de flexibilidad** para capturar la estructura repetible del verdadero proceso de generación de datos.
+
++ Para un conjunto de entrenamiento dado, el objetivo es **minimizar el error de preba** ajustando la familia del modelo y sus parámetros para encontrar el **mejor equilibrio entre overfitting y underfitting**.
+
++ Para una familia de modelo y parámetros dados, **incrementar el tamaño del conjunto de entrenamiento disminuirá el overfitting**, pero puede causar un incremento del underfitting.
+
++ El error de prueba de un modelo que no tiene overfitting ni underfitting puede ser alto todavía si las variaciones de la variable objetivo no pueden ser determinadas completamente por las variables de entrada. Este error irreductible es causado por lo que algunas veces llamamos error de etiqueta. En la práctica, esto sucede a menudo cuando por una razón u otra no tenemos acceso a features importantes.
+
+Algunas referencias a seguir con ejemplos de algunos conceptos mencionados:
+
++ [Ejemplo de un grid-search](https://scikit-learn.org/stable/auto_examples/model_selection/plot_grid_search_digits.html#sphx-glr-auto-examples-model-selection-plot-grid-search-digits-py)
++ [Ejemplo de una búsqueda aleatoria](https://scikit-learn.org/stable/auto_examples/model_selection/plot_randomized_search.html#sphx-glr-auto-examples-model-selection-plot-randomized-search-py)
++ [Ejemplo de una validación cruzada anidada](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html#sphx-glr-auto-examples-model-selection-plot-nested-cross-validation-iris-py)
