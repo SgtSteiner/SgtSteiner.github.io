@@ -2,13 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sgtsteiner.github.io/tags/alpha/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
-  </url><url>
     <loc>https://sgtsteiner.github.io/categories/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/decision-tree-models/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/modelos-arbol-decision/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
+    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/alpha/</loc>
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/modelos-lineales/</loc>
@@ -18,9 +33,6 @@
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/polynomialfeatures/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/posts/</loc>
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n-lineal/</loc>
@@ -33,12 +45,6 @@
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/ridge/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/hyperparameters-tuning/</loc>

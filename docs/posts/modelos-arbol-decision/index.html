@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.83.1" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Modelos Arbol Decision | Lords of the Machine Learning</title>
+
+    <link rel="stylesheet" href="/css/meme.min.317d84c7f6754ad23a2ae219d212f73a900416875fb1144e27652ca955c5aac2.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Antonio Méndez" /><meta name="description" content="En este post presentaremos en detalle los modelos de árbol de decisión, explicándolos tanto para problemas de clasificación como de regresión. También mostraremos qué hiperparámetros de los árboles de decisión tienen importancia en su rendimiento, permitiendo encontrar el mejor equilibrio entre underfitting y overfitting." />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Lords of the Machine Learning" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Lords of the Machine Learning" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://sgtsteiner.github.io/posts/modelos-arbol-decision/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2022-04-09T11:39:36+02:00",
+        "dateModified": "2022-04-20T10:23:32+02:00",
+        "url": "https://sgtsteiner.github.io/posts/modelos-arbol-decision/",
+        "headline": "Modelos Arbol Decision",
+        "description": "En este post presentaremos en detalle los modelos de árbol de decisión, explicándolos tanto para problemas de clasificación como de regresión. También mostraremos qué hiperparámetros de los árboles de decisión tienen importancia en su rendimiento, permitiendo encontrar el mejor equilibrio entre underfitting y overfitting.",
+        "inLanguage" : "es-ES",
+        "articleSection": "posts",
+        "wordCount":  3178 ,
+        "image": ["https://sgtsteiner.github.io/images/output_9_0.png","https://sgtsteiner.github.io/images/output_14_0.png","https://sgtsteiner.github.io/images/output_16_0.png","https://sgtsteiner.github.io/images/output_23_2.png","https://sgtsteiner.github.io/images/output_37_0.png","https://sgtsteiner.github.io/images/output_40_0.png","https://sgtsteiner.github.io/images/output_42_1.png","https://sgtsteiner.github.io/images/output_45_0.png","https://sgtsteiner.github.io/images/output_47_1.png","https://sgtsteiner.github.io/images/output_50_0.png","https://sgtsteiner.github.io/images/output_52_2.png","https://sgtsteiner.github.io/images/output_62_0.png","https://sgtsteiner.github.io/images/output_63_2.png","https://sgtsteiner.github.io/images/output_66_1.png","https://sgtsteiner.github.io/images/output_67_2.png","https://sgtsteiner.github.io/images/output_70_2.png","https://sgtsteiner.github.io/images/output_71_0.png","https://sgtsteiner.github.io/images/output_74_0.png","https://sgtsteiner.github.io/images/output_76_0.png","https://sgtsteiner.github.io/images/output_78_0.png","https://sgtsteiner.github.io/images/output_80_1.png","https://sgtsteiner.github.io/images/output_81_0.png","https://sgtsteiner.github.io/images/output_83_0.png","https://sgtsteiner.github.io/images/output_84_1.png"],
+        "author": {
+            "@type": "Person",
+            "description": "Sgt. Steiner",
+            "email": "futitotal@gmail.com",
+            "image": "https://sgtsteiner.github.io/icons/apple-touch-icon.png",
+            "url": "https://sgtsteiner.github.io/",
+            "name": "Antonio Méndez"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Lords of the Machine Learning",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sgtsteiner.github.io/icons/apple-touch-icon.png"
+            },
+            "url": "https://sgtsteiner.github.io/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://sgtsteiner.github.io/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:site" content="@Steiner_69" />
+<meta name="twitter:creator" content="@Steiner_69" />
+
+    
+
+
+
+<meta property="og:title" content="Modelos Arbol Decision" />
+<meta property="og:description" content="En este post presentaremos en detalle los modelos de árbol de decisión, explicándolos tanto para problemas de clasificación como de regresión. También mostraremos qué hiperparámetros de los árboles de decisión tienen importancia en su rendimiento, permitiendo encontrar el mejor equilibrio entre underfitting y overfitting." />
+<meta property="og:url" content="https://sgtsteiner.github.io/posts/modelos-arbol-decision/" />
+<meta property="og:site_name" content="Lords of the Machine Learning" />
+<meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/output_9_0.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-04-09T11:39:36&#43;02:00" />
+    <meta property="article:modified_time" content="2022-04-20T10:23:32&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">Lords of the Machine Learning</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">Posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">Categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">Tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">About</span></a>
+                </li>
+            
+        
+            
+                
+                    
+                    
+                        <li class="menu-item">
+                            <a id="theme-switcher" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5l48.8-97.5a18 18 0 0128 0l48.8 97.5 103.4 -34.5a18 18 0 0119.8 19.8l-34.5 103.4l97.5 48.8a18 18 0 010 28l-97.5 48.8 34.5 103.4a18 18 0 01-19.8 19.8l-103.4-34.5-48.8 97.5a18 18 0 01-28 0l-48.8-97.5l-103.4 34.5a18 18 0 01-19.8-19.8l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8-34.5-103.4a18 18 0 0119.8-19.8zM256 128a128 128 0 10.01 0M256 160a96 96 0 10.01 0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412a256 256 0 10154-407a11.5 11.5 0 00-5 20a201.5 201.5 0 01-134 374a11.5 11.5 0 00-15 13"/></svg></a>
+                        </li>
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                <li class="menu-item search-item">
+                        <form id="search" class="search" role="search">
+    <label for="search-input"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon search-icon"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></label>
+    <input type="search" id="search-input" class="search-input">
+</form>
+
+<template id="search-result" hidden>
+    <article class="content post">
+        <h2 class="post-title"><a class="summary-title-link"></a></h2>
+        <summary class="summary"></summary>
+        <div class="read-more-container">
+            <a class="read-more-link"> »</a>
+        </div>
+    </article>
+</template>
+
+                    </li>
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-small-caps="true" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Modelos Arbol Decision</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-04-09T11:39:36&#43;02:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;9.4.2022</time>
+    
+    
+        
+        <time datetime="2022-04-20T10:23:32&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;20.4.2022</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/tutoriales/" class="category-link p-category">tutoriales</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3178</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;</span>
+    
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+              <p style="text-indent:0"><span class="drop-cap">E</span>n este post presentaremos en detalle los modelos de árbol de decisión, explicándolos tanto para problemas de clasificación como de regresión. También mostraremos qué hiperparámetros de los árboles de decisión tienen importancia en su rendimiento, permitiendo encontrar el mejor equilibrio entre underfitting y overfitting.</p>
+<h1 id="arboles-de-decisión-en-clasificación"><a href="#arboles-de-decisión-en-clasificación" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Arboles de decisión en clasificación</h1>
+<p>Vamos a explicar cómo usar árboles de decisión para entrenar datos usando un problema simple de clasificación usando el dataset de pingüinos.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">penguins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/penguins_classification.csv&#34;</span><span class="p">)</span>
+<span class="n">culmen_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Culmen Length (mm)&#34;</span><span class="p">,</span> <span class="s2">&#34;Culmen Depth (mm)&#34;</span><span class="p">]</span>
+<span class="n">target_column</span> <span class="o">=</span> <span class="s2">&#34;Species&#34;</span></code></pre></div>
+<p>También dividimos los datos en dos subconjuntos para investigar cómo los árboles predecirán valores basados en un dataset externo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">penguins</span><span class="p">[</span><span class="n">culmen_columns</span><span class="p">],</span> <span class="n">penguins</span><span class="p">[</span><span class="n">target_column</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code></pre></div>
+<p>Un clasificador lineal definirá una separación lineal para dividir clases usando una combinación lineal de las variables de entrada. En nuestro espacio bidimensional, significa que un clasificador lineal definirá algunas líneas oblícuas que mejor separen nuestras clases. A continuación, definimos una función que, dado un conjunto de puntos de datos y un clasificador, dibujará los límites de decisión aprendidos por el clasificador.</p>
+<p>Así, para un clasificador lineal obtendremos los siguientes límites de decisión. Esas líneas límite indican dónde cambia el modelo su predicción de una clase a otra.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">linear_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">linear_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>LogisticRegression()
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">helpers.plotting</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+<span class="n">palette</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;tab:red&#34;</span><span class="p">,</span> <span class="s2">&#34;tab:blue&#34;</span><span class="p">,</span> <span class="s2">&#34;black&#34;</span><span class="p">]</span>
+
+<span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">linear_model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">response_method</span><span class="o">=</span><span class="s2">&#34;predict&#34;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&#34;RdBu&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">culmen_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">culmen_columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">hue</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&#34;upper left&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Límites de decisión usando regresión logística&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_9_0.png" alt="png"></p>
+<p>Vemos que las líneas son una combinación de variables de entrada, dado que no son perpendiculares a ningún eje específico. De hecho, es debido a la parametrización del modelo, controlado por los pesos y la constante (intercept) del modelo.</p>
+<p>Además, parece que el modelo lineal podría ser un buen candidato para este problema, ya que ofrece una buena precisión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">linear_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">test_score</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Precisión de la regresión logística {test_score:.2f}&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>Precisión de la regresión logística 0.98
+</code></pre>
+<p>A diferencia de los modelos lineales, los árboles de decisión son modelos no paramétricos: no están controlados por una función de decisión matemática y no tienen pesos o intercept que optimizar.</p>
+<p>De hecho, los árboles de decisión dividen el espacio considerando una única feature a la vez. Vamos a ilustrar este comportamiento haciendo que un árbol de decisión haga una única división para particionar el espacio de features.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<pre><code>DecisionTreeClassifier(max_depth=1)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">tree</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">response_method</span><span class="o">=</span><span class="s2">&#34;predict&#34;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&#34;RdBu&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">culmen_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">culmen_columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">hue</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&#34;upper left&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Límites de decisión usando un árbol de decisión&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_14_0.png" alt="png"></p>
+<p>Las particiones encontradas por el algoritmo separan los datos a lo largo del eje &ldquo;Culmen Depth&rdquo;, descartando la variable &ldquo;Culmen Length&rdquo;. Por tanto, destacar que un árbol de decisión no usa una combinación de features cuando hace una división. Podemos ver más en profundidad la estructura de un árbol.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">culmen_columns</span><span class="p">,</span>
+              <span class="n">class_names</span><span class="o">=</span><span class="n">tree</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">impurity</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_16_0.png" alt="png"></p>
+<p>Vemos que la división se ha hecho a partir de la variable <code>culmen depth</code>. El dataset original se ha dividido en 2 conjuntos basados en la anchura del pico (inferior o superior a 16.45 mm).</p>
+<p>Esta partición del dataset minimiza la diversidad de clases en cada subpartición. Esta medida también se conoce como <strong>criterion</strong>, y es un parámetro configurable.</p>
+<p>Si miramos más de cerca la partición, vemos que la muestra superior a 16.45 pertenece principalmente a la clase Adelie. Mirando los valores, observamos 103 Adelie individuales en este espacio. También contamos 52 muestras de Chinstrap y 6 muestras de Gentoo. Podemos hacer una interpretación similar para la partición definida por un umbral inferior a 16.45 mm. En este caso, la clase más representativa es la especie Gentoo.</p>
+<p>Veamos cómo trabaja nuestro árbol como predictor. Empecemos viendo la clase predicha cuando culmen depth es inferior al umbral.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sample_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&#34;Culmen Length (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&#34;Culmen Depth (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sample_1</span><span class="p">)</span></code></pre></div>
+<pre><code>array(['Gentoo'], dtype=object)
+</code></pre>
+<p>La clase predicha es Gentoo. Ahora podemos verificar si pasamos a un culmen depth superior al umbral.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sample_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&#34;Culmen Length (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&#34;Culmen Depth (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">17</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sample_2</span><span class="p">)</span></code></pre></div>
+<pre><code>array(['Adelie'], dtype=object)
+</code></pre>
+<p>En este caso el árbol predice la especie Adelie. Por tanto, podemos concluir que un clasificador de árbol de decisión predecirá la clase más representativa dentro de una partición. Durante el entrenamiento, tenemos un recuento de las muestras de cada partición y, por tanto, podemos calcular la probabilidad de pertenecer a una clase específica dentro de esa partición.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">sample_2</span><span class="p">)</span>
+<span class="n">y_proba_class_0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred_proba</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">tree</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_proba_class_0</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&#34;Probabilidad&#34;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Probabilidad de pertenecer a una clase de pingüino&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_23_2.png" alt="png"></p>
+<p>Calcularemos manualmente las diferentes probabilidades directamente de la estructura del árbol.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">adelie_proba</span> <span class="o">=</span> <span class="mi">103</span> <span class="o">/</span> <span class="mi">161</span>
+<span class="n">chinstrap_proba</span> <span class="o">=</span> <span class="mi">52</span> <span class="o">/</span> <span class="mi">161</span>
+<span class="n">gentoo_proba</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">/</span> <span class="mi">161</span>
+<span class="k">print</span><span class="p">(</span>
+    <span class="n">f</span><span class="s2">&#34;Probabilidades para las diferentes clases:</span><span class="se">\n</span><span class="s2">&#34;</span>
+    <span class="n">f</span><span class="s2">&#34;Adelie: {adelie_proba:.3f}</span><span class="se">\n</span><span class="s2">&#34;</span>
+    <span class="n">f</span><span class="s2">&#34;Chinstrap: {chinstrap_proba:.3f}</span><span class="se">\n</span><span class="s2">&#34;</span>
+    <span class="n">f</span><span class="s2">&#34;Gentoo: {gentoo_proba:.3f}&#34;</span>
+<span class="p">)</span></code></pre></div>
+<pre><code>Probabilidades para las diferentes clases:
+Adelie: 0.640
+Chinstrap: 0.323
+Gentoo: 0.037
+</code></pre>
+<p>También es importante remarcar que culmen length ha sido descartada por el momento. Significa que cualquiera que sea el valor dado, no se usará durante la predicción.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sample_3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&#34;Culmen Length (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10_000</span><span class="p">],</span> <span class="s2">&#34;Culmen Depth (mm)&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">17</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">sample_3</span><span class="p">)</span></code></pre></div>
+<pre><code>array([[0.63975155, 0.32298137, 0.03726708]])
+</code></pre>
+<p>Volviendo a nuestro problema de clasificación, la división encontrada con un máximo de profundidad de 1 no es lo suficientemente poderosa para separar las tres especies y la precisión del modelo es baja comparada con el modelo lineal.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">test_score</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Precisión del DecisionTreeClassifier {test_score:.2f}&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>Precisión del DecisionTreeClassifier 0.78
+</code></pre>
+<p>No es una sorpresa. Vimos anteriormente que una única feature no sería capaz de separar todas las especies. Sin embargo, a partir del análisis anterior vimos que usando ambas features deberíamos ser capaces de obtener buenos resultados.</p>
+<h1 id="arboles-de-decisión-para-regresión"><a href="#arboles-de-decisión-para-regresión" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Arboles de decisión para regresión</h1>
+<p>Vamos a presentar cómo trabajan los árboles de decisión en problemas de regresión. Mostraremos las diferencias con los árboles de decisión que vimos anteriormente.</p>
+<p>En primer lugar, cargaremos el dataset de pingüinos específicamente para resolver problemas de regresión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">penguins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/penguins_regression.csv&#34;</span><span class="p">)</span>
+
+<span class="n">feature_name</span> <span class="o">=</span> <span class="s2">&#34;Flipper Length (mm)&#34;</span>
+<span class="n">target_name</span> <span class="o">=</span> <span class="s2">&#34;Body Mass (g)&#34;</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">penguins</span><span class="p">[[</span><span class="n">feature_name</span><span class="p">]],</span> <span class="n">penguins</span><span class="p">[[</span><span class="n">target_name</span><span class="p">]]</span></code></pre></div>
+<p>Para ilustrar cómo predicen un problema de regresión los árboles de decisión crearemos un dataset sintético conteniendo todos los posibles tamaños de aleta, desde el mínimo al máximo de los datos originales.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                                <span class="n">X_train</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">feature_name</span><span class="p">])</span></code></pre></div>
+<p>Usamos aquí el término &ldquo;test&rdquo; para referirnos a los datos que no se han usado para el entrenamiento. No se debe confundir con los datos provenientes de una división entrenamiento-prueba, ya que se generó en intervalos igualmente espaciados para la evaluación visual de las predicciones.</p>
+<p>Tengamos en cuenta que esto es metodológicamente válido porque nuestro objetivo es obtener una comprensión intuitiva de la forma de la función de decisión de los árboles de decisión aprendidos.</p>
+<p>Sin embargo, calcular una métrica de evaluación en tal conjunto de prueba sintético no tendría sentido, ya que el dataset sintético no sigue la misma distribución que los datos del mundo real en los cuales se desplegará el modelo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Ilustración del dataset de regresión usado&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_37_0.png" alt="png"></p>
+<p>En primer lugar, ilustraremos la diferencia entre un modelo lineal y un ábol de decisión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">linear_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">linear_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_predicted</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">feature_name</span><span class="p">],</span> <span class="n">y_predicted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Regresión lineal&#34;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Función de predicción usando LinearRegression&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_40_0.png" alt="png"></p>
+<p>En la gráfica anterior, vemos que una <code>LinearRegression</code> no regularizada es capaz de entrenar los datos. Una característica de este modelo es que todas las nuevas predicciones estarán en la línea.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">feature_name</span><span class="p">],</span> <span class="n">y_predicted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Regresión lineal&#34;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[::</span><span class="mi">3</span><span class="p">],</span> <span class="n">y_predicted</span><span class="p">[::</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Predicciones&#34;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&#34;tab:orange&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Función de predicción usando LinearRegression&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_42_1.png" alt="png"></p>
+<p>Al contrario que los modelos lineales, los árboles de decisión son modelos no paramétricos: no hacen asunciones sobre la forma en que se distribuyen los datos. Esto afectará al esquema de predicción. Destacaremos las diferencias repitiendo el experimento anterior.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_predicted</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">feature_name</span><span class="p">],</span> <span class="n">y_predicted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Arbol decisión&#34;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Función de predicción usando DecisionTreeRegressor&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_45_0.png" alt="png"></p>
+<p>Como vemos, el modelo de árbol de decisión no tiene una distribución <em>a priori</em> de los datos y no termina con una línea recta para correlar el tamaño de la aleta y la masa corporal.</p>
+<p>En su lugar, observamos que las predicciones del árbol son constantes por tramos. De hecho, nuestro espacio de features se dividió en dos particiones. Vamos a comprobar la estructura del árbol para ver el umbral encontrado durante el entrenamiento.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_47_1.png" alt="png"></p>
+<p>El umbral para nuestra feature (tamaño de la aleta) es 206.5 mm. Los valores predichos en cada lado de la división son dos constantes: 3698.709 g y 5032.364 g. Esos valores corresponden a los valores medios de las muestras de entrenamiento de cada partición.</p>
+<p>En clasificación, vimos que incrementando la profundidad del árbol obteníamos límites de decisión más complejos. Vamos a comprobar el efecto de incrementar la profundidad en un problema de regresión:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_predicted</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">penguins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">feature_name</span><span class="p">],</span> <span class="n">y_predicted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Arbol decisión&#34;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Función de predicción usando DecisionTreeRegressor&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_50_0.png" alt="png"></p>
+<p>Incrementar la profundidad del árbol incrementará el número de particiones y, por tanto, el número de valores constantes que el árbol es capaz de predecir.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_52_2.png" alt="png"></p>
+<h1 id="hiperparámetros-del-árbol-de-decisión"><a href="#hiperparámetros-del-árbol-de-decisión" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Hiperparámetros del árbol de decisión</h1>
+<p>Vamos a mostrar la importancia de algunos hiperparámetros clave en los árboles de decisión y demostraremos sus efectos en problemas de clasificación y regresión.</p>
+<p>En primer lugar, cargaremos los datasets de clasificación y regresión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data_clf_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Culmen Length (mm)&#34;</span><span class="p">,</span> <span class="s2">&#34;Culmen Depth (mm)&#34;</span><span class="p">]</span>
+<span class="n">target_clf_column</span> <span class="o">=</span> <span class="s2">&#34;Species&#34;</span>
+<span class="n">data_clf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/penguins_classification.csv&#34;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data_reg_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Flipper Length (mm)&#34;</span><span class="p">]</span>
+<span class="n">target_reg_column</span> <span class="o">=</span> <span class="s2">&#34;Body Mass (g)&#34;</span>
+<span class="n">data_reg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/penguins_regression.csv&#34;</span><span class="p">)</span></code></pre></div>
+<h2 id="creación-de-helpers"><a href="#creación-de-helpers" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Creación de helpers</h2>
+<p>Vamos a crear algunas funciones helpers para dibujar las muestras de datos así como los límites de decisión para la clasificación y las líneas de regresión para la regresión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">helpers.plotting</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+
+<span class="k">def</span> <span class="nf">fit_and_plot_classification</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_names</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">feature_names</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">target_names</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">target_names</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;tab:red&#34;</span><span class="p">,</span> <span class="s2">&#34;tab:blue&#34;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;tab:red&#34;</span><span class="p">,</span> <span class="s2">&#34;tab:blue&#34;</span><span class="p">,</span> <span class="s2">&#34;black&#34;</span><span class="p">]</span>
+    <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">feature_names</span><span class="p">],</span> <span class="n">response_method</span><span class="o">=</span><span class="s2">&#34;predict&#34;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&#34;RdBu&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+    <span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">hue</span><span class="o">=</span><span class="n">target_names</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fit_and_plot_regression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_names</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">feature_names</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">target_names</span><span class="p">])</span>
+    <span class="n">data_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">target_predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">target_names</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">target_predicted</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></code></pre></div>
+<h2 id="efecto-del-parámetro-max_depth"><a href="#efecto-del-parámetro-max_depth" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Efecto del parámetro <code>max_depth</code></h2>
+<p>El hiperparámetro <code>max_depth</code> controla la complejidad global de un árbol de decisión. Este hiperparámetro permite obtener un equilibrio entre underfit y overfit. Vamos a construir un árbol poco profundo y después otro más profundo, tanto para clasificación como para regresión, para comprender el impacto del parámetro.</p>
+<p>Primero podemos establecer el parámetro <code>max_depth</code> a un valor muy bajo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+<span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol poco profundo de clasificación con max_depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_62_0.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_regression</span><span class="p">(</span>
+    <span class="n">tree_reg</span><span class="p">,</span> <span class="n">data_reg</span><span class="p">,</span> <span class="n">data_reg_columns</span><span class="p">,</span> <span class="n">target_reg_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol poco profundo de regresión con max_depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_63_2.png" alt="png"></p>
+<p>Ahora incrementemos el parámetro <code>max_depth</code> para comprobar la diferencia observando la función de decisión.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+<span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol poco profundo de clasificación con max_depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_66_1.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_regression</span><span class="p">(</span>
+    <span class="n">tree_reg</span><span class="p">,</span> <span class="n">data_reg</span><span class="p">,</span> <span class="n">data_reg_columns</span><span class="p">,</span> <span class="n">target_reg_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol poco profundo de regresión con max_depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_67_2.png" alt="png"></p>
+<p>Tanto para clasificación como regresión observamos que incrementar la profundidad nos hará el modelo más expresivo. Sin embargo, un árbol que es demasiado profundo sufrirá de overfitting, creando particiones que solo son correctas para &ldquo;valores atípicos&rdquo; (muestras ruidosas). <code>max_depth</code> es uno de los hiperparámetros que se debe optimizar a través de validación cruzada y grid search.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;max_depth&#34;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">)</span>
+<span class="n">tree_reg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeRegressor</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Optima profundidad encontrada via CV: &#34;</span>
+              <span class="n">f</span><span class="s2">&#34;{tree_clf.best_params_[&#39;max_depth&#39;]}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_70_2.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fit_and_plot_regression</span><span class="p">(</span>
+    <span class="n">tree_reg</span><span class="p">,</span> <span class="n">data_reg</span><span class="p">,</span> <span class="n">data_reg_columns</span><span class="p">,</span> <span class="n">target_reg_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Optima profundidad encontrada via CV: &#34;</span>
+              <span class="n">f</span><span class="s2">&#34;{tree_reg.best_params_[&#39;max_depth&#39;]}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_71_0.png" alt="png"></p>
+<p>Con este ejemplo, vemos que no existe un único valor que sea óptimo para cada dataset. Por tanto, se requiere que este parámetro sea optimizado para cada aplicación.</p>
+<h2 id="otros-hiperparámetros-en-áboles-de-decisión"><a href="#otros-hiperparámetros-en-áboles-de-decisión" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Otros hiperparámetros en áboles de decisión</h2>
+<p>El hiperparámetro <code>max_depth</code> controla la complejidad global del árbol. Este parámetro es adecuado bajo la asunción de que un árbol construido es simétrico. Sin embargo, no hay garantía de que un árbol será simétrico. De hecho, el rendimiento de generalización óptimo se puede alcanzar haciendo crecer algunas ramas más que otras.</p>
+<p>Construiremos un dataset donde ilustraremos esta asimetría. Generaremos un dataset compuesto de 2 subconjuntos: un subconjunto donde el árbol debe encontrar una separación clara y otro subconjunto donde las muestras de ambas clases están mezcladas. Esto implica que un árbol de decisión necesitará más divisiones para clasificar adecuadamente las muestras del segundo subconjunto que las del primer subconjunto.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+
+<span class="n">data_clf_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Feature #0&#34;</span><span class="p">,</span> <span class="s2">&#34;Feature #1&#34;</span><span class="p">]</span>
+<span class="n">target_clf_column</span> <span class="o">=</span> <span class="s2">&#34;Class&#34;</span>
+
+<span class="c1"># Blobs that will be interlaced</span>
+<span class="n">X_1</span><span class="p">,</span> <span class="n">y_1</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># Blobs that will be easily separated</span>
+<span class="n">X_2</span><span class="p">,</span> <span class="n">y_2</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">y_1</span><span class="p">,</span> <span class="n">y_2</span><span class="p">])</span>
+<span class="n">data_clf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_clf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data_clf</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">data_clf_columns</span> <span class="o">+</span> <span class="p">[</span><span class="n">target_clf_column</span><span class="p">])</span>
+<span class="n">data_clf</span><span class="p">[</span><span class="n">target_clf_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_clf</span><span class="p">[</span><span class="n">target_clf_column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data_clf</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">data_clf_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">data_clf_columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">hue</span><span class="o">=</span><span class="n">target_clf_column</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;tab:red&#34;</span><span class="p">,</span> <span class="s2">&#34;tab:blue&#34;</span><span class="p">])</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Dataset sintético&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_74_0.png" alt="png"></p>
+<p>Primero entrenaremos un árbol poco profundo con <code>max_depth=2</code>. Cabría esperar que esta profundidad sea suficiente para separar los bloques que son fáciles de separar.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+<span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol de decisión con max-depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_76_0.png" alt="png"></p>
+<p>Como se esperaba, vemos que el bloque azul de la derecha y rojo de la parte superior son fácilmente separables. Sin embargo, se requerirán más divisiones para dividir mejor el bloque donde los puntos de datos rojos y azules están mezclados.</p>
+<p>De hecho, vemos que el bloque rojo de la parte superior y el azul de la parte derecha están perfectamente separados. Sin embargo, el árbol aún comete errores en el área donde los bloques están mezclados juntos. Verifiquemos la representación del árbol.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">data_clf_columns</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_78_0.png" alt="png"></p>
+<p>Vemos que la rama derecha alcanza una clasificación perfecta. Ahora, incrementemos la profundidad para verificar cómo crecerá el árbol.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+<span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol de decisión con max-depth = {max_depth}&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_80_1.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">data_clf_columns</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_81_0.png" alt="png"></p>
+<p>Como se esperaba, la rama izquierda del árbol continuó creciendo mientras que no se hacían más divisiones en la rama derecha. Fijar el parámetro <code>max_depth</code> cortaría el árbol horizontalmente a un nivel específico, ya sea o no más beneficioso que una rama siga creciendo.</p>
+<p>Los hiperparámetros <code>min_samples_leaf</code>, <code>min_samples_split</code>, <code>max_leaf_nodes</code> o <code>min_impurity_decrease</code> permiten crecimientos asimétricos de árboles y aplicar una restricción a nivel de hojas o nodos. Comprobaremos el efecto de <code>min_samples_leaf</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="n">min_samples_leaf</span><span class="p">)</span>
+<span class="n">fit_and_plot_classification</span><span class="p">(</span>
+    <span class="n">tree_clf</span><span class="p">,</span> <span class="n">data_clf</span><span class="p">,</span> <span class="n">data_clf_columns</span><span class="p">,</span> <span class="n">target_clf_column</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Arbol de decisión con hojas de al menos {min_samples_leaf} muestras&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_83_0.png" alt="png"></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">data_clf_columns</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_84_1.png" alt="png"></p>
+<p>Este hiperparámetro permite tener hojas con un mínimo número de muestras y, de lo contrario, no se buscarán más divisiones. Por lo tanto, estos hiperparámetros podrían ser una alternativa para corregir el hiperparámetro <code>max_depth</code>.</p>
+<h1 id="ejercicio"><a href="#ejercicio" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejercicio</h1>
+<p>Vamos a poner en práctica lo aprendido en este post con un ejemplo. Para ello vamos a usar el dataset <code>ames_housing_no_missing.csv</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ames_housing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/ames_housing_no_missing.csv&#34;</span><span class="p">)</span>
+<span class="n">target_name</span> <span class="o">=</span> <span class="s2">&#34;SalePrice&#34;</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">ames_housing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ames_housing</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span></code></pre></div>
+<p>Para simplificar sólo utilizaremos las variables numéricas definidas a continuación:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">numerical_features</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&#34;LotFrontage&#34;</span><span class="p">,</span> <span class="s2">&#34;LotArea&#34;</span><span class="p">,</span> <span class="s2">&#34;MasVnrArea&#34;</span><span class="p">,</span> <span class="s2">&#34;BsmtFinSF1&#34;</span><span class="p">,</span> <span class="s2">&#34;BsmtFinSF2&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;BsmtUnfSF&#34;</span><span class="p">,</span> <span class="s2">&#34;TotalBsmtSF&#34;</span><span class="p">,</span> <span class="s2">&#34;1stFlrSF&#34;</span><span class="p">,</span> <span class="s2">&#34;2ndFlrSF&#34;</span><span class="p">,</span> <span class="s2">&#34;LowQualFinSF&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;GrLivArea&#34;</span><span class="p">,</span> <span class="s2">&#34;BedroomAbvGr&#34;</span><span class="p">,</span> <span class="s2">&#34;KitchenAbvGr&#34;</span><span class="p">,</span> <span class="s2">&#34;TotRmsAbvGrd&#34;</span><span class="p">,</span> <span class="s2">&#34;Fireplaces&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;GarageCars&#34;</span><span class="p">,</span> <span class="s2">&#34;GarageArea&#34;</span><span class="p">,</span> <span class="s2">&#34;WoodDeckSF&#34;</span><span class="p">,</span> <span class="s2">&#34;OpenPorchSF&#34;</span><span class="p">,</span> <span class="s2">&#34;EnclosedPorch&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;3SsnPorch&#34;</span><span class="p">,</span> <span class="s2">&#34;ScreenPorch&#34;</span><span class="p">,</span> <span class="s2">&#34;PoolArea&#34;</span><span class="p">,</span> <span class="s2">&#34;MiscVal&#34;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">numerical_features</span><span class="p">]</span></code></pre></div>
+<p>Queremos comparar el rendimiendo de generalización de un árbol de decisión y una regresión lineal. Para ello, crearemos dos modelos predictivos por separado y los evaluaremos con una validación cruzada de 10 particiones. Por tanto, usaremos <code>sklearn.linear_model.LinearRegression</code> y <code>sklearn.tree.DecisionTreeRegressor</code> para crear los modelos. Usaremos los parámetros por defecto para ambos modelos.</p>
+<p>Tengamos en cuenta que un modelo lineal requiere escalar las variables numéricas. Por tanto, usaremos <code>sklearn.preprocessing.StandardScaler</code>.</p>
+<p><strong>Comparando las puntuaciones de prueba de validación cruzada para ambos modelos, partición a partición, ¿Cuántas veces el modelo lineal es mejor en dicha puntuación que el modelo de árbol de decisión?</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">linear_model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span>
+                             <span class="n">LinearRegression</span><span class="p">())</span>
+<span class="n">cv_results_lm</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">linear_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cv_results_lm</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span></code></pre></div>
+<pre><code>array([0.76129977, 0.80685587, 0.81188989, 0.66592199, 0.79785737,
+       0.76868787, 0.74564258, 0.71822127, 0.31479306, 0.78635221])
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+<span class="n">cv_results_tree</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cv_results_tree</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span></code></pre></div>
+<pre><code>array([0.54944429, 0.71949314, 0.71557951, 0.62398197, 0.72493666,
+       0.64684232, 0.47305743, 0.62410671, 0.62849893, 0.72697255])
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;¿Cuantas veces es mejor la regresión lineal sobre el árbol de decisión?: &#34;</span>
+      <span class="n">f</span><span class="s2">&#34;{sum(cv_results_lm[&#39;test_score&#39;] &gt; cv_results_tree[&#39;test_score&#39;])} veces&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>¿Cuantas veces es mejor la regresión lineal sobre el árbol de decisión?: 9 veces
+</code></pre>
+<p>En lugar de usar los parámetros por defecto para el árbol de decisión regresor, optimizaremos <code>max_depth</code> en el árbol. Probaremos <code>max_depth</code> desde el nivel 1 al nivel 15. Usaremos validación cruzada anidada para evaluar un grid search. Definamos <code>cv=10</code> tanto para la validación cruzada interna como externa.</p>
+<p><strong>¿Cuál es la profundidad óptima para el árbol?</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;max_depth&#34;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+
+<span class="n">tree</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">)</span>
+<span class="n">cv_results_tree</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cv_results_tree</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span></code></pre></div>
+<pre><code>array([0.64240567, 0.76720246, 0.69448254, 0.48481112, 0.76735608,
+       0.65537153, 0.66928018, 0.76053576, 0.47306355, 0.70204973])
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">cv_results_tree</span><span class="p">[</span><span class="s2">&#34;estimator&#34;</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">estimator</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span></code></pre></div>
+<pre><code>{'max_depth': 7}
+{'max_depth': 5}
+{'max_depth': 6}
+{'max_depth': 6}
+{'max_depth': 8}
+{'max_depth': 10}
+{'max_depth': 5}
+{'max_depth': 6}
+{'max_depth': 8}
+{'max_depth': 8}
+</code></pre>
+<p>En lugar de usar únicamente las variables numéricas usaremos el dataset completo. Vamos a crear un preprocesador para manejar por separado las variables numéricas y las columnas categóricas. Por simplicidad asumiremos que:</p>
+<ul>
+<li>las columnas categóricas serán aquellas cuyo tipo de datos es <code>object</code>;</li>
+<li>usaremos un <code>OrdinalEncoder</code> para codificar las columnas categóricas;</li>
+<li>las columnas numéricas serán aquellas cuyo tipo de datos no sea <code>object</code>.</li>
+</ul>
+<p>Además, estableceremos el parámetro <code>max_depth</code> del árbol a <code>7</code> y avaluaremos el modelo usando <code>cross_validate</code>.</p>
+<p><strong>¿Este modelo es mejor o peor que el entrenado solo con las variables numéricas?</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_selector</span> <span class="k">as</span> <span class="n">selector</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_transformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+
+<span class="n">ames_housing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/ames_housing_no_missing.csv&#34;</span><span class="p">)</span>
+<span class="n">target_name</span> <span class="o">=</span> <span class="s2">&#34;SalePrice&#34;</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">ames_housing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ames_housing</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span>
+
+<span class="n">categorical_processor</span> <span class="o">=</span> <span class="n">OrdinalEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s2">&#34;use_encoded_value&#34;</span><span class="p">,</span>
+                                       <span class="n">unknown_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">(</span>
+     <span class="p">(</span><span class="n">categorical_processor</span><span class="p">,</span> <span class="n">selector</span><span class="p">(</span><span class="n">dtype_include</span><span class="o">=</span><span class="nb">object</span><span class="p">)),</span>
+     <span class="p">(</span><span class="s2">&#34;passthrough&#34;</span><span class="p">,</span> <span class="n">selector</span><span class="p">(</span><span class="n">dtype_exclude</span><span class="o">=</span><span class="nb">object</span><span class="p">))</span>
+<span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">preprocessor</span><span class="p">,</span>
+                      <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="n">cv_results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                            <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_estimator</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cv_results</span><span class="p">[</span><span class="s2">&#34;test_score&#34;</span><span class="p">]</span></code></pre></div>
+<pre><code>array([0.73480057, 0.7919978 , 0.83190014, 0.79477965, 0.81379685,
+       0.84669201, 0.5312336 , 0.75213134, 0.59825712, 0.75729819])
+</code></pre>
+<p>La respuesta es que, en este caso, el modelo entrenado con todas las variables (numéricas y categóricas) es mejor que el modelo entrenado únicamente con las variables numéricas.</p>
+<h1 id="resumen"><a href="#resumen" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Resumen</h1>
+<ul>
+<li>Los árboles de decisión son adecuados tanto para problemas de clasificación como de regresión;</li>
+<li>son modelos no paramátricos;</li>
+<li>no son capaces de extrapolar;</li>
+<li>son sensibles al ajuste de hiperparámetros.</li>
+</ul>
+<p>Algunas referencias a seguir con ejemplos de algunos conceptos mencionados:</p>
+<ul>
+<li><a href="https://scikit-learn.org/stable/auto_examples/tree/plot_tree_regression.html#sphx-glr-auto-examples-tree-plot-tree-regression-py" target="_blank" rel="noopener">Ejemplo de árbol de decisión regresor</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/tree/plot_iris_dtc.html#sphx-glr-auto-examples-tree-plot-iris-dtc-py" target="_blank" rel="noopener">Ejemplo de árbol de decisión clasificador</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py" target="_blank" rel="noopener">Comprensión de la estructura de árbol en scikit-learn</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html#sphx-glr-auto-examples-tree-plot-cost-complexity-pruning-py" target="_blank" rel="noopener">Poda de árboles de decisión</a></li>
+</ul>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text"></span><a href="https://sgtsteiner.github.io/" class="p-author h-card" target="_blank" rel="noopener">Antonio Méndez</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text"></span><a href="/posts/modelos-arbol-decision/" target="_blank" rel="noopener">https://sgtsteiner.github.io/posts/modelos-arbol-decision/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text"></span><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2022-04-20 10:23:32 CEST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-04-20</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-04-20</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/modelos-arbol-decision/&amp;text=Modelos%20Arbol%20Decision&amp;hashtags=decisiontreemodels,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/modelos-arbol-decision/&amp;title=Modelos%20Arbol%20Decision&amp;summary=En%20este%20post%20presentaremos%20en%20detalle%20los%20modelos%20de%20%c3%a1rbol%20de%20decisi%c3%b3n,%20explic%c3%a1ndolos%20tanto%20para%20problemas%20de%20clasificaci%c3%b3n%20como%20de%20regresi%c3%b3n.%20Tambi%c3%a9n%20mostraremos%20qu%c3%a9%20hiperpar%c3%a1metros%20de%20los%20%c3%a1rboles%20de%20decisi%c3%b3n%20tienen%20importancia%20en%20su%20rendimiento,%20permitiendo%20encontrar%20el%20mejor%20equilibrio%20entre%20underfitting%20y%20overfitting.&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://sgtsteiner.github.io/posts/modelos-arbol-decision/&amp;text=Modelos%20Arbol%20Decision" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/sgtsteiner.github.io\/posts\/modelos-arbol-decision\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/modelos-lineales/" class="related-link">Modelos Lineales</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/hyperparameters-tuning/" class="related-link">Ajuste de hiperparámetros</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/selecting-best-model/" class="related-link">Selección del mejor modelo</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/predictive-modeling-pipeline/" class="related-link">Pipeline de modelado predictivo</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/30daysofml/" class="related-link">30 Days of ML</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/decision-tree-models/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>decision tree models</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/modelos-lineales/" rel="next">Modelos Lineales &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:futitotal@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/SgtSteiner" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://twitter.com/Steiner_69" target="_blank" rel="external noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://t.me/SgtSteiner" target="_blank" rel="external noopener" title="Telegram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon social-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
