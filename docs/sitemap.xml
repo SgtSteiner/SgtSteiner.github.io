@@ -2,26 +2,53 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sgtsteiner.github.io/categories/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/bagging/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/decision-tree-models/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/boosting/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/bootstrap/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/early-stopping/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/ensemble-models/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/gradient-boosting/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/posts/modelos-arbol-decision/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/posts/modelos-conjunto/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/parada-temprana/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/random-forest/</loc>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
-    <lastmod>2022-04-20T10:23:32+02:00</lastmod>
+    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/decision-tree-models/</loc>
+    <lastmod>2022-04-20T10:34:34+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/modelos-arbol-decision/</loc>
+    <lastmod>2022-04-20T10:34:34+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/alpha/</loc>
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
@@ -120,9 +147,6 @@
     <lastmod>2021-06-01T16:34:58+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/clasificaci%C3%B3n-multiclase/</loc>
-    <lastmod>2021-06-01T16:34:58+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/random-forest/</loc>
     <lastmod>2021-06-01T16:34:58+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/wine-quality-un-problema-de-regresion/</loc>

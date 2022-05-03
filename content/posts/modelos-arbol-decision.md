@@ -1,5 +1,5 @@
 ---
-title: "Modelos Arbol Decision"
+title: "Modelos de árbol de decisión"
 date: 2022-04-09T11:39:36+02:00
 tags: [decision tree models, ]
 categories: [tutoriales]
