@@ -1,5 +1,5 @@
 ---
-title: "Modelos Conjunto"
+title: "Modelos de conjunto"
 date: 2022-04-20T10:37:29+02:00
 tags: [ensemble models, bagging, bootstrap, boosting, random forest, gradient-boosting, parada temprana, early-stopping]
 categories: [tutoriales]

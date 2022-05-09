@@ -2,47 +2,92 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sgtsteiner.github.io/tags/bagging/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/accuracy/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/boosting/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/auc/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/bootstrap/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/baseline/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/early-stopping/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/dummy/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/ensemble-models/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/especificidad/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/gradient-boosting/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/estratificaci%C3%B3n/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/evaluacion-modelos/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/kfold/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/posts/modelos-conjunto/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/parada-temprana/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/random-forest/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/precision/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/r2/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/recall/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/roc-auc/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/sensibilidad/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/shufflesplit/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/stratification/</loc>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
-    <lastmod>2022-05-03T10:50:23+02:00</lastmod>
+    <lastmod>2022-05-09T20:16:53+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/bagging/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/boosting/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/bootstrap/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/early-stopping/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/ensemble-models/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/gradient-boosting/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/modelos-conjunto/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/parada-temprana/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/random-forest/</loc>
+    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/decision-tree-models/</loc>
     <lastmod>2022-04-20T10:34:34+02:00</lastmod>
@@ -109,9 +154,6 @@
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/validaci%C3%B3n-cruzada/</loc>
     <lastmod>2022-03-22T20:12:10+01:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/baseline/</loc>
-    <lastmod>2022-03-22T19:35:25+01:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/columntransformer/</loc>
     <lastmod>2022-03-22T19:35:25+01:00</lastmod>
