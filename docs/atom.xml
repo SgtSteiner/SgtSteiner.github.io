@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-ES">
     <title type="text">Lords of the Machine Learning</title>
     <subtitle type="html">Lords of Machine Learning es un blog de Antonio Méndez</subtitle>
-    <updated>2022-05-09T20:17:28&#43;02:00</updated>
+    <updated>2022-05-10T10:54:13&#43;02:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -17,10 +17,10 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</rights>
     <generator uri="https://gohugo.io/" version="0.83.1">Hugo</generator>
         <entry>
-            <title type="text">Evaluacion del rendimiento de modelos</title>
+            <title type="text">Evaluación del rendimiento de modelos</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/evaluacion-modelos/" />
             <id>https://sgtsteiner.github.io/posts/evaluacion-modelos/</id>
-            <updated>2022-05-09T20:16:53&#43;02:00</updated>
+            <updated>2022-05-10T10:29:00&#43;02:00</updated>
             <published>2022-05-03T17:30:50&#43;02:00</published>
             <author>
                     <name>Antonio Méndez</name>

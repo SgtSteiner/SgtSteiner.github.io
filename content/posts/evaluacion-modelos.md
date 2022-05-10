@@ -1,5 +1,5 @@
 ---
-title: "Evaluacion del rendimiento de modelos"
+title: "Evaluación del rendimiento de modelos"
 date: 2022-05-03T17:30:50+02:00
 tags: [dummy, baseline, kfold, stratification, estratificación, ShuffleSplit, accuracy, precision, recall, AUC, ROC AUC, sensibilidad, especificidad, R2]
 categories: [tutoriales]
