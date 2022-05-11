@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://sgtsteiner.github.io/categories/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/lag-feature/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n-lineal/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/series-temporales/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/series-temporales/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/time-series-linear-regression/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/time-dummy/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/time-step-feature/</loc>
+    <lastmod>2022-05-11T17:17:35+02:00</lastmod>
+  </url><url>
     <loc>https://sgtsteiner.github.io/tags/accuracy/</loc>
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
@@ -9,9 +42,6 @@
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/baseline/</loc>
-    <lastmod>2022-05-10T10:29:00+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/categories/</loc>
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/dummy/</loc>
@@ -27,12 +57,6 @@
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/kfold/</loc>
-    <lastmod>2022-05-10T10:29:00+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2022-05-10T10:29:00+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/posts/</loc>
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/precision/</loc>
@@ -54,9 +78,6 @@
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/stratification/</loc>
-    <lastmod>2022-05-10T10:29:00+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/</loc>
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/tutoriales/</loc>
@@ -105,9 +126,6 @@
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/polynomialfeatures/</loc>
-    <lastmod>2022-04-09T11:23:05+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n-lineal/</loc>
     <lastmod>2022-04-09T11:23:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/regresi%C3%B3n-log%C3%ADstica/</loc>
