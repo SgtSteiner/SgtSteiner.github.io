@@ -142,7 +142,7 @@ tunnel.head()
 
 
 
-Hagamos un gráfico de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.
+Hagamos una gráfica de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.
 
 Para crar un media móvil, primero usaremos el método `rolling` para empezar el cálculo en la ventana.
 

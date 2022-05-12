@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</copyright>
         
-        <lastBuildDate>Thu, 12 May 2022 17:29:11 &#43;0200</lastBuildDate>
+        <lastBuildDate>Thu, 12 May 2022 17:36:27 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://sgtsteiner.github.io/rss.xml" />
         
@@ -199,7 +199,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;p&gt;Hagamos un gráfico de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.&lt;/p&gt;
+&lt;p&gt;Hagamos una gráfica de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.&lt;/p&gt;
 &lt;p&gt;Para crar un media móvil, primero usaremos el método &lt;code&gt;rolling&lt;/code&gt; para empezar el cálculo en la ventana.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;moving_average&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tunnel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rolling&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;window&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;365&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;# ventana de 365 días&lt;/span&gt;

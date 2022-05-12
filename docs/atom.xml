@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-ES">
     <title type="text">Lords of the Machine Learning</title>
     <subtitle type="html">Lords of Machine Learning es un blog de Antonio Méndez</subtitle>
-    <updated>2022-05-12T17:29:11&#43;02:00</updated>
+    <updated>2022-05-12T17:36:27&#43;02:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -87,7 +87,7 @@
             <title type="text">Series temporales: (2) Tendencia</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/time-series-trend/" />
             <id>https://sgtsteiner.github.io/posts/time-series-trend/</id>
-            <updated>2022-05-12T12:14:59&#43;02:00</updated>
+            <updated>2022-05-12T17:35:23&#43;02:00</updated>
             <published>2022-05-11T17:56:53&#43;02:00</published>
             <author>
                     <name>Antonio Méndez</name>
@@ -193,7 +193,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;p&gt;Hagamos un gráfico de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.&lt;/p&gt;
+&lt;p&gt;Hagamos una gráfica de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.&lt;/p&gt;
 &lt;p&gt;Para crar un media móvil, primero usaremos el método &lt;code&gt;rolling&lt;/code&gt; para empezar el cálculo en la ventana.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;moving_average&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tunnel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rolling&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;window&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;365&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;# ventana de 365 días&lt;/span&gt;

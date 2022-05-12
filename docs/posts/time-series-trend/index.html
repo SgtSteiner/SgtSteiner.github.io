@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.49400d21a299355489a0a02cf7737ef1e4e5fe75fe5bd16cd756376c2bb6b749.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
 
     
 
@@ -54,7 +54,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-05-11T17:56:53+02:00",
-        "dateModified": "2022-05-12T12:14:59+02:00",
+        "dateModified": "2022-05-12T17:35:23+02:00",
         "url": "https://sgtsteiner.github.io/posts/time-series-trend/",
         "headline": "Series temporales: (2) Tendencia",
         "description": "Tendencia ¿Qué es una tendencia? El componente tendencia de una serie temporal representa un cambio persistente a largo plazo en la media de la serie. La tendencia es la parte más lenta del movimiento de una serie, la parte que representa la mayor escala de tiempo de importancia.",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/patrones_tendencia.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-05-11T17:56:53&#43;02:00" />
-    <meta property="article:modified_time" content="2022-05-12T12:14:59&#43;02:00" />
+    <meta property="article:modified_time" content="2022-05-12T17:35:23&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -241,7 +241,7 @@
     
     
         
-        <time datetime="2022-05-12T12:14:59&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;12.5.2022</time>
+        <time datetime="2022-05-12T17:35:23&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;12.5.2022</time>
     
     
     
@@ -365,7 +365,7 @@
   </tbody>
 </table></div>
 </div>
-<p>Hagamos un gráfico de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.</p>
+<p>Hagamos una gráfica de media móvil para ver qué tipo de tendencia tiene esta serie. Dado que esta serie tiene observaciones diarias, elegiremos una ventada de 365 días para suavizar cualquier cambio a corto plazo dentro del año.</p>
 <p>Para crar un media móvil, primero usaremos el método <code>rolling</code> para empezar el cálculo en la ventana.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">moving_average</span> <span class="o">=</span> <span class="n">tunnel</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
     <span class="n">window</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span>       <span class="c1"># ventana de 365 días</span>
@@ -642,7 +642,7 @@ Freq: D, Name: FoodAndBeverage, dtype: int64
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-05-12 12:14:59 CEST" style="cursor:help">
+        <span title="Updated @ 2022-05-12 17:35:23 CEST" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-12</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-12</text></g></svg>
         </span></div>
