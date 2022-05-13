@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Antonio Méndez" /><meta name="description" content="Lords of Machine Learning es un blog de Antonio Méndez" />
+    <meta name="author" content="Antonio Méndez" /><meta name="description" content="Estacionalidad ¿Qué es la estacionalidad? Se dice que una serie temporal exhibe estacionalidad siempre que haya un cambio regular y periodico en la media de la serie. Generalmente, los cambios estacionales siguen el reloj y el calendario. Son comunes las repeticiones en un día, una semana o un año." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -54,14 +54,14 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-05-12T13:21:13+02:00",
-        "dateModified": "2022-05-12T14:06:28+02:00",
+        "dateModified": "2022-05-13T10:24:08+02:00",
         "url": "https://sgtsteiner.github.io/posts/time-series-seasonality/",
         "headline": "Series temporales: (3) Estacionalidad",
-        "description": "Lords of Machine Learning es un blog de Antonio Méndez",
+        "description": "Estacionalidad ¿Qué es la estacionalidad? Se dice que una serie temporal exhibe estacionalidad siempre que haya un cambio regular y periodico en la media de la serie. Generalmente, los cambios estacionales siguen el reloj y el calendario. Son comunes las repeticiones en un día, una semana o un año.",
         "inLanguage" : "es-ES",
         "articleSection": "posts",
-        "wordCount":  0 ,
-        "image": "https://sgtsteiner.github.io/icons/apple-touch-icon.png",
+        "wordCount":  2963 ,
+        "image": ["https://sgtsteiner.github.io/images/patrones_estacionalidad.png","https://sgtsteiner.github.io/images/season_trigonometry.png","https://sgtsteiner.github.io/images/one_hot_trigonometry.png","https://sgtsteiner.github.io/images/estacionalidad_linear_regresion.png","https://sgtsteiner.github.io/images/fourier_trigonometria.png","https://sgtsteiner.github.io/images/fourier_pares.png","https://sgtsteiner.github.io/images/fourier_pairs_trigonometria.png","https://sgtsteiner.github.io/images/periodograma.png","https://sgtsteiner.github.io/images/output_30_0.png","https://sgtsteiner.github.io/images/output_32_1.png","https://sgtsteiner.github.io/images/output_37_3.png","https://sgtsteiner.github.io/images/output_44_1.png","https://sgtsteiner.github.io/images/output_46_6.png","https://sgtsteiner.github.io/images/output_53_3.png","https://sgtsteiner.github.io/images/output_56_1.png","https://sgtsteiner.github.io/images/output_64_1.png","https://sgtsteiner.github.io/images/output_70_3.png"],
         "author": {
             "@type": "Person",
             "description": "Sgt. Steiner",
@@ -89,7 +89,8 @@
 
     
 
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+
 
 <meta name="twitter:site" content="@Steiner_69" />
 <meta name="twitter:creator" content="@Steiner_69" />
@@ -99,13 +100,13 @@
 
 
 <meta property="og:title" content="Series temporales: (3) Estacionalidad" />
-<meta property="og:description" content="Lords of Machine Learning es un blog de Antonio Méndez" />
+<meta property="og:description" content="Estacionalidad ¿Qué es la estacionalidad? Se dice que una serie temporal exhibe estacionalidad siempre que haya un cambio regular y periodico en la media de la serie. Generalmente, los cambios estacionales siguen el reloj y el calendario. Son comunes las repeticiones en un día, una semana o un año." />
 <meta property="og:url" content="https://sgtsteiner.github.io/posts/time-series-seasonality/" />
 <meta property="og:site_name" content="Lords of the Machine Learning" />
-<meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/icons/apple-touch-icon.png" />
-    <meta property="og:type" content="article" />
+<meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/patrones_estacionalidad.png" />
+<meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-05-12T13:21:13&#43;02:00" />
-    <meta property="article:modified_time" content="2022-05-12T14:06:28&#43;02:00" />
+    <meta property="article:modified_time" content="2022-05-13T10:24:08&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -240,7 +241,7 @@
     
     
         
-        <time datetime="2022-05-12T14:06:28&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;12.5.2022</time>
+        <time datetime="2022-05-13T10:24:08&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;13.5.2022</time>
     
     
     
@@ -254,11 +255,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;0</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2963</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;0&nbsp;</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;14&nbsp;</span>
     
     
     
@@ -267,7 +268,1161 @@
             
 
             <div class="post-body e-content">
-              
+              <h1 id="estacionalidad"><a href="#estacionalidad" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Estacionalidad</h1>
+<h2 id="qué-es-la-estacionalidad"><a href="#qué-es-la-estacionalidad" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>¿Qué es la estacionalidad?</h2>
+<p style="text-indent:0"><span class="drop-cap">S</span>e dice que una serie temporal exhibe estacionalidad siempre que haya un cambio regular y periodico en la media de la serie. Generalmente, los cambios estacionales siguen el reloj y el calendario. Son comunes las repeticiones en un día, una semana o un año. La estacionalidad suele estar dirigida por los ciclos del mundo natural durante días y años o por convenciones de comportamiento social en torno a fechas y horas.</p>
+<p><img src="/images/patrones_estacionalidad.png" alt="patrones de estacionalidad"></p>
+<p>Veremos que hay dos tipos de variables que modelan la estacionalidad. El primer tipo, los indicadores, es mejor para una estacionalidad con pocas observaciones, como la estacionalidad semanal de observaciones diarias. El segundo tipo, variables Fourier, es mejor para una estacionalidad con muchas observaciones, como la estacionalidad anual de observaciones diarias.</p>
+<h2 id="gráficas-de-estacionalidad-e-indicadores-de-estacionalidad"><a href="#gráficas-de-estacionalidad-e-indicadores-de-estacionalidad" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Gráficas de estacionalidad e indicadores de estacionalidad</h2>
+<p>Al igual que usamos una gráfica de media móvil para descubrir la tendencia en una serie, podemos usar una <strong>gráfica estacional</strong> para descubrir patrones estacionales.</p>
+<p>Una gráfica estacional muestra segmentos de la serie temporal representados en un periodo común, siento el periodo la &ldquo;estación&rdquo; que queremos observar. La siguiente figura muestra una gráfica estacional de las vistas diarias del artículo de Wikipedia sobre <a href="https://en.wikipedia.org/wiki/Trigonometry" target="_blank" rel="noopener"><em>Trigonometría</em></a>: las vistas diarias del artículo dibujadas sobre un periodo semanal común. En ella se puede observar claramente un patrón estacional semanal, más grande entre semana y descendente hacia el fin de semana.</p>
+<p><img src="/images/season_trigonometry.png" alt="season_trigonometry"></p>
+<h3 id="indicadores-estacionales"><a href="#indicadores-estacionales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Indicadores estacionales</h3>
+<p>Los <strong>indicadores estacionales</strong> son features binarias que representan diferencias estacionales en el nivel de una serie temporal. Los indicadores estacionales son lo que obtenemos si tratamos un periodo estacional como una variable categórica y le aplicamos codificación <em>one-hot</em>.</p>
+<p>Al codificar one-hot los días de la semana, obtenemos indicadores estacionales semanales. La creación de indicadores semanales para la serie <em>Trigonometría</em> nos proporcionará seis nuevas features &ldquo;dummy&rdquo;. (La regresión lineal trabaja mejor si eliminamos unos de los indicadores; elegimos el lunes en la tabla siguiente.)</p>
+<p><img src="/images/one_hot_trigonometry.png" alt="one_hot_trigonometry"></p>
+<p>Añadir los indicadores estacionales a los datos de entrenamiento ayuda a los modelos a distinguir medias dentro de un periodo estacional:</p>
+<p><img src="/images/estacionalidad_linear_regresion.png" alt="linear_regresion_estacionalidad"></p>
+<p>Los indicadores actúan como interruptores encendido/apagado. En cualquier momento, como máximo uno de esos indicadores puede tener un valor de 1 (<em>encendido</em>). La regresión lineal aprende un valor de línea base de <code>2379</code> para <code>Mon</code> y luego lo ajusta según el valor de si el indicador está <em>encendido</em> para ese día; el resto son <code>0</code> y desaparecen.</p>
+<h3 id="variables-fourier-y-el-periodograma"><a href="#variables-fourier-y-el-periodograma" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Variables Fourier y el Periodograma</h3>
+<p>Este tipo de features es más apropiado para grandes estacionalidades en muchas observaciones, donde los indicadores serían impracticables. En lugar de crear una variable para cada fecha, las features Fourier intentar capturar la forma global de la curva estacional con solo unas pocas features.</p>
+<p>Echemos un vistazo al gráfico de la estacionalidad anual de <em>Trigonometría</em>. Observemos las repeticiones de varias frecuencias:  un movimiento largo ascendente y descendente tres veces al año, movimientos cortos semanales 52 veces al año y tal vez otros.</p>
+<p><img src="/images/fourier_trigonometria.png" alt="fourier_trigonometria"></p>
+<p>Estas son las frecuencias dentro de una estación que intentamos capturar con las features Fourier. La idea es incluir en nuestros datos de entrenamiento curvas periodicas que tengan las mismas frecuencias que la estación que estamos intentando modelar. Las curvas que utilizamos son las de las funciones seno y coseno.</p>
+<p>Las <strong>features Fourier</strong> son pares de curvas seno y coseno, un par para cada potencial frecuencia en la estación empezando con la más larga. Los pares de Fourier que modelan la estacionalidad anual tendrían frecuencias: una vez al año, dos veces por año, tres veces por año y así sucesivamente.</p>
+<p><img src="/images/fourier_pares.png" alt="fourier_pares"></p>
+<p>En la figura anterior se muestras los primeros dos pares Fourier para la estacionalidad anual. En la parte superior, frecuencia de una vez por año. En la parte inferior, frecuencia de dos veces por año.</p>
+<p>Si añadimos un conjunto de estas curvas seno/coseno a nuestros datos de entrenamiento, el algoritmo de regresión lineal averiguará los pesos que ajustarán el componente estacional en la serie objetivo. La siguiente figura ilustra cómo la regresión lineal usó cuatro pares Fourier para modelar la estacionalidad anual en la serie <em>Trigonometría de la wiki</em>.</p>
+<p><img src="/images/fourier_pairs_trigonometria.png" alt="trigonometria_pares_fourier"></p>
+<p>En la parte superior, las curvas de cuatro pares, una suma de senos y cosenos con coeficientes de regresión. Cada curva modela una frecuencia diferente. En la parte inferior, la suma de esas curvas aproxima el patrón estacional.</p>
+<p>Tengamos en cuenta que solo necesitamos ocho features (cuatro pares seno/coseno) para obtener una buena estimación de la estacionalidad anual. Comparemos esto con el método de indicadores estacionales, que habría requerido cientos de features (una por cada día del año). Al modelar solo el &ldquo;efecto pincipal&rdquo; de la estacionalidad con features Fourier, normalmente necesitaremos añadir muchas menos funciones a los datos de entrenamiento, lo que reduce el tiempo computacional y disminuye el riesgo de overfitting.</p>
+<h4 id="elegir-features-fourier-con-el-periodograma"><a href="#elegir-features-fourier-con-el-periodograma" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Elegir features Fourier con el Periodograma</h4>
+<p>¿Cuántos pares Fourier se deben añadir realmente en nuestro conjunto de features? Podemos responder esta pregunta con el periodograma. El <strong>periodograma</strong> nos dice la fortaleza de las frecuencias de un serie temporal. Específicamente, el valor del eje y del gráfico es <code>(a ** 2 + b ** 2) / 2</code>, donde <code>a</code> y <code>b</code> son los coeficientes del seno y coseno en esa frecuencia (como vimos en el grafico anterior).</p>
+<p><img src="/images/periodograma.png" alt="periodograma"></p>
+<p>De izquierda a derecha, el periodograma cae después de trimestral (<em>quarterly</em>), cuatro veces al año. Por eso elegimos cuatro pares Fourier para modelas la estacionalidad anual. La frecuencia semanal la ignoramos, dado que es mejor modelarla con indicadores.</p>
+<h4 id="calculo-de-las-features-fourier"><a href="#calculo-de-las-features-fourier" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Calculo de las features Fourier</h4>
+<p>Saber cómo se calculan las features Fourier no es esencial para saber usarlas, pero si se ven los detalles se pueden aclarar cosas. A continuación, se muestra cómo se pueden derivar un conjunto de features Fourier del índice de una serie temporal. Sin embargo, para nuestros ejemplos usaremos una función de <code>statsmodels</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="k">def</span> <span class="nf">fourier_features</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">freq</span><span class="p">)</span> <span class="o">*</span> <span class="n">time</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="n">f</span><span class="s2">&#34;sin_{freq}_{i}&#34;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">k</span><span class="p">),</span>
+            <span class="n">f</span><span class="s2">&#34;cos_{freq}_{i}&#34;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">k</span><span class="p">),</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+
+
+<span class="c1"># Calcula features Fourier de 4º orden (8 nuevas features) para una</span>
+<span class="c1"># serie y con observaciones diarias y estacionalidad anual:</span>
+<span class="c1">#</span>
+<span class="c1"># fourier_features(y, freq=365.25, order=4)</span></code></pre></div>
+<h2 id="ejemplo---tráfico-del-túnel"><a href="#ejemplo---tráfico-del-túnel" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejemplo - Tráfico del Túnel</h2>
+<p>Utilizaremos el dataset de Tráfico del Túnel. Vamos a definir 2 funciones: <code>seasonal_plot</code> y <code>plot_periodogram</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">CalendarFourier</span><span class="p">,</span> <span class="n">DeterministicProcess</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Set Matplotlib defaults</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&#34;figure&#34;</span><span class="p">,</span> <span class="n">autolayout</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
+    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
+    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
+    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+    <span class="n">titlesize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
+    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s1">&#39;retina&#39;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seasonal_plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;husl&#34;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">X</span><span class="p">[</span><span class="n">period</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+        <span class="n">ci</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+        <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Gráfico estacional ({period}/{freq})&#34;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">period</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_</span><span class="p">),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">get_color</span><span class="p">(),</span>
+            <span class="n">xycoords</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis_transform</span><span class="p">(),</span>
+            <span class="n">textcoords</span><span class="o">=</span><span class="s2">&#34;offset points&#34;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">&#34;center&#34;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">plot_periodogram</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">periodogram</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">&#34;1Y&#34;</span><span class="p">)</span> <span class="o">/</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">&#34;1D&#34;</span><span class="p">)</span>
+    <span class="n">freqencies</span><span class="p">,</span> <span class="n">spectrum</span> <span class="o">=</span> <span class="n">periodogram</span><span class="p">(</span>
+        <span class="n">ts</span><span class="p">,</span>
+        <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+        <span class="n">detrend</span><span class="o">=</span><span class="n">detrend</span><span class="p">,</span>
+        <span class="n">window</span><span class="o">=</span><span class="s2">&#34;boxcar&#34;</span><span class="p">,</span>
+        <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">freqencies</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;purple&#34;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&#34;log&#34;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">104</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s2">&#34;Annual (1)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Semiannual (2)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Quarterly (4)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Bimonthly (6)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Monthly (12)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Biweekly (26)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Weekly (52)&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;Semiweekly (104)&#34;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&#34;y&#34;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&#34;sci&#34;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;Variance&#34;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Periodogram&#34;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tunnel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/tunnel.csv&#34;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Day&#34;</span><span class="p">])</span>
+<span class="n">tunnel</span> <span class="o">=</span> <span class="n">tunnel</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&#34;Day&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&#34;D&#34;</span><span class="p">)</span></code></pre></div>
+<p>Echemos un vistazo al gráfico estacional durante una semana y durante un año.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span> <span class="o">=</span> <span class="n">tunnel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># días dentro de una semana</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;day&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dayofweek</span>  <span class="c1"># eje x (freq)</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;week&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">week</span>  <span class="c1"># periodo estacional (period)</span>
+
+<span class="c1"># días dentro de un año</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;dayofyear&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dayofyear</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;year&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">seasonal_plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;NumVehicles&#34;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s2">&#34;week&#34;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&#34;day&#34;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">)</span>
+<span class="n">seasonal_plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;NumVehicles&#34;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s2">&#34;year&#34;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&#34;dayofyear&#34;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_30_0.png" alt="png"></p>
+<p>Veamos ahora el periodograma:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plot_periodogram</span><span class="p">(</span><span class="n">tunnel</span><span class="o">.</span><span class="n">NumVehicles</span><span class="p">);</span></code></pre></div>
+<pre><code>C:\Users\futit\AppData\Local\Temp\ipykernel_8772\272637971.py:1: FutureWarning: Units 'M', 'Y' and 'y' do not represent unambiguous timedelta values and will be removed in a future version.
+  plot_periodogram(tunnel.NumVehicles);
+</code></pre>
+<p><img src="/images/output_32_1.png" alt="png"></p>
+<p>El periodograma concuerda con el gráfico estacional anterior: una fuerte estacionalidad semanal y una estacionalidad anual más débil. La estacionalidad semanal la modelaremos con indicadores y la estacionalidad anual con features Fourier. De derecha a izquierda, el periodograma cae entre Semestral (6) y Mensual (12), así que usaremos 10 pares Fourier.</p>
+<p>Crearemos nuestras features estacionales usando <code>DeterministicProcess</code>, la misma utilidad usada para crear la features de tendencia. Para usar dos periodos estacionales (semanal y anual) necesitaremos instanciar uno de ellos como un &ldquo;término adicional&rdquo;:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">CalendarFourier</span><span class="p">,</span> <span class="n">DeterministicProcess</span>
+
+<span class="n">fourier</span> <span class="o">=</span> <span class="n">CalendarFourier</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">&#34;A&#34;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10 pares seno/coseno para estacionalidad &#34;A&#34;nual</span>
+
+<span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">tunnel</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>               <span class="c1"># feature dummy para bias (y-intercept)</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                     <span class="c1"># tendencia (orden 1 significa lineal)</span>
+    <span class="n">seasonal</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>               <span class="c1"># estacionalidad semanal (indicadores)</span>
+    <span class="n">additional_terms</span><span class="o">=</span><span class="p">[</span><span class="n">fourier</span><span class="p">],</span>  <span class="c1"># estacionalidad anual (fourier)</span>
+    <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>                   <span class="c1"># eliminamos términos para evitar colinealidad</span>
+<span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>  <span class="c1"># crear features para fecha en tunnel.index</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>trend</th>
+      <th>s(2,7)</th>
+      <th>s(3,7)</th>
+      <th>s(4,7)</th>
+      <th>s(5,7)</th>
+      <th>s(6,7)</th>
+      <th>s(7,7)</th>
+      <th>sin(1,freq=A-DEC)</th>
+      <th>cos(1,freq=A-DEC)</th>
+      <th>...</th>
+      <th>sin(6,freq=A-DEC)</th>
+      <th>cos(6,freq=A-DEC)</th>
+      <th>sin(7,freq=A-DEC)</th>
+      <th>cos(7,freq=A-DEC)</th>
+      <th>sin(8,freq=A-DEC)</th>
+      <th>cos(8,freq=A-DEC)</th>
+      <th>sin(9,freq=A-DEC)</th>
+      <th>cos(9,freq=A-DEC)</th>
+      <th>sin(10,freq=A-DEC)</th>
+      <th>cos(10,freq=A-DEC)</th>
+    </tr>
+    <tr>
+      <th>Day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003-11-01</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-0.867456</td>
+      <td>0.497513</td>
+      <td>...</td>
+      <td>-0.017213</td>
+      <td>0.999852</td>
+      <td>-0.875892</td>
+      <td>0.482508</td>
+      <td>-0.854322</td>
+      <td>-0.519744</td>
+      <td>0.025818</td>
+      <td>-0.999667</td>
+      <td>0.880012</td>
+      <td>-0.474951</td>
+    </tr>
+    <tr>
+      <th>2003-11-02</th>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-0.858764</td>
+      <td>0.512371</td>
+      <td>...</td>
+      <td>0.085965</td>
+      <td>0.996298</td>
+      <td>-0.811539</td>
+      <td>0.584298</td>
+      <td>-0.917584</td>
+      <td>-0.397543</td>
+      <td>-0.128748</td>
+      <td>-0.991677</td>
+      <td>0.785650</td>
+      <td>-0.618671</td>
+    </tr>
+    <tr>
+      <th>2003-11-03</th>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-0.849817</td>
+      <td>0.527078</td>
+      <td>...</td>
+      <td>0.188227</td>
+      <td>0.982126</td>
+      <td>-0.735417</td>
+      <td>0.677615</td>
+      <td>-0.963471</td>
+      <td>-0.267814</td>
+      <td>-0.280231</td>
+      <td>-0.959933</td>
+      <td>0.668064</td>
+      <td>-0.744104</td>
+    </tr>
+    <tr>
+      <th>2003-11-04</th>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-0.840618</td>
+      <td>0.541628</td>
+      <td>...</td>
+      <td>0.288482</td>
+      <td>0.957485</td>
+      <td>-0.648630</td>
+      <td>0.761104</td>
+      <td>-0.991114</td>
+      <td>-0.133015</td>
+      <td>-0.425000</td>
+      <td>-0.905193</td>
+      <td>0.530730</td>
+      <td>-0.847541</td>
+    </tr>
+    <tr>
+      <th>2003-11-05</th>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-0.831171</td>
+      <td>0.556017</td>
+      <td>...</td>
+      <td>0.385663</td>
+      <td>0.922640</td>
+      <td>-0.552435</td>
+      <td>0.833556</td>
+      <td>-0.999991</td>
+      <td>0.004304</td>
+      <td>-0.559589</td>
+      <td>-0.828770</td>
+      <td>0.377708</td>
+      <td>-0.925925</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>5 rows × 28 columns</p>
+</div>
+<p>Con nuestro conjunto de features creado, estamos listos para entrenar el modelo y hacer predicciones. Añadiremos un pronóstico de 90 días para ver cómo extrapola nuestro modelo más allá de los datos de entrenamiento.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span> <span class="o">=</span> <span class="n">tunnel</span><span class="p">[</span><span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">X_fore</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">out_of_sample</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">y_fore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_fore</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X_fore</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&#34;Tráfico del Túnel - Pronóstico estacionalidad&#34;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Estacional&#34;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_fore</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Pronóstico estacional&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span></code></pre></div>
+<p><img src="/images/output_37_3.png" alt="png"></p>
+<h1 id="ejercicio"><a href="#ejercicio" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejercicio</h1>
+<p>Vamos a realizar un ejercicio para ampliar lo que acabamos de ver. Para ello cargaremos algunos datasets.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
+    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;sales&#39;</span><span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;store_nbr&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sales&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span>
+    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">store_sales</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">average_sales</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">store_sales</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017&#39;</span><span class="p">]</span>
+<span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">average_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<pre><code>date
+2017-01-01      6.780303
+2017-01-02    786.928406
+2017-01-03    619.740234
+2017-01-04    555.608032
+2017-01-05    436.375397
+Freq: D, Name: sales, dtype: float32
+</code></pre>
+<h2 id="determinar-la-estacionalidad"><a href="#determinar-la-estacionalidad" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Determinar la estacionalidad</h2>
+<p>Examinemos el siguiente gráfico estacional:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;week&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">week</span>
+<span class="n">X</span><span class="p">[</span><span class="s2">&#34;day&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dayofweek</span>
+<span class="n">seasonal_plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;week&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_44_1.png" alt="png"></p>
+<p>y el periodograma:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plot_periodogram</span><span class="p">(</span><span class="n">average_sales</span><span class="p">);</span></code></pre></div>
+<pre><code>C:\Users\futit\AppData\Local\Temp\ipykernel_8772\69537304.py:1: FutureWarning: Units 'M', 'Y' and 'y' do not represent unambiguous timedelta values and will be removed in a future version.
+  plot_periodogram(average_sales);
+</code></pre>
+<p><img src="/images/output_46_6.png" alt="png"></p>
+<p><strong>¿De qué tipo de estacionalidad se ve evidencia?</strong></p>
+<p>Ambos gráficos sugieren una fuerte estacionalidad semanal. Del periodograma parece que también puede haber algunos componentes mensuales y bisemanales (quincenales) De hecho, las notas del dataset dicen que los salarios en el sector público se pagan quincenalmente, el 15 y último día de cada mes (un posible origen para esta estacionalidad).</p>
+<h2 id="crear-features-estacionales"><a href="#crear-features-estacionales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Crear features estacionales</h2>
+<p><strong>Usa <code>DeterministicProcess</code> y <code>CalendarFourier</code> para crear:</strong></p>
+<ul>
+<li>
+<p><strong>indicadores para estaciones semanales y</strong></p>
+</li>
+<li>
+<p><strong>features Fourier de orden 4 para estaciones mensuales</strong></p>
+</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># YOUR CODE HERE</span>
+<span class="n">fourier</span> <span class="o">=</span> <span class="n">CalendarFourier</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">&#34;M&#34;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># 4 pares seno/coseno para estacionalidad &#34;M&#34;ensual</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">seasonal</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">additional_terms</span><span class="o">=</span><span class="p">[</span><span class="n">fourier</span><span class="p">],</span>
+    <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span></code></pre></div>
+<p>Ahora vamos a entrenar el modelo estacional.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&#34;Ventas promedio&#34;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&#34;artículos vendidos&#34;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Estacional&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span></code></pre></div>
+<p><img src="/images/output_53_3.png" alt="png"></p>
+<h2 id="comprobar-la-estacionalidad-restante"><a href="#comprobar-la-estacionalidad-restante" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Comprobar la estacionalidad restante</h2>
+<p>Eliminar de una serie su tendencia o estacionalidad se denomina &ldquo;<em>detrending</em>&rdquo; o &ldquo;desestacionalizar&rdquo; la serie. Observemos el periodograma de la serie desestacionalizada.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_deseason</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_pred</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plot_periodogram</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Componentes de Frecuenca de Venta de Productos&#34;</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plot_periodogram</span><span class="p">(</span><span class="n">y_deseason</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Desestacionalizado&#34;</span><span class="p">);</span></code></pre></div>
+<pre><code>C:\Users\futit\AppData\Local\Temp\ipykernel_8772\3088312804.py:4: FutureWarning: Units 'M', 'Y' and 'y' do not represent unambiguous timedelta values and will be removed in a future version.
+  ax1 = plot_periodogram(y, ax=ax1)
+C:\Users\futit\AppData\Local\Temp\ipykernel_8772\3088312804.py:6: FutureWarning: Units 'M', 'Y' and 'y' do not represent unambiguous timedelta values and will be removed in a future version.
+  ax2 = plot_periodogram(y_deseason, ax=ax2)
+</code></pre>
+<p><img src="/images/output_56_1.png" alt="png"></p>
+<p><strong>Basándonos en estos periodogramas, ¿cómo de efectivo parece que nuestro modelo capturó la estacionalidad? ¿El periodograma concuerda con la gráfica de tiempo de la serie desestacionalizada?</strong></p>
+<p>El periodograma de la serie desestacionalizada carece de valores grandes. Al compararlo con el periodograma de la serie original podemos ver que nuestro modelo fue capaz de capturar la variación estacional en el dataset.</p>
+<h2 id="crear-features-de-vacaciones"><a href="#crear-features-de-vacaciones" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Crear features de vacaciones</h2>
+<p>En el dataset de ventas se incluye una tabla de fiestas.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">holidays_events</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&#34;../data/store_sales/holidays_events.csv&#34;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;locale&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;locale_name&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;transferred&#39;</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;date&#34;</span><span class="p">],</span>
+    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">holidays_events</span> <span class="o">=</span> <span class="n">holidays_events</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&#34;date&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&#34;D&#34;</span><span class="p">)</span>
+
+<span class="n">holidays_events</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>locale</th>
+      <th>locale_name</th>
+      <th>description</th>
+      <th>transferred</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2012-03-02</th>
+      <td>Holiday</td>
+      <td>Local</td>
+      <td>Manta</td>
+      <td>Fundacion de Manta</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2012-04-01</th>
+      <td>Holiday</td>
+      <td>Regional</td>
+      <td>Cotopaxi</td>
+      <td>Provincializacion de Cotopaxi</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2012-04-12</th>
+      <td>Holiday</td>
+      <td>Local</td>
+      <td>Cuenca</td>
+      <td>Fundacion de Cuenca</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2012-04-14</th>
+      <td>Holiday</td>
+      <td>Local</td>
+      <td>Libertad</td>
+      <td>Cantonizacion de Libertad</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2012-04-21</th>
+      <td>Holiday</td>
+      <td>Local</td>
+      <td>Riobamba</td>
+      <td>Cantonizacion de Riobamba</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Vacaciones nacionales y regionales en el conjunto de entrenamiento</span>
+<span class="n">holidays</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">holidays_events</span>
+    <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&#34;locale in [&#39;National&#39;, &#39;Regional&#39;]&#34;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017&#39;</span><span class="p">:</span><span class="s1">&#39;2017-08-15&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]]</span>
+    <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">remove_unused_categories</span><span class="p">())</span>
+<span class="p">)</span>
+
+<span class="n">holidays</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01</th>
+      <td>Primer dia del ano</td>
+    </tr>
+    <tr>
+      <th>2017-01-02</th>
+      <td>Traslado Primer dia del ano</td>
+    </tr>
+    <tr>
+      <th>2017-02-27</th>
+      <td>Carnaval</td>
+    </tr>
+    <tr>
+      <th>2017-02-28</th>
+      <td>Carnaval</td>
+    </tr>
+    <tr>
+      <th>2017-04-01</th>
+      <td>Provincializacion de Cotopaxi</td>
+    </tr>
+    <tr>
+      <th>2017-04-14</th>
+      <td>Viernes Santo</td>
+    </tr>
+    <tr>
+      <th>2017-05-01</th>
+      <td>Dia del Trabajo</td>
+    </tr>
+    <tr>
+      <th>2017-05-13</th>
+      <td>Dia de la Madre-1</td>
+    </tr>
+    <tr>
+      <th>2017-05-14</th>
+      <td>Dia de la Madre</td>
+    </tr>
+    <tr>
+      <th>2017-05-24</th>
+      <td>Batalla de Pichincha</td>
+    </tr>
+    <tr>
+      <th>2017-05-26</th>
+      <td>Traslado Batalla de Pichincha</td>
+    </tr>
+    <tr>
+      <th>2017-06-25</th>
+      <td>Provincializacion de Imbabura</td>
+    </tr>
+    <tr>
+      <th>2017-08-10</th>
+      <td>Primer Grito de Independencia</td>
+    </tr>
+    <tr>
+      <th>2017-08-11</th>
+      <td>Traslado Primer Grito de Independencia</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<p>A partir de un gráfico de ventas desestacionalizado, parece que estas vacaciones podrían tener algún poder predictivo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_deseason</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">holidays</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y_deseason</span><span class="p">[</span><span class="n">holidays</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Vacaciones nacionales y regionales&#39;</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_64_1.png" alt="png"></p>
+<p><strong>¿Qué tipo de features podríamos crear para ayudar a nuestro modelo a hacer uso de esta información? Scikit-learn y Pandas tienen utilidades que permitirían hacer esto de forma fácil.</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># solución Scikit-learn</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">one_hot</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">X_holidays</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">one_hot</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">holidays</span><span class="p">),</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">holidays</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="n">holidays</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span>
+<span class="p">)</span>
+
+<span class="n">X_holidays</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Primer dia del ano</th>
+      <th>Traslado Primer dia del ano</th>
+      <th>Carnaval</th>
+      <th>Provincializacion de Cotopaxi</th>
+      <th>Viernes Santo</th>
+      <th>Dia del Trabajo</th>
+      <th>Dia de la Madre-1</th>
+      <th>Dia de la Madre</th>
+      <th>Batalla de Pichincha</th>
+      <th>Traslado Batalla de Pichincha</th>
+      <th>Provincializacion de Imbabura</th>
+      <th>Primer Grito de Independencia</th>
+      <th>Traslado Primer Grito de Independencia</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-01-02</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-27</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-28</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-04-01</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># solución Pandas</span>
+<span class="n">X_holidays</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">holidays</span><span class="p">)</span>
+
+<span class="n">X_holidays</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description_Batalla de Pichincha</th>
+      <th>description_Carnaval</th>
+      <th>description_Dia de la Madre</th>
+      <th>description_Dia de la Madre-1</th>
+      <th>description_Dia del Trabajo</th>
+      <th>description_Primer Grito de Independencia</th>
+      <th>description_Primer dia del ano</th>
+      <th>description_Provincializacion de Cotopaxi</th>
+      <th>description_Provincializacion de Imbabura</th>
+      <th>description_Traslado Batalla de Pichincha</th>
+      <th>description_Traslado Primer Grito de Independencia</th>
+      <th>description_Traslado Primer dia del ano</th>
+      <th>description_Viernes Santo</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-01-02</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-27</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-28</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-04-01</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Unión a los datos de entrenamiento</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">X_holidays</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">X2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>trend</th>
+      <th>s(2,7)</th>
+      <th>s(3,7)</th>
+      <th>s(4,7)</th>
+      <th>s(5,7)</th>
+      <th>s(6,7)</th>
+      <th>s(7,7)</th>
+      <th>sin(1,freq=M)</th>
+      <th>cos(1,freq=M)</th>
+      <th>...</th>
+      <th>description_Dia de la Madre-1</th>
+      <th>description_Dia del Trabajo</th>
+      <th>description_Primer Grito de Independencia</th>
+      <th>description_Primer dia del ano</th>
+      <th>description_Provincializacion de Cotopaxi</th>
+      <th>description_Provincializacion de Imbabura</th>
+      <th>description_Traslado Batalla de Pichincha</th>
+      <th>description_Traslado Primer Grito de Independencia</th>
+      <th>description_Traslado Primer dia del ano</th>
+      <th>description_Viernes Santo</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-01-02</th>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.201299</td>
+      <td>0.979530</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-01-03</th>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.394356</td>
+      <td>0.918958</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-01-04</th>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.571268</td>
+      <td>0.820763</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-01-05</th>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.724793</td>
+      <td>0.688967</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>5 rows × 29 columns</p>
+</div>
+<p>Vamos a entrenar el modelo estacional con las features de vacaciones añadidas. <strong>¿Los valores ajustados parecen haber mejorado?</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X2</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X2</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&#34;Average Sales&#34;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&#34;items sold&#34;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Seasonal&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span></code></pre></div>
+<p><img src="/images/output_70_3.png" alt="png"></p>
+<p>El modelo ha mejorado las predicciones en los días festivos.</p>
+
             </div>
 
             
@@ -295,9 +1450,9 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-05-12 14:06:28 CEST" style="cursor:help">
+        <span title="Updated @ 2022-05-13 10:24:08 CEST" style="cursor:help">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-12</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-12</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-13</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-13</text></g></svg>
         </span></div>
 
 
@@ -323,7 +1478,7 @@
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/time-series-seasonality/&amp;title=Series%20temporales:%20%283%29%20Estacionalidad&amp;summary=Lords%20of%20Machine%20Learning%20es%20un%20blog%20de%20Antonio%20M%c3%a9ndez&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/time-series-seasonality/&amp;title=Series%20temporales:%20%283%29%20Estacionalidad&amp;summary=Estacionalidad%20%c2%bfQu%c3%a9%20es%20la%20estacionalidad?%20Se%20dice%20que%20una%20serie%20temporal%20exhibe%20estacionalidad%20siempre%20que%20haya%20un%20cambio%20regular%20y%20periodico%20en%20la%20media%20de%20la%20serie.%20Generalmente,%20los%20cambios%20estacionales%20siguen%20el%20reloj%20y%20el%20calendario.%20Son%20comunes%20las%20repeticiones%20en%20un%20d%c3%ada,%20una%20semana%20o%20un%20a%c3%b1o.&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
