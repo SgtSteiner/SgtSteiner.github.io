@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.83.1" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Series temporales: (4) series temporales como features | Lords of the Machine Learning</title>
+
+    <link rel="stylesheet" href="/css/meme.min.317d84c7f6754ad23a2ae219d212f73a900416875fb1144e27652ca955c5aac2.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Antonio Méndez" /><meta name="description" content="Serie temporal como feature ¿Qué es dependencia serial? Ya conocemos las propiedades de las series temporales que se modelan más fácilmente como propiedades dependientes del tiempo, es decir, con features que podíamos derivar directamente del índice del tiempo. Sin embargo, algunas propiedades de las series temporales solo se pueden modelar como propiedades dependientes serialmente, es decir, usando como features valores pasados de la serie objetivo." />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Lords of the Machine Learning" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Lords of the Machine Learning" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://sgtsteiner.github.io/posts/time-serie-as-feature/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2022-05-13T11:03:44+02:00",
+        "dateModified": "2022-05-18T17:23:43+02:00",
+        "url": "https://sgtsteiner.github.io/posts/time-serie-as-feature/",
+        "headline": "Series temporales: (4) series temporales como features",
+        "description": "Serie temporal como feature ¿Qué es dependencia serial? Ya conocemos las propiedades de las series temporales que se modelan más fácilmente como propiedades dependientes del tiempo, es decir, con features que podíamos derivar directamente del índice del tiempo. Sin embargo, algunas propiedades de las series temporales solo se pueden modelar como propiedades dependientes serialmente, es decir, usando como features valores pasados de la serie objetivo.",
+        "inLanguage" : "es-ES",
+        "articleSection": "posts",
+        "wordCount":  3850 ,
+        "image": ["https://sgtsteiner.github.io/images/serial_dependence.png","https://sgtsteiner.github.io/images/comportamiento_ciclico.png","https://sgtsteiner.github.io/images/lag_plot_us.png","https://sgtsteiner.github.io/images/partial_correlation.png","https://sgtsteiner.github.io/images/lag_plot_sunspot.png","https://sgtsteiner.github.io/images/output_24_1.png","https://sgtsteiner.github.io/images/output_26_1.png","https://sgtsteiner.github.io/images/output_26_2.png","https://sgtsteiner.github.io/images/output_32_0.png","https://sgtsteiner.github.io/images/output_34_0.png","https://sgtsteiner.github.io/images/output_36_1.png","https://sgtsteiner.github.io/images/output_40_2.png","https://sgtsteiner.github.io/images/output_49_0.png","https://sgtsteiner.github.io/images/output_53_4.png","https://sgtsteiner.github.io/images/output_57_3.png","https://sgtsteiner.github.io/images/output_57_2.png","https://sgtsteiner.github.io/images/output_63_4.png","https://sgtsteiner.github.io/images/output_70_4.png"],
+        "author": {
+            "@type": "Person",
+            "description": "Sgt. Steiner",
+            "email": "futitotal@gmail.com",
+            "image": "https://sgtsteiner.github.io/icons/apple-touch-icon.png",
+            "url": "https://sgtsteiner.github.io/",
+            "name": "Antonio Méndez"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Lords of the Machine Learning",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sgtsteiner.github.io/icons/apple-touch-icon.png"
+            },
+            "url": "https://sgtsteiner.github.io/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://sgtsteiner.github.io/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:site" content="@Steiner_69" />
+<meta name="twitter:creator" content="@Steiner_69" />
+
+    
+
+
+
+<meta property="og:title" content="Series temporales: (4) series temporales como features" />
+<meta property="og:description" content="Serie temporal como feature ¿Qué es dependencia serial? Ya conocemos las propiedades de las series temporales que se modelan más fácilmente como propiedades dependientes del tiempo, es decir, con features que podíamos derivar directamente del índice del tiempo. Sin embargo, algunas propiedades de las series temporales solo se pueden modelar como propiedades dependientes serialmente, es decir, usando como features valores pasados de la serie objetivo." />
+<meta property="og:url" content="https://sgtsteiner.github.io/posts/time-serie-as-feature/" />
+<meta property="og:site_name" content="Lords of the Machine Learning" />
+<meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/serial_dependence.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-05-13T11:03:44&#43;02:00" />
+    <meta property="article:modified_time" content="2022-05-18T17:23:43&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">Lords of the Machine Learning</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">Posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">Categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">Tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">About</span></a>
+                </li>
+            
+        
+            
+                
+                    
+                    
+                        <li class="menu-item">
+                            <a id="theme-switcher" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5l48.8-97.5a18 18 0 0128 0l48.8 97.5 103.4 -34.5a18 18 0 0119.8 19.8l-34.5 103.4l97.5 48.8a18 18 0 010 28l-97.5 48.8 34.5 103.4a18 18 0 01-19.8 19.8l-103.4-34.5-48.8 97.5a18 18 0 01-28 0l-48.8-97.5l-103.4 34.5a18 18 0 01-19.8-19.8l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8-34.5-103.4a18 18 0 0119.8-19.8zM256 128a128 128 0 10.01 0M256 160a96 96 0 10.01 0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412a256 256 0 10154-407a11.5 11.5 0 00-5 20a201.5 201.5 0 01-134 374a11.5 11.5 0 00-15 13"/></svg></a>
+                        </li>
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                <li class="menu-item search-item">
+                        <form id="search" class="search" role="search">
+    <label for="search-input"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon search-icon"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></label>
+    <input type="search" id="search-input" class="search-input">
+</form>
+
+<template id="search-result" hidden>
+    <article class="content post">
+        <h2 class="post-title"><a class="summary-title-link"></a></h2>
+        <summary class="summary"></summary>
+        <div class="read-more-container">
+            <a class="read-more-link"> »</a>
+        </div>
+    </article>
+</template>
+
+                    </li>
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-small-caps="true" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Series temporales: (4) series temporales como features</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-05-13T11:03:44&#43;02:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;13.5.2022</time>
+    
+    
+        
+        <time datetime="2022-05-18T17:23:43&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;18.5.2022</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/series-temporales/" class="category-link p-category">series temporales</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3850</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;19&nbsp;</span>
+    
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+              <h1 id="serie-temporal-como-feature"><a href="#serie-temporal-como-feature" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Serie temporal como feature</h1>
+<h2 id="qué-es-dependencia-serial"><a href="#qué-es-dependencia-serial" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>¿Qué es dependencia serial?</h2>
+<p style="text-indent:0"><span class="drop-cap">Y</span>a conocemos las propiedades de las series temporales que se modelan más fácilmente como propiedades <em>dependientes del tiempo</em>, es decir, con features que podíamos derivar directamente del índice del tiempo. Sin embargo, algunas propiedades de las series temporales solo se pueden modelar como propiedades <em>dependientes serialmente</em>, es decir, usando como features valores pasados de la serie objetivo. La estructura de estas series temporales puede no ser evidente en un gráfico de tiempo; sin embargo, dibujada contra valores pasados, la estructura se vuelve clara, como vemos la figura siguiente.</p>
+<p><img src="/images/serial_dependence.png" alt="serial_dependence"></p>
+<p>Estas dos series tienen dependencia serial, pero no dependencia de tiempo. Los puntos de la parte derecha tiene coordenadas (<code>valor en el tiempo t-1, valor en el tiempo t</code>).</p>
+<p>Con la tendencia y la estacionalidad, entrenamos modelos para ajustar curvas a gráficos como estos de la izquiera de la figura anterior, donde los modelos aprendían la dependencia de tiempo. El objetivo en este caso es entrenar modelos para ajustar curvas a gráficos como los de la derecha, donde lo que queremos es aprender dependencias seriales.</p>
+<h3 id="ciclos"><a href="#ciclos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ciclos</h3>
+<p>Una forma especialmente común en la que se manifiesta la dependencia serial es en los <strong>ciclos</strong>. Los ciclos son patrones de crecimiento y decrecimiento en una serie temporal asociados a cómo los valores de una serie en un momento dependen de los valores del momento anterior, pero no necesariamente del paso de tiempo en sí. El comporamiento cíclico es característico de los sistemas que pueden afectarse a sí mismos o cuyas reacciones persisten en el tiempo. Las economías, las epidemias, las poblaciones animales, las erupciones volcánicas y otros fenómenos naturales similares suelen mostrar comportamientos cíclicos. En la figura siguiente se pueden observar cuatro series temporales con comportamiento cíclico.</p>
+<p><img src="/images/comportamiento_ciclico.png" alt="comportamiento_ciclico"></p>
+<p>Lo que distingue el comportamiento cíclico de la estacionalidad es que los ciclos no son necesariamente dependientes del tiempo, como lo es la estacionalidad. Lo que sucede en un ciclo tiene menos que ver con la fecha en particular de ocurrencia y más con lo que sucedió en el pasado reciente. La, al menos relativa, independencia del tiempo significa que el comportamiento cíclico puede ser mucho más irregular que la estacionalidad.</p>
+<h2 id="series-demoradas-y-gráficos-de-lag"><a href="#series-demoradas-y-gráficos-de-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Series demoradas y gráficos de lag</h2>
+<p>Para investivar la posible dependencia serial (como ciclos) en una serie temporal, necesitamos crear copias &ldquo;demoradas&rdquo; (<em>lagged</em>) de la serie. Demorar o <strong>lagging</strong> una serie temporal significa deslizar/desplazar sus valores hacia adelante uno o más pasos de tiempo, o de forma equivalente, desplazar los tiempos de su índice hacia atrás uno o más pasos de tiempo. En cualquier caso, el efecto es que las observaciones en las serie lagged parecen haber sucedido más tarde en el tiempo.</p>
+<p>La siguiente tabla muestra la tasa de desempleo mensual en EEUU (<code>y</code>) junto con sus primera y segunda serie lagged (<code>y_lag_1</code>) y (<code>y_lag_2</code>), respectivamente. Observemos que los valores de las series lagged se desplazan hacia adelante en el tiempo.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="c1"># dataset de la reserva federal: https://www.kaggle.com/federalreserve/interest-rates</span>
+<span class="n">reserve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&#34;../data/reserve.csv&#34;</span><span class="p">,</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;Date&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Month&#39;</span><span class="p">,</span> <span class="s1">&#39;Day&#39;</span><span class="p">]},</span>
+    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Date&#34;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">reserve</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;Unemployment Rate&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&#34;y&#34;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+    <span class="s2">&#34;y_lag_1&#34;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&#34;y_lag_2&#34;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="p">})</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y</th>
+      <th>y_lag_1</th>
+      <th>y_lag_2</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1954-07</th>
+      <td>5.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1954-08</th>
+      <td>6.0</td>
+      <td>5.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1954-09</th>
+      <td>6.1</td>
+      <td>6.0</td>
+      <td>5.8</td>
+    </tr>
+    <tr>
+      <th>1954-10</th>
+      <td>5.7</td>
+      <td>6.1</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>1954-11</th>
+      <td>5.3</td>
+      <td>5.7</td>
+      <td>6.1</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<p>Con el lagging de una serie temporal podemos hacer que sus valores pasados parezcan contemporáneos con los valores que intentamos predecir (en la misma fila, en otras palabras). Esto hace a las series lagged útiles como features para modelar la dependencia serial. Para pronosticar la serie de tasa de desempleo en EEUU, podríamos usar <code>y_lag_1</code> e <code>y_lag_2</code> como features para predecir el objetivo <code>y</code>. Esto pronosticaría la futura tasa de desempleo en función de la tasa de desempleo de los dos meses anteriores.</p>
+<h3 id="gráficos-de-lag"><a href="#gráficos-de-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Gráficos de lag</h3>
+<p>Un gráfico de lag de una serie temporal muestra sus valores dibujados contra sus lag&rsquo;s. La dependencia serial en una serie temporal a menudo se hace evidente mirando un gráfico de lag. Podemos ver en el gráfico de lag de este dataset que hay una relación fuerte y aparentemente lineal entre la tasa de desempleo actual y las tasas pasadas.</p>
+<p><img src="/images/lag_plot_us.png" alt="lag_plot"></p>
+<p>La medida más comúnmente usada de dependencia serial es la <strong><a href="https://es.wikipedia.org/wiki/Autocorrelaci%C3%B3n" target="_blank" rel="noopener">autocorrelación</a></strong>, que es simplemente la correlación que una serie temporal tiene con uno de sus lag&rsquo;s. En este dataset, la tasa de desempleo de EEUU tiene una autocorrelación de 0.99 en el lag 1, 0.98 en el lag 2, y así sucesivamente.</p>
+<h3 id="elegir-el-lag"><a href="#elegir-el-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Elegir el lag</h3>
+<p>Generalmente, cuando elegimos lag&rsquo;s para usarlos como features, no será útil incluir <em>cada</em> lag con una gran autocorrelación. En cuanto al desempleo de EEUU, por ejemplo, la autocorrelación en el lag 2 podría resultar completamente de información &ldquo;descompuesta&rdquo; del lag 1, solo correlación que se transfiere del paso anterior. Si el lag 2 no contiene nada nuevo, no habría razón para incluirlo si ya disponemos del lag 1.</p>
+<p>La <strong>autocorrelación parcial</strong> nos dice la correlación de un lag teniendo en cuenta todos los lag&rsquo;s previos, por así decirlo la cantidad de correlación &ldquo;nueva&rdquo; que aporta el lag. Dibujar la autocorrelación parcial puede ayudar a elegir qué feature de lag usar. En la siguiente figura, el lag 1 hasta el lag 6 caen fuera del intervalo de &ldquo;no correlación&rdquo; (en azul), por lo que podríamos esos 6 lag&rsquo;s como features para el dataset de desempleo de EEUU. (El lag 11 es probablemente un falso positivo).</p>
+<p><img src="/images/partial_correlation.png" alt="partial_correlation"></p>
+<p>La figura muestra las autocorrelaciones parciales de desempleo EEUU hasta el lag 12 con intervarlos de confianza del 95% de no correlación.</p>
+<p>Un gráfico como el anterior se denomina <em><a href="https://es.wikipedia.org/wiki/Correlograma" target="_blank" rel="noopener">correlograma</a></em>. El correlograma es a las features lag lo que el periodograma es a las features Fourier.</p>
+<p>Finalmente, debemos tener en mente que la autocorrelación y la autocorrelación parcial son medidas de la dependencia <em>lineal</em>. Debido a que las series temporales del mundo real suelen tener dependencias no lineales sustancialmente, es mejor mirar un gráfico de lag (o usar alguna medida general de dependiencia, como <a href="https://www.kaggle.com/code/ryanholbrook/mutual-information/tutorial" target="_blank" rel="noopener">información mutua</a>) al elegir features lag. La serie <em>Sunspots</em> tiene lag&rsquo;s con dependencia no lineal que podríamos ignorar con la autocorrelación.</p>
+<p><img src="/images/lag_plot_sunspot.png" alt="lag_plot_sunspot"></p>
+<p>Las relaciones no lineales como esta pueden ser transformadas para ser lineales o aprenderse con un algoritmo apropiado.</p>
+<h2 id="ejemplo---tendencias-gripe"><a href="#ejemplo---tendencias-gripe" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejemplo - Tendencias gripe</h2>
+<p>El dataset de <em>Tendencias gripe</em> contiene registros de consultas médicas por la gripe durante semanas de 2009 a 2016. Nuestro objetivo es predecir el número de casos de gripe para las próximas semanas.</p>
+<p>Tomaremos dos enfoques. En el primero predeciremos las consultas médicas usando features lag. El segundo enfoque será predecir las consultas médicas usando lag&rsquo;s de <em>otro</em> conjunto de series temporales: términos de búsqueda relacionados con la gripe capturados por Google Trends.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">periodogram</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_pacf</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Set Matplotlib defaults</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&#34;figure&#34;</span><span class="p">,</span> <span class="n">autolayout</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
+    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
+    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
+    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+    <span class="n">titlesize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
+    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s1">&#39;retina&#39;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">lagplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">matplotlib.offsetbox</span> <span class="kn">import</span> <span class="n">AnchoredText</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">lag</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">standardize</span><span class="p">:</span>
+        <span class="n">x_</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_</span> <span class="o">-</span> <span class="n">x_</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x_</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="k">if</span> <span class="n">standardize</span> <span class="k">else</span> <span class="n">y</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y_</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">y_</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">scatter_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">line_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_</span><span class="p">,</span>
+                     <span class="n">y</span><span class="o">=</span><span class="n">y_</span><span class="p">,</span>
+                     <span class="n">scatter_kws</span><span class="o">=</span><span class="n">scatter_kws</span><span class="p">,</span>
+                     <span class="n">line_kws</span><span class="o">=</span><span class="n">line_kws</span><span class="p">,</span>
+                     <span class="n">lowess</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                     <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">at</span> <span class="o">=</span> <span class="n">AnchoredText</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&#34;{corr:.2f}&#34;</span><span class="p">,</span>
+        <span class="n">prop</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">),</span>
+        <span class="n">frameon</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">loc</span><span class="o">=</span><span class="s2">&#34;upper left&#34;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">at</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_boxstyle</span><span class="p">(</span><span class="s2">&#34;square, pad=0.0&#34;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">at</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">f</span><span class="s2">&#34;Lag {lag}&#34;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="n">x_</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">y_</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">plot_lags</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lagplot_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">math</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;nrows&#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;ncols&#39;</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">lags</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">))</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;figsize&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ncols&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">get_axes</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nrows&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ncols&#39;</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">lags</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">lagplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">lagplot_kwargs</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Lag {k + 1}&#34;</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">xlabel</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">w_pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">flu_trends</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/flu-trends.csv&#34;</span><span class="p">)</span>
+<span class="n">flu_trends</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">PeriodIndex</span><span class="p">(</span><span class="n">flu_trends</span><span class="o">.</span><span class="n">Week</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&#34;W&#34;</span><span class="p">),</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">flu_trends</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Week&#34;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">flu_trends</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AInfluenza</th>
+      <th>AcuteBronchitis</th>
+      <th>BodyTemperature</th>
+      <th>BraunThermoscan</th>
+      <th>BreakAFever</th>
+      <th>Bronchitis</th>
+      <th>ChestCold</th>
+      <th>ColdAndFlu</th>
+      <th>ColdOrFlu</th>
+      <th>ColdVersusFlu</th>
+      <th>...</th>
+      <th>TreatingTheFlu</th>
+      <th>TreatmentForFlu</th>
+      <th>TreatmentForTheFlu</th>
+      <th>Tussin</th>
+      <th>Tussionex</th>
+      <th>TypeAInfluenza</th>
+      <th>UpperRespiratory</th>
+      <th>WalkingPneumonia</th>
+      <th>WhatToDoIfYouHaveTheFlu</th>
+      <th>FluVisits</th>
+    </tr>
+    <tr>
+      <th>Week</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2009-06-29/2009-07-05</th>
+      <td>36</td>
+      <td>20</td>
+      <td>43</td>
+      <td>27</td>
+      <td>11</td>
+      <td>22</td>
+      <td>16</td>
+      <td>7</td>
+      <td>3</td>
+      <td>8</td>
+      <td>...</td>
+      <td>16</td>
+      <td>6</td>
+      <td>13</td>
+      <td>25</td>
+      <td>34</td>
+      <td>30</td>
+      <td>25</td>
+      <td>24</td>
+      <td>15</td>
+      <td>180</td>
+    </tr>
+    <tr>
+      <th>2009-07-06/2009-07-12</th>
+      <td>25</td>
+      <td>19</td>
+      <td>40</td>
+      <td>31</td>
+      <td>10</td>
+      <td>21</td>
+      <td>11</td>
+      <td>6</td>
+      <td>8</td>
+      <td>8</td>
+      <td>...</td>
+      <td>16</td>
+      <td>7</td>
+      <td>8</td>
+      <td>27</td>
+      <td>32</td>
+      <td>27</td>
+      <td>28</td>
+      <td>29</td>
+      <td>9</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>2009-07-13/2009-07-19</th>
+      <td>24</td>
+      <td>30</td>
+      <td>45</td>
+      <td>20</td>
+      <td>12</td>
+      <td>20</td>
+      <td>20</td>
+      <td>6</td>
+      <td>6</td>
+      <td>8</td>
+      <td>...</td>
+      <td>16</td>
+      <td>6</td>
+      <td>9</td>
+      <td>24</td>
+      <td>28</td>
+      <td>25</td>
+      <td>25</td>
+      <td>25</td>
+      <td>9</td>
+      <td>132</td>
+    </tr>
+    <tr>
+      <th>2009-07-20/2009-07-26</th>
+      <td>23</td>
+      <td>19</td>
+      <td>40</td>
+      <td>15</td>
+      <td>10</td>
+      <td>19</td>
+      <td>12</td>
+      <td>7</td>
+      <td>10</td>
+      <td>15</td>
+      <td>...</td>
+      <td>8</td>
+      <td>5</td>
+      <td>12</td>
+      <td>21</td>
+      <td>26</td>
+      <td>26</td>
+      <td>29</td>
+      <td>24</td>
+      <td>13</td>
+      <td>109</td>
+    </tr>
+    <tr>
+      <th>2009-07-27/2009-08-02</th>
+      <td>27</td>
+      <td>21</td>
+      <td>44</td>
+      <td>20</td>
+      <td>11</td>
+      <td>19</td>
+      <td>17</td>
+      <td>8</td>
+      <td>10</td>
+      <td>15</td>
+      <td>...</td>
+      <td>8</td>
+      <td>8</td>
+      <td>12</td>
+      <td>33</td>
+      <td>29</td>
+      <td>21</td>
+      <td>27</td>
+      <td>30</td>
+      <td>9</td>
+      <td>120</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>5 rows × 130 columns</p>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">flu_trends</span><span class="o">.</span><span class="n">FluVisits</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Tendencia Gripe&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s2">&#34;Visitas médicas&#34;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_24_1.png" alt="png"></p>
+<p>Nuestros datos de <em>Tendencias Gripe</em> muestran ciclos irregulares en lugar de una estacionalidad regular: el pico tiende a ocurrir alrededor del año nuevo, pero algunas veces antes o después, a veces más grande o más pequeño. Modelar estos ciclos con features lag permitirá a nuestras predicciones reaccionar dinámicamente a condiciones cambiantes en lugar de estar restringidas a fechas y horas exactas como las features estacionales.</p>
+<p>En primer lugar, echemos un vistazo a los gráficos de lag y autocorrelación:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_</span> <span class="o">=</span> <span class="n">plot_lags</span><span class="p">(</span><span class="n">flu_trends</span><span class="o">.</span><span class="n">FluVisits</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_pacf</span><span class="p">(</span><span class="n">flu_trends</span><span class="o">.</span><span class="n">FluVisits</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span></code></pre></div>
+<pre><code>C:\Program Files\Python310\lib\site-packages\statsmodels\graphics\tsaplots.py:348: FutureWarning: The default method 'yw' can produce PACF values outside of the [-1,1] interval. After 0.13, the default will change tounadjusted Yule-Walker ('ywm'). You can use this method now by setting method='ywm'.
+  warnings.warn(
+</code></pre>
+<p><img src="/images/output_26_1.png" alt="png"></p>
+<p><img src="/images/output_26_2.png" alt="png"></p>
+<p>El gráfico de lag indica que la relación de <code>FluVisits</code> con sus lag&rsquo;s es mayormente lineal, mientras que el gráfico de autocorrelación sugiere que la dependencia puede ser capturada usando lag 1, 2, 3 y 4. En Pandas podemos crear features lag con el método <code>shift</code>. Para este problema, rellenaremos los datos faltantes que genera el lagging con <code>0.0</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">make_lags</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">lags</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="n">f</span><span class="s1">&#39;y_lag_{i}&#39;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lags</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">},</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X</span> <span class="o">=</span> <span class="n">make_lags</span><span class="p">(</span><span class="n">flu_trends</span><span class="o">.</span><span class="n">FluVisits</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_lag_1</th>
+      <th>y_lag_2</th>
+      <th>y_lag_3</th>
+      <th>y_lag_4</th>
+    </tr>
+    <tr>
+      <th>Week</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2009-06-29/2009-07-05</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-06/2009-07-12</th>
+      <td>180.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-13/2009-07-19</th>
+      <td>115.0</td>
+      <td>180.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-20/2009-07-26</th>
+      <td>132.0</td>
+      <td>115.0</td>
+      <td>180.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-27/2009-08-02</th>
+      <td>109.0</td>
+      <td>132.0</td>
+      <td>115.0</td>
+      <td>180.0</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<p>Cuando usamos features lag estamos limitados a pronosticar pasos de tiempo cuyos valores lagged estén disponibles. Usando una feature lag 1 para lunes, no podemos predecir el miércoles porque el valor necesario de lag 1 es el martes, que aún no ha sucedido. Ya veremos posteriormente estrategias para manejar este problema. Ahora solo usaremos valroes de un conjunto de prueba.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Crea la serie objetivo y divide los datos</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">flu_trends</span><span class="o">.</span><span class="n">FluVisits</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Entrena y predice</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>  <span class="c1"># `fit_intercept=True` dado que no usamos DeterministicProcess</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">y_fore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">y_fore</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_32_0.png" alt="png"></p>
+<p>Mirando solo los valores de predicción, podemos ver cómo nuestro modelo necesita un paso de tiempo para reaccionar a cambios repentinos en la serie objetivo. Esta es una limitación común de los modelos que usan solo lag&rsquo;s de la serie objetivo como features.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">y_fore</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span></code></pre></div>
+<p><img src="/images/output_34_0.png" alt="png"></p>
+<p>Para mejorar la predicción, podríamos intentar encontrar <em>indicadores adelantados</em> (<em>leading indicators</em>), series temporales que pudieran proporcionar una &ldquo;alerta temprana&rdquo; para cambios en los casos de gripe. Para nuestro segundo enfoque añadiremos a nuestros datos de entrenamiento datos de la popularidad de algunos términos de búsqueda relacionados con la gripe según lo medido por Google Trends.</p>
+<p>Dibujar la frase de búsqueda <code>&quot;FluCough&quot;</code> contra el objetivo <code>&quot;FluVisits&quot;</code> sugiere que tales términos podrían ser útiles como indicadores adelantados: las búsquedas relacionadas con la gripe tienden a ser más populares en las semanas anteriores a las visitas médicas.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">flu_trends</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;FluCough&#34;</span><span class="p">,</span> <span class="s2">&#34;FluVisits&#34;</span><span class="p">],</span>
+    <span class="n">secondary_y</span><span class="o">=</span><span class="s2">&#34;FluCough&#34;</span><span class="p">,</span>
+<span class="p">)</span></code></pre></div>
+<p><img src="/images/output_36_1.png" alt="png"></p>
+<p>El dataset contiene 219 de tales términos, pero solo usaremos unos pocos.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">search_terms</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;FluContagious&#34;</span><span class="p">,</span> <span class="s2">&#34;FluCough&#34;</span><span class="p">,</span> <span class="s2">&#34;FluFever&#34;</span><span class="p">,</span> <span class="s2">&#34;InfluenzaA&#34;</span><span class="p">,</span> <span class="s2">&#34;TreatFlu&#34;</span><span class="p">,</span> <span class="s2">&#34;IHaveTheFlu&#34;</span><span class="p">,</span> <span class="s2">&#34;OverTheCounterFlu&#34;</span><span class="p">,</span> <span class="s2">&#34;HowLongFlu&#34;</span><span class="p">]</span>
+
+<span class="c1"># Crea tres lag&#39;s para cada término de búsqueda</span>
+<span class="n">X0</span> <span class="o">=</span> <span class="n">make_lags</span><span class="p">(</span><span class="n">flu_trends</span><span class="p">[</span><span class="n">search_terms</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Crea cuatro lag&#39;s para el objetivo, como antes</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">make_lags</span><span class="p">(</span><span class="n">flu_trends</span><span class="p">[</span><span class="s1">&#39;FluVisits&#39;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Combina para crar los datos de entrenamiento</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X0</span><span class="p">,</span> <span class="n">X1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>(y_lag_1, FluContagious)</th>
+      <th>(y_lag_1, FluCough)</th>
+      <th>(y_lag_1, FluFever)</th>
+      <th>(y_lag_1, InfluenzaA)</th>
+      <th>(y_lag_1, TreatFlu)</th>
+      <th>(y_lag_1, IHaveTheFlu)</th>
+      <th>(y_lag_1, OverTheCounterFlu)</th>
+      <th>(y_lag_1, HowLongFlu)</th>
+      <th>(y_lag_2, FluContagious)</th>
+      <th>(y_lag_2, FluCough)</th>
+      <th>...</th>
+      <th>(y_lag_3, FluFever)</th>
+      <th>(y_lag_3, InfluenzaA)</th>
+      <th>(y_lag_3, TreatFlu)</th>
+      <th>(y_lag_3, IHaveTheFlu)</th>
+      <th>(y_lag_3, OverTheCounterFlu)</th>
+      <th>(y_lag_3, HowLongFlu)</th>
+      <th>y_lag_1</th>
+      <th>y_lag_2</th>
+      <th>y_lag_3</th>
+      <th>y_lag_4</th>
+    </tr>
+    <tr>
+      <th>Week</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2009-06-29/2009-07-05</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-06/2009-07-12</th>
+      <td>5.0</td>
+      <td>16.0</td>
+      <td>15.0</td>
+      <td>36.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td>11.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>180.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-13/2009-07-19</th>
+      <td>6.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>25.0</td>
+      <td>12.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+      <td>5.0</td>
+      <td>16.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>115.0</td>
+      <td>180.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-20/2009-07-26</th>
+      <td>6.0</td>
+      <td>13.0</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+      <td>6.0</td>
+      <td>14.0</td>
+      <td>...</td>
+      <td>15.0</td>
+      <td>36.0</td>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td>11.0</td>
+      <td>6.0</td>
+      <td>132.0</td>
+      <td>115.0</td>
+      <td>180.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2009-07-27/2009-08-02</th>
+      <td>5.0</td>
+      <td>13.0</td>
+      <td>12.0</td>
+      <td>23.0</td>
+      <td>5.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>13.0</td>
+      <td>...</td>
+      <td>15.0</td>
+      <td>25.0</td>
+      <td>12.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+      <td>109.0</td>
+      <td>132.0</td>
+      <td>115.0</td>
+      <td>180.0</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>5 rows × 28 columns</p>
+</div>
+<p>Nuestras predicciones son un poco más aproximadas, pero nuestro modelo parece ser más capaz de anticipar incrementos repentinos en las consultas médicas, lo que sugiere que las diversas series temporales de búsqueda de popularidad han sido, de hecho, efectivas como indicadores adelantados.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">y_fore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">y_fore</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span></code></pre></div>
+<pre><code>C:\Program Files\Python310\lib\site-packages\sklearn\utils\validation.py:1688: FutureWarning: Feature names only support names that are all strings. Got feature names with dtypes: ['str', 'tuple']. An error will be raised in 1.2.
+  warnings.warn(
+C:\Program Files\Python310\lib\site-packages\sklearn\utils\validation.py:1688: FutureWarning: Feature names only support names that are all strings. Got feature names with dtypes: ['str', 'tuple']. An error will be raised in 1.2.
+  warnings.warn(
+C:\Program Files\Python310\lib\site-packages\sklearn\utils\validation.py:1688: FutureWarning: Feature names only support names that are all strings. Got feature names with dtypes: ['str', 'tuple']. An error will be raised in 1.2.
+  warnings.warn(
+</code></pre>
+<p><img src="/images/output_40_2.png" alt="png"></p>
+<p>Las series temporales que hemos visto aquí son lo que se podrían llamar &ldquo;puramente cíclicas&rdquo;: no tienen una tendencia o estacionalidad obvias. Sin embargo, no es raro que las series temporales posean tendencias, estacionalidad y ciclos, los tres componentes a la vez. Podríamos modelar tales series con regresión lineal simplemente añadiendo las features apropiadas para cada componente. Incluso podemos combinar modelos entrenados para aprender los componentes por separado, que ya veremos con las predicciones híbridas.</p>
+<h1 id="ejercicio"><a href="#ejercicio" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejercicio</h1>
+<p>Vamos a realizar un ejercicio para ampliar lo que acabamos de ver.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_log_error</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_pacf</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">CalendarFourier</span><span class="p">,</span> <span class="n">DeterministicProcess</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">helpers.style</span> <span class="kn">import</span> <span class="o">*</span> <span class="c1"># importa estilos de gráficos</span>
+<span class="kn">from</span> <span class="nn">helpers.utils</span> <span class="kn">import</span> <span class="n">plot_lags</span><span class="p">,</span> <span class="n">make_lags</span><span class="p">,</span> <span class="n">make_leads</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
+    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="s1">&#39;onpromotion&#39;</span><span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;store_nbr&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sales&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;onpromotion&#39;</span><span class="p">:</span> <span class="s1">&#39;uint32&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span>
+    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">store_sales</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>sales</th>
+      <th>onpromotion</th>
+    </tr>
+    <tr>
+      <th>store_nbr</th>
+      <th>family</th>
+      <th>date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">1</th>
+      <th rowspan="5" valign="top">AUTOMOTIVE</th>
+      <th>2013-01-01</th>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2013-01-02</th>
+      <td>2.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2013-01-03</th>
+      <td>3.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2013-01-04</th>
+      <td>3.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2013-01-05</th>
+      <td>5.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">family_sales</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">store_sales</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;family&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="s1">&#39;onpromotion&#39;</span><span class="p">]]</span>
+<span class="p">)</span>
+
+<span class="n">family_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead tr th {
+    text-align: left;
+}
+
+.dataframe thead tr:last-of-type th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<div class="table-container"><table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="10" halign="left">sales</th>
+      <th>...</th>
+      <th colspan="10" halign="left">onpromotion</th>
+    </tr>
+    <tr>
+      <th>family</th>
+      <th>AUTOMOTIVE</th>
+      <th>BABY CARE</th>
+      <th>BEAUTY</th>
+      <th>BEVERAGES</th>
+      <th>BOOKS</th>
+      <th>BREAD/BAKERY</th>
+      <th>CELEBRATION</th>
+      <th>CLEANING</th>
+      <th>DAIRY</th>
+      <th>DELI</th>
+      <th>...</th>
+      <th>MAGAZINES</th>
+      <th>MEATS</th>
+      <th>PERSONAL CARE</th>
+      <th>PET SUPPLIES</th>
+      <th>PLAYERS AND ELECTRONICS</th>
+      <th>POULTRY</th>
+      <th>PREPARED FOODS</th>
+      <th>PRODUCE</th>
+      <th>SCHOOL AND OFFICE SUPPLIES</th>
+      <th>SEAFOOD</th>
+    </tr>
+    <tr>
+      <th>date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-01</th>
+      <td>0.092593</td>
+      <td>0.037037</td>
+      <td>0.055556</td>
+      <td>74.222221</td>
+      <td>0.000000</td>
+      <td>9.084685</td>
+      <td>0.129630</td>
+      <td>7.500000</td>
+      <td>11.518518</td>
+      <td>3.629167</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.018519</td>
+      <td>0.111111</td>
+      <td>0.018519</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.037037</td>
+      <td>0.129630</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2017-01-02</th>
+      <td>11.481482</td>
+      <td>0.259259</td>
+      <td>11.648149</td>
+      <td>6208.055664</td>
+      <td>0.481481</td>
+      <td>844.836304</td>
+      <td>14.203704</td>
+      <td>2233.648193</td>
+      <td>1545.000000</td>
+      <td>539.114807</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.462963</td>
+      <td>10.592593</td>
+      <td>0.537037</td>
+      <td>0.0</td>
+      <td>0.259259</td>
+      <td>1.166667</td>
+      <td>5.629630</td>
+      <td>0.0</td>
+      <td>0.407407</td>
+    </tr>
+    <tr>
+      <th>2017-01-03</th>
+      <td>8.296296</td>
+      <td>0.296296</td>
+      <td>7.185185</td>
+      <td>4507.814941</td>
+      <td>0.814815</td>
+      <td>665.124084</td>
+      <td>10.629630</td>
+      <td>1711.907349</td>
+      <td>1204.203735</td>
+      <td>404.300079</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.481481</td>
+      <td>9.722222</td>
+      <td>0.444444</td>
+      <td>0.0</td>
+      <td>0.388889</td>
+      <td>1.351852</td>
+      <td>56.296296</td>
+      <td>0.0</td>
+      <td>0.407407</td>
+    </tr>
+    <tr>
+      <th>2017-01-04</th>
+      <td>6.833333</td>
+      <td>0.333333</td>
+      <td>6.888889</td>
+      <td>3911.833252</td>
+      <td>0.759259</td>
+      <td>594.160583</td>
+      <td>11.185185</td>
+      <td>1508.036987</td>
+      <td>1107.796265</td>
+      <td>309.397675</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.370370</td>
+      <td>12.037037</td>
+      <td>0.444444</td>
+      <td>0.0</td>
+      <td>0.296296</td>
+      <td>5.444444</td>
+      <td>101.277778</td>
+      <td>0.0</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>2017-01-05</th>
+      <td>6.333333</td>
+      <td>0.351852</td>
+      <td>5.925926</td>
+      <td>3258.796387</td>
+      <td>0.407407</td>
+      <td>495.511597</td>
+      <td>12.444445</td>
+      <td>1241.833374</td>
+      <td>829.277771</td>
+      <td>260.776489</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>8.981481</td>
+      <td>5.666667</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.296296</td>
+      <td>0.907407</td>
+      <td>5.018519</td>
+      <td>0.0</td>
+      <td>0.444444</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>5 rows × 66 columns</p>
+</div>
+<p>No todas las familias de productos tiene ventas que muestren comportamientos cíclicos y tampoco la serie de ventas promedio. Sin embargo, las ventas de material escolar y de oficina muestran patrones de crecimiento y decrecimiento que no están bien caracterizados por tendencias o estaciones. Vamos a modelar ciclos en las ventas de este tipo de material usando features lag.</p>
+<p>Tanto la tendencia como la estacionalidad crearán una dependencia serial que se mostrará en los gráficos de correlograma y de lag. Para aislar cualquier comportamiento puramente <em>cíclico</em>, empezaremos desestacionalizando la serie.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">supply_sales</span> <span class="o">=</span> <span class="n">family_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="s1">&#39;SCHOOL AND OFFICE SUPPLIES&#39;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">supply_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+<span class="n">fourier</span> <span class="o">=</span> <span class="n">CalendarFourier</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span>
+    <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">seasonal</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">additional_terms</span><span class="o">=</span><span class="p">[</span><span class="n">fourier</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">X_time</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>
+<span class="n">X_time</span><span class="p">[</span><span class="s1">&#39;NewYearsDay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_time</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dayofyear</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_time</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_deseason</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_time</span><span class="p">)</span>
+<span class="n">y_deseason</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sales_deseasoned&#39;</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_deseason</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Ventas de material escolar y de oficina (desestacionalizadas)&#34;</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_49_0.png" alt="png"></p>
+<p>¿Esta serie desestacionalizada muestra patrones cíclicos? Para confirmar nuestra intuición, podemos intentar aislar el comportamiento cíclico usando un gráfico de media móvil, como se hace con la tendencia. La idea es elegir una ventana lo suficientemente grande para suavizar la estacionalidad a corto plazo, pero lo suficientemente pequeña para preservar los ciclos.</p>
+<h2 id="dibujando-ciclos"><a href="#dibujando-ciclos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Dibujando ciclos</h2>
+<p>Vamos a crear una media móvil de siete días de <code>y</code>, la serie de venta de materiales. Usaremos una ventana centrada, pero no estableceremos el argumento <code>min_periods</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_ma</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
+    <span class="n">window</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+
+<span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_ma</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Media móvil de siete días&#34;</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_53_4.png" alt="png"></p>
+<p>¿Vemos cómo la traza de la media móvil se parece al gráfico de la serie desestacionalizada? En ambos casos se puede observar el comportamiento cíclico indicado.</p>
+<h2 id="examinando-la-dependencia-serial"><a href="#examinando-la-dependencia-serial" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Examinando la dependencia serial</h2>
+<p>Vamos a examinar nuestra serie desestacionalizada para determinar la dependencia serial. Echaremos un vistazo al correlograma de autocorrelación parcial y al gráfico de lag.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">plot_pacf</span><span class="p">(</span><span class="n">y_deseason</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plot_lags</span><span class="p">(</span><span class="n">y_deseason</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">);</span></code></pre></div>
+<pre><code>C:\Program Files\Python310\lib\site-packages\statsmodels\graphics\tsaplots.py:348: FutureWarning: The default method 'yw' can produce PACF values outside of the [-1,1] interval. After 0.13, the default will change tounadjusted Yule-Walker ('ywm'). You can use this method now by setting method='ywm'.
+  warnings.warn(
+</code></pre>
+<p><img src="/images/output_57_3.png" alt="png"></p>
+<p><img src="/images/output_57_2.png" alt="png"></p>
+<p><strong>Según el correlograma, ¿hay algún lag significativo? ¿El gráfico de lags sugiere alguna relación que no fuera evidente en el correlograma?</strong></p>
+<p>El correlograma indica que el primer lag sea probablemente significativo, así como posiblemente el octavo lag. El gráfico de lag sugiere que el efecto es principalmente lineal.</p>
+<h2 id="examinando-features-de-series-temporales"><a href="#examinando-features-de-series-temporales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Examinando features de series temporales</h2>
+<p>Ya vimos que un <em>indicador adelantado</em> es una serie cuyos valores en un momento dado pueden usarse para predecir el objetivo en un momento futuro. Un indicador adelantado proporciona un aviso anticipado de los cambios en el objetivo.</p>
+<p>Nuestro dataset incluye una serie temporal que podría usarse potencialmente como un indicador adelantado, la serie <code>onpromotion</code>, que contiene el número de artículos en promoción especial ese día. Dado que la compañía es quien decice cuándo hacer una promoción, no hay que preocuparse por &ldquo;fuga adelantada&rdquo; o &ldquo;fuga de datos&rdquo;. Podríamos usar el valor <code>onpromotion</code> del martes para pronosticar las ventas del lunes, por ejemplo.</p>
+<p>Vamos a examinar los valores adelantados y lagging de <code>ompromotion</code> dibujados contra las ventas de material escolar y de oficina.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">onpromotion</span> <span class="o">=</span> <span class="n">supply_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;onpromotion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;onpromotion&#39;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Elimina los días sin promociones</span>
+<span class="n">plot_lags</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">onpromotion</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">onpromotion</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">y_deseason</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">onpromotion</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">leads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span></code></pre></div>
+<p><img src="/images/output_63_4.png" alt="png"></p>
+<p><strong>A tenor del resultado de la gráfica, ¿Podrían ser útiles como features los valores adelantados y lag de onpromotion?</strong></p>
+<p>La gráfica indica que tanto los valores adelantados como los lag de <code>onpromotion</code> se correlacionan con las ventas de materiales. Esto sugiere que ambos tipo de valores podrían ser útiles como features. También puede haber algunos efecto no lineales.</p>
+<h2 id="creación-de-features-de-series-temporales"><a href="#creación-de-features-de-series-temporales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Creación de features de series temporales</h2>
+<p>Vamos a crear las features indicadas en el apartado anterior.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># genera features a partir de `y_deseason`</span>
+<span class="n">X_lags</span> <span class="o">=</span> <span class="n">make_lags</span><span class="p">(</span><span class="n">y_deseason</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># genera features a partir de `onpromotion`</span>
+<span class="n">X_promo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">make_lags</span><span class="p">(</span><span class="n">onpromotion</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">onpromotion</span><span class="p">,</span>
+    <span class="n">make_leads</span><span class="p">(</span><span class="n">onpromotion</span><span class="p">,</span> <span class="n">leads</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X_time</span><span class="p">,</span> <span class="n">X_lags</span><span class="p">,</span> <span class="n">X_promo</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span></code></pre></div>
+<p>Vamos a ver las predicciones del modelo resultante.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_fit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X_valid</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">rmsle_train</span> <span class="o">=</span> <span class="n">mean_squared_log_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="n">rmsle_valid</span> <span class="o">=</span> <span class="n">mean_squared_log_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Entrenamiento RMSLE: {rmsle_train:.5f}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Validación RMSLE: {rmsle_valid:.5f}&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&#34;Promedio ventas&#34;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&#34;artículos vendidos&#34;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Entrenado&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Predicción&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span></code></pre></div>
+<pre><code>Entrenamiento RMSLE: 0.23893
+Validación RMSLE: 0.34245
+</code></pre>
+<p><img src="/images/output_70_4.png" alt="png"></p>
+<p>En los mejores concursos de predicción (Kaggle, etc.) se suelen incluir promedios móviles y otras estadísticas móviles en sus conjuntos de features. Tales variables parecen ser especialmente útiles cuando se usan algoritmos GBDT, como XGBoost.</p>
+<p>En otros posts vimos cómo calcular medias móviles para estimar tendencias. Calcular estadísticas móviles para usarse como features es similar, excepto que necesitamos tener cuidado para evitar la fuga de datos. En primer lugar, el resultado debe establecerse en el extremo derecho de la ventana, en lugar de en el centro. Es decir, usaremos <code>center=False</code> (valor por defecto) en el método <code>rolling</code>. En segundo lugar, el objetivo debe estar <em>lagged</em> a un paso de tiempo.</p>
+<h2 id="crear-features-estadísticas"><a href="#crear-features-estadísticas" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Crear features estadísticas</h2>
+<p>Ahora vamos a crear las siguientes features:</p>
+<ul>
+<li>mediana (<code>median</code>) móvil de 14 días de lag del objetivo</li>
+<li>desviación típica (<code>std</code>) móvil de 7 días de lag del objetivo</li>
+<li>suma (<code>sum</code>) de 7 días de artículos &ldquo;en promoción&rdquo;, con ventana centrada</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_lag</span> <span class="o">=</span> <span class="n">supply_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">onpromo</span> <span class="o">=</span> <span class="n">supply_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;onpromotion&#39;</span><span class="p">]</span>
+
+<span class="c1"># media de 7 días de lagged del objetivo</span>
+<span class="n">mean_7</span> <span class="o">=</span> <span class="n">y_lag</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="c1"># mediana de 14 días de lagged del objetivo</span>
+<span class="n">median_14</span> <span class="o">=</span> <span class="n">y_lag</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="c1"># desviación típica de 7 días de lagged del objetivo</span>
+<span class="n">std_7</span> <span class="o">=</span> <span class="n">y_lag</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="c1"># suma de 7 días de promociones con ventana centrada</span>
+<span class="n">promo_7</span> <span class="o">=</span> <span class="n">onpromo</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
+    <span class="n">window</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></code></pre></div>
+<p>Para calcular más estadísticos podemos acudir a la <a href="https://pandas.pydata.org/pandas-docs/stable/reference/window.html" target="_blank" rel="noopener">documentación de <code>Window</code> de Pandas</a>. También podemos probar las ventanas &ldquo;ponderadas exponencialmente&rdquo; usando <code>ewm</code> en lugar de <code>rolling</code>; el decaimiento exponencial suele ser una representación más realista de cómo se propagan los efectos en el tiempo.</p>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text"></span><a href="https://sgtsteiner.github.io/" class="p-author h-card" target="_blank" rel="noopener">Antonio Méndez</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text"></span><a href="/posts/time-serie-as-feature/" target="_blank" rel="noopener">https://sgtsteiner.github.io/posts/time-serie-as-feature/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text"></span><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2022-05-18 17:23:43 CEST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-18</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-18</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/time-serie-as-feature/&amp;text=Series%20temporales:%20%284%29%20series%20temporales%20como%20features&amp;hashtags=seriestemporales,dependenciaserial,ciclos,lagging,lagplot,autocorrelaci%c3%b3n,correlograma,autocorrelaci%c3%b3nparcial,leadingindicators,indicadoresadelantados,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/time-serie-as-feature/&amp;title=Series%20temporales:%20%284%29%20series%20temporales%20como%20features&amp;summary=Serie%20temporal%20como%20feature%20%c2%bfQu%c3%a9%20es%20dependencia%20serial?%20Ya%20conocemos%20las%20propiedades%20de%20las%20series%20temporales%20que%20se%20modelan%20m%c3%a1s%20f%c3%a1cilmente%20como%20propiedades%20dependientes%20del%20tiempo,%20es%20decir,%20con%20features%20que%20pod%c3%adamos%20derivar%20directamente%20del%20%c3%adndice%20del%20tiempo.%20Sin%20embargo,%20algunas%20propiedades%20de%20las%20series%20temporales%20solo%20se%20pueden%20modelar%20como%20propiedades%20dependientes%20serialmente,%20es%20decir,%20usando%20como%20features%20valores%20pasados%20de%20la%20serie%20objetivo.&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://sgtsteiner.github.io/posts/time-serie-as-feature/&amp;text=Series%20temporales:%20%284%29%20series%20temporales%20como%20features" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/sgtsteiner.github.io\/posts\/time-serie-as-feature\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/time-series-seasonality/" class="related-link">Series temporales: (3) Estacionalidad</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/time-series-trend/" class="related-link">Series temporales: (2) Tendencia</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/time-series-linear-regression/" class="related-link">Series temporales: (1) Regresión lineal</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/series-temporales/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>series temporales</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/dependencia-serial/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>dependencia serial</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/ciclos/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ciclos</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/lagging/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>lagging</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/lag-plot/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>lag plot</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/autocorrelaci%C3%B3n/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>autocorrelación</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/correlograma/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>correlograma</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/autocorrelaci%C3%B3n-parcial/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>autocorrelación parcial</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/leading-indicators/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>leading indicators</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/indicadores-adelantados/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>indicadores adelantados</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/time-series-seasonality/" rel="next">Series temporales: (3) Estacionalidad &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:futitotal@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/SgtSteiner" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://twitter.com/Steiner_69" target="_blank" rel="external noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://t.me/SgtSteiner" target="_blank" rel="external noopener" title="Telegram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon social-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css" integrity="sha256-gPJfuwTULrEAAcI3X4bALVU/2qBU+QY/TpoD3GO+Exw=" crossorigin="anonymous">
+<script>
+    if (typeof renderMathInElement === 'undefined') {
+        var getScript = (options) => {
+            var script = document.createElement('script');
+            script.defer = true;
+            script.crossOrigin = 'anonymous';
+            Object.keys(options).forEach((key) => {
+                script[key] = options[key];
+            });
+            document.body.appendChild(script);
+        };
+        getScript({
+            src: 'https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js',
+            integrity: 'sha256-YTW9cMncW/ZQMhY69KaUxIa2cPTxV87Uh627Gf5ODUw=',
+            onload: () => {
+                getScript({
+                    src: 'https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/mhchem.min.js',
+                    integrity: 'sha256-yzSfYeVsWJ1x+2g8CYHsB/Mn7PcSp8122k5BM4T3Vxw=',
+                    onload: () => {
+                        getScript({
+                            src: 'https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js',
+                            integrity: 'sha256-fxJzNV6hpc8tgW8tF0zVobKa71eTCRGTgxFXt1ZpJNM=',
+                            onload: () => {
+                                renderKaTex();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        renderKaTex();
+    }
+    function renderKaTex() {
+        renderMathInElement(
+            document.body,
+            {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            }
+        );
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>

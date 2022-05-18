@@ -2,38 +2,71 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://sgtsteiner.github.io/tags/autocorrelaci%C3%B3n/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/autocorrelaci%C3%B3n-parcial/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
     <loc>https://sgtsteiner.github.io/categories/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/estacionalidad/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/ciclos/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/fourier/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/correlograma/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/tags/indicadores-estacionales/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/tags/dependencia-serial/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/indicadores-adelantados/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/lag-plot/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/lagging/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/leading-indicators/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/periodograma/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/posts/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/series-temporales/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/categories/series-temporales/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/posts/time-series-seasonality/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <loc>https://sgtsteiner.github.io/posts/time-serie-as-feature/</loc>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/</loc>
-    <lastmod>2022-05-13T10:24:08+02:00</lastmod>
+    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/dependencia-de-tiempo/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/estacionalidad/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/fourier/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/indicadores-estacionales/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/periodograma/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/time-series-seasonality/</loc>
+    <lastmod>2022-05-13T11:38:05+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/media-m%C3%B3vil/</loc>
     <lastmod>2022-05-12T17:35:23+02:00</lastmod>
