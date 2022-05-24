@@ -2,13 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://sgtsteiner.github.io/tags/boosting/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/h%C3%ADbridos/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/residuos/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/series-temporales/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/categories/series-temporales/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/posts/time-serie-hybrid-models/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/stacking/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
+    <loc>https://sgtsteiner.github.io/tags/</loc>
+    <lastmod>2022-05-24T14:15:06+02:00</lastmod>
+  </url><url>
     <loc>https://sgtsteiner.github.io/tags/autocorrelaci%C3%B3n/</loc>
     <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/autocorrelaci%C3%B3n-parcial/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/categories/</loc>
     <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/ciclos/</loc>
@@ -32,22 +62,7 @@
     <loc>https://sgtsteiner.github.io/tags/leading-indicators/</loc>
     <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
-    <loc>https://sgtsteiner.github.io/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/posts/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/series-temporales/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/categories/series-temporales/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
     <loc>https://sgtsteiner.github.io/posts/time-serie-as-feature/</loc>
-    <lastmod>2022-05-18T17:23:43+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/</loc>
     <lastmod>2022-05-18T17:23:43+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/dependencia-de-tiempo/</loc>
@@ -141,9 +156,6 @@
     <lastmod>2022-05-10T10:29:00+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/bagging/</loc>
-    <lastmod>2022-05-03T17:20:37+02:00</lastmod>
-  </url><url>
-    <loc>https://sgtsteiner.github.io/tags/boosting/</loc>
     <lastmod>2022-05-03T17:20:37+02:00</lastmod>
   </url><url>
     <loc>https://sgtsteiner.github.io/tags/bootstrap/</loc>

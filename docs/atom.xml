@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es-ES">
     <title type="text">Lords of the Machine Learning</title>
     <subtitle type="html">Lords of Machine Learning es un blog de Antonio Méndez</subtitle>
-    <updated>2022-05-18T17:24:47&#43;02:00</updated>
+    <updated>2022-05-24T14:16:29&#43;02:00</updated>
     <id>https://sgtsteiner.github.io/</id>
     <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://sgtsteiner.github.io/atom.xml" />
@@ -16,6 +16,768 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</rights>
     <generator uri="https://gohugo.io/" version="0.83.1">Hugo</generator>
+        <entry>
+            <title type="text">Series temporales: (5) Modelos híbridos</title>
+            <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/time-serie-hybrid-models/" />
+            <id>https://sgtsteiner.github.io/posts/time-serie-hybrid-models/</id>
+            <updated>2022-05-24T14:15:06&#43;02:00</updated>
+            <published>2022-05-18T18:52:24&#43;02:00</published>
+            <author>
+                    <name>Antonio Méndez</name>
+                    <uri>https://sgtsteiner.github.io/</uri>
+                    <email>futitotal@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)</rights><summary type="html">Modelos híbridos Introducción La regresión lineal sobresale en la extrapolación de tendencias, pero no puede aprender interacciones. XGBoost sobresale en el aprendizaje de interacciones, pero no puede extrapolar tendencias. En este post, aprenderemos cómo crear predictores &amp;ldquo;híbridos&amp;rdquo; que combinan algoritmos de aprendizaje complementarios y permiten que las fortalezas de uno compensen las debilidades del otro.</summary>
+            
+                <content type="html">&lt;h1 id=&#34;modelos-híbridos&#34;&gt;Modelos híbridos&lt;/h1&gt;
+&lt;h2 id=&#34;introducción&#34;&gt;Introducción&lt;/h2&gt;
+&lt;p&gt;La regresión lineal sobresale en la extrapolación de tendencias, pero no puede aprender interacciones. XGBoost sobresale en el aprendizaje de interacciones, pero no puede extrapolar tendencias. En este post, aprenderemos cómo crear predictores &amp;ldquo;híbridos&amp;rdquo; que combinan algoritmos de aprendizaje complementarios y permiten que las fortalezas de uno compensen las debilidades del otro.&lt;/p&gt;
+&lt;h2 id=&#34;componentes-y-residuos&#34;&gt;Componentes y residuos&lt;/h2&gt;
+&lt;p&gt;Para que podamos diseñar híbridos efectivos, necesitamos comprender mejor cómo se construyen las serie temporales. Hemos analizado tres patrones de dependencia: tendencias, estacionalidad y ciclos. Muchas series temporales se pueden describir con precisión mediante un modelo aditivo de solo estos tres componentes más algunos errores esencialmente impredecibles y completamente aleatorios.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;series = tendencia + estacionalidad + ciclos + error&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Cada uno de los términos de este modelo se podría denominar &lt;strong&gt;componente&lt;/strong&gt; de la serie temporal.&lt;/p&gt;
+&lt;p&gt;Los &lt;strong&gt;residuos&lt;/strong&gt; de un modelo son las diferencias entre el objetivo en el que se entrenó el modelo y las predicciones que hace el modelo; en otras palabras, la diferencia entre la curva real y la curva entrenada. Si dibujamos los residuos contra una feature, obtendremos la parte &amp;ldquo;sobrante&amp;rdquo; del objetivo o lo que el modelo no pudo aprender  sobre el objetivo a partir de esa feature.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/residuals_01.png&#34; alt=&#34;residuals_01&#34;&gt;&lt;/p&gt;
+&lt;p&gt;La diferencia entre la serie objetivo y las predicciones (azul) proporciona la serie de residuos. En la izquierda de la figura se muestra una porción de la serie de &lt;em&gt;Tráfico del Túnel&lt;/em&gt; y la curva de tendencia-estacionalidad. Al restar la curva entrenada quedan los residuos, a la derecha. Los residuos contienen todo lo que el modelo de tendencia-estacionalidad no aprendió del &lt;em&gt;Tráfico del Túnel&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Podríamos imaginar aprender los componentes de una serie temporal como un proceso iterativo: primero se aprende la tendencia y se resta de la serie, luego se aprende la estacionalidad a partir de los residuos sin tendencia y se resta la estacionalidad, después se aprenden los ciclos y se restan los ciclos y, finalmente, solo queda el errore impredecible.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/learning_components.png&#34; alt=&#34;learning_components&#34;&gt;&lt;/p&gt;
+&lt;p&gt;En la figura se muestra el aprendizaje de componentes del datasets de &lt;em&gt;CO2 de Mauna Loa&lt;/em&gt; paso por paso. Al restar la curva entrenada (azul) de su serie se obtiene la serie del siguiente paso.&lt;/p&gt;
+&lt;p&gt;Al sumar todos los componentes juntos que aprendimos obtenemos el modelo completo. Esto es esencialmente lo que haría la regresión lineal si la entrenamos en un conjunto completo de features que modelan tendencias, estacionalidad y ciclos.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/tendencia_estacionalidad_ciclos.png&#34; alt=&#34;tendencia_estacionalidad_ciclos&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;predicción-híbrida-con-residuos&#34;&gt;Predicción híbrida con residuos&lt;/h2&gt;
+&lt;p&gt;En anteriores posts, usamos un único algoritmo (regresión lineal) para aprender todos los componentes a la vez. Pero también es posible usar un algoritmo para unos componentes y otro algoritmo para el resto. De esta forma, siempre podemos elegir el mejor algoritmo para cada componente. Para hacer esto, usaremos un algoritmo para entrenar la serie original y después un segundo algoritmo para entrenar las series residuales.&lt;/p&gt;
+&lt;p&gt;Este proceso sería algo así:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# 1. Entrena y predice con el primer modelo&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;model_1.fit(X_train_1, y_train)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;y_pred_1 = model_1.predict(X_train)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# 2. Entrena y predice con el segundo modelo en los residuos&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;model_2.fit(X_train_2, y_train - y_pred_1)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;y_pred_2 = model_2.predict(X_train_2)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# 3. Agrega para obtener las predicciones totales&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;y_pred = y_pred_1 + y_pred_2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Por lo general, querremos usar conjuntos de features diferentes (&lt;code&gt;X_train_1&lt;/code&gt; y &lt;code&gt;X_train_2&lt;/code&gt;) dependiendo de lo que queramos que aprenda cada modelo. Si usamos el primer modelo para aprender tendencias, normalmente no necesitaríamos una feature de tendencia para el segundo modelo, por ejemplo.&lt;/p&gt;
+&lt;p&gt;Aunque es posible usar más de dos modelos, en la práctica no parece ser especialmetne útil. De hecho, la estrategia más común para construir híbridos es la que acabamos de describir: un algoritmo de aprendizaje sencillo (generalmente lineal) seguido por uno complejo, un predictor no lineal como GBDT o una red neuronal profunda, considerándose generalmente el modelo sencillo como un &amp;ldquo;ayudante&amp;rdquo; para el poderoso algortimo que le sigue.&lt;/p&gt;
+&lt;h3 id=&#34;diseñando-híbridos&#34;&gt;Diseñando híbridos&lt;/h3&gt;
+&lt;p&gt;Existen muchas formas de combinar modelos de machine learning además de la forma que hemos descrito anteriormente. Sin embargo, la combinación exitosa de modelos requiere que profundicemos un poco más en cómo operan estos algoritmos.&lt;/p&gt;
+&lt;p&gt;Generalmente, existen dos maneras en las que un algoritmo de regresión hace sus predicciones: transformando las &lt;em&gt;features&lt;/em&gt; o transformando el &lt;em&gt;objetivo&lt;/em&gt;. Los algoritmos de transformación de features aprenden alguna función matemática que toma las features como entrada y después las combina y transforma para producir una salida que iguale los valores objetivos del conjunto de entrenamiento. La regresión lineal y las redes neuronales son de este tipo.&lt;/p&gt;
+&lt;p&gt;Los algoritmos de transformación de objetivo usan las features para agrupar los valores objetivo del conjunto de entrenamiento y realizan predicciones promediando los valores en un grupo; un conjunto de features solo indica qué grupo promediar. Los árboles de decisión y &lt;em&gt;nearest neighbors&lt;/em&gt; son de este tipo.&lt;/p&gt;
+&lt;p&gt;Lo importante es que los transformadores de features normalmente puede &lt;strong&gt;extrapolar&lt;/strong&gt; los valores objetivo más allá del conjunto de entrenamiento dadas las apropiadas features como entrada. Por el contrario, las predicciones de los transformadores de objetivo siempre estarán limitados al rango del conjunto de entrenamiento. Si el time dummy siguiera contando pasos de tiempo, la regresión lineal continuaría dibujando la línea de tendencia. Dado el mismo time dummy, un árbol de decisión predecirá la tendencia indicada por el último paso de los datos de entrenamiento en el futuro por siempre. &lt;em&gt;Los árboles de decisión no pueden extrapolar tendencias&lt;/em&gt;. Los bosques aleatorios y los árboles de decisión gradient boosted (como XGBoost) son conjuntos de árboles de decisión, por lo que tampoco pueden extrapolar tendencias.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/decision_tree_extrapolate.png&#34; alt=&#34;decision_tree_extrapolate&#34;&gt;&lt;/p&gt;
+&lt;p&gt;En la figura anterior, se puede ver (en rojo) que un árbol de decisión fallará al extrapolar una tendencia más allá de los datos de entrenamiento.&lt;/p&gt;
+&lt;p&gt;Esta diferencia entre ambos tipos de algoritmos es lo que motiva el diseño de híbridos: usaremos regresión lineal para extrapolar la tendencia, trasformaremos el &lt;em&gt;objetivo&lt;/em&gt; para eliminar la tendencia y aplicaremos XGBoost a los residuos sin tendencia. Para hibridar una red neuronal (un transformador de features), podríamos incluir las predicciones de otro modelo como una feature, que la red neuronal incluiría como parte de sus propias predicciones. El método de entrenamiento de residuos es realmente el mismo método que usa el algoritmo de gradient boosting, por lo que los llamaremos híbridos &lt;strong&gt;boosted&lt;/strong&gt;; el método de usar prediccioens como features es conocido como &lt;em&gt;stacking&lt;/em&gt;, por lo que los llamaremos híbridos &lt;strong&gt;stacked&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Algunos ganadores híbridos de competiciones Kaggle&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting/discussion/8125&#34;&gt;STL boosted with exponential smoothing&lt;/a&gt; - Walmart Recruiting - Store Sales Forecasting&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.kaggle.com/c/rossmann-store-sales/discussion/17896&#34;&gt;ARIMA and exponential smoothing boosted with GBDT&lt;/a&gt;  - Rossmann Store Sales&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.kaggle.com/c/web-traffic-time-series-forecasting/discussion/39395&#34;&gt;An ensemble of stacked and boosted hybrids&lt;/a&gt; - Web Traffic Time Series Forecasting&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Mcompetitions/M4-methods/blob/slaweks_ES-RNN/118%20-%20slaweks17/ES_RNN_SlawekSmyl.pdf&#34;&gt;Exponential smoothing stacked with LSTM neural net&lt;/a&gt; - M4 (non-Kaggle)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;ejemplo---venta-minorista-eeuu&#34;&gt;Ejemplo - Venta Minorista EEUU&lt;/h2&gt;
+&lt;p&gt;El dataset de &lt;a href=&#34;https://www.census.gov/retail/index.html&#34;&gt;Venta Minorista de EEUU&lt;/a&gt; contiene datos de venta mensuales de varias industrias minoristas desde 1992 a 2019, recopiladas por la Oficina del Censo de EEUU. Nuestro objetivo será predecir las ventas en los años 2016 a 2019 dadas las ventas de los años anteriores. Además de crear un híbrido regresión lineal + XGBOost, también veremos cómo configurar una serie temporal para usarla con XGBoost.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;warnings&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;simplefilter&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;plt&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pandas&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pd&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LinearRegression&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;train_test_split&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;statsmodels.tsa.deterministic&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CalendarFourier&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DeterministicProcess&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;xgboost&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;simplefilter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;ignore&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Set Matplotlib defaults&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;use&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;seaborn-whitegrid&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s2&#34;&gt;&amp;#34;figure&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;autolayout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;figsize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;titlesize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;18&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;titleweight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;bold&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s2&#34;&gt;&amp;#34;axes&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;labelweight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;bold&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;labelsize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;large&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;titleweight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;bold&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;titlesize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;titlepad&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plot_params&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.75&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;.-&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;markeredgecolor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.25&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;markerfacecolor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.25&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;industries&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;BuildingMaterials&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;FoodAndBeverage&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read_csv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s2&#34;&gt;&amp;#34;../data/us-retail-sales.csv&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;usecols&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;industries&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;index_col&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Month&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to_period&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;D&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reindex&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;industries&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;concat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Sales&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;names&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;axis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead tr th {
+    text-align: left;
+}
+
+.dataframe thead tr:last-of-type th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th colspan=&#34;2&#34; halign=&#34;left&#34;&gt;Sales&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Industries&lt;/th&gt;
+      &lt;th&gt;BuildingMaterials&lt;/th&gt;
+      &lt;th&gt;FoodAndBeverage&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Month&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-01-01&lt;/th&gt;
+      &lt;td&gt;8964&lt;/td&gt;
+      &lt;td&gt;29589&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-02-01&lt;/th&gt;
+      &lt;td&gt;9023&lt;/td&gt;
+      &lt;td&gt;28570&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-03-01&lt;/th&gt;
+      &lt;td&gt;10608&lt;/td&gt;
+      &lt;td&gt;29682&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-04-01&lt;/th&gt;
+      &lt;td&gt;11630&lt;/td&gt;
+      &lt;td&gt;30228&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-05-01&lt;/th&gt;
+      &lt;td&gt;12327&lt;/td&gt;
+      &lt;td&gt;31677&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Primero usaremos un modelo de regresión lineal para entrenar la tendencia en cada serie. A efectos de demostración, usaremos una tendencia cuadrática (orden 2). Aunque el entrenamiento no es perfecto, será suficiente para nuestras necesidades.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;copy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Crea features de tendencia&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DeterministicProcess&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# fechas de los datos de en entrenamiento&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;constant&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# intercept&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;order&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;# tendencia cuadrática&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;drop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;      &lt;span class=&#34;c1&#34;&gt;# elimina términos para evitar colinearidad&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;in_sample&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# features de los datos de entrenamiento&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Prueba en los años 2016-2019. Será más facil para nosotros después si&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# dividimos el índice de fechas en lugar de directamente el dataframe.&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;idx_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;idx_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;train_test_split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test_size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;12&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;shuffle&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Entrena el modelo de tendencia&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LinearRegression&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit_intercept&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;LinearRegression(fit_intercept=False)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Hace predicciones&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Plot&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;0.25&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;0.25&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C0&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([])&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;suptitle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Tendencias&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/output_24_2.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Mientras que el algoritmo de regresión lineal es capaz de regresión multi-salida, el algoritmo XGBoost no. Para predecir múltiples series a la vez con XGBoost, convertiremos dichas series de formato &lt;em&gt;ancho&lt;/em&gt;, con una serie temporal por columna, a formato &lt;em&gt;largo&lt;/em&gt;, con series indexadas por categorías a lo largo de las filas.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# El método `stack` convierte etiquetas de columna a etiquetas de fila, pivotando de formato ancho a largo&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;retail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;display&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Sales&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Sales&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Month&lt;/th&gt;
+      &lt;th&gt;Industries&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th rowspan=&#34;2&#34; valign=&#34;top&#34;&gt;1992-01-01&lt;/th&gt;
+      &lt;th&gt;BuildingMaterials&lt;/th&gt;
+      &lt;td&gt;8964&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;FoodAndBeverage&lt;/th&gt;
+      &lt;td&gt;29589&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th rowspan=&#34;2&#34; valign=&#34;top&#34;&gt;1992-02-01&lt;/th&gt;
+      &lt;th&gt;BuildingMaterials&lt;/th&gt;
+      &lt;td&gt;9023&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;FoodAndBeverage&lt;/th&gt;
+      &lt;td&gt;28570&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1992-03-01&lt;/th&gt;
+      &lt;th&gt;BuildingMaterials&lt;/th&gt;
+      &lt;td&gt;10608&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Para que XGBoost pueda aprender a distinguir dos series temporales, convertiremos las etiquetas de fila de &lt;code&gt;Industries&lt;/code&gt; en una feature categórica con un etiqueta codificada. También crearemos una feature para la estacionalidad anual extrayendo los números de mes del índice de tiempo.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Convierte etiquetas de fila en columnas de feature categóricas con codificación de etiquetas&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reset_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Codificación de etiqueta para la feature &amp;#39;Industries&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;colname&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;select_dtypes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;colname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;colname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;factorize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Codifica la etiqueta para estacionalidad anual&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Month&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;month&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 1, 2, ..., 12&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Crea divisiones&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ahora convertiremos las predicciones de tendencias realizadas anteriormente a formato largo y las restaremos de la serie original. Esto nos dará las series sin tendencias (residuos) que puede aprender XGBoost.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Pivota de ancho a largo (stack) y convierte de  DataFrame a Series (squeeze)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;squeeze&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# tendencia del conjunto de entrenamiento&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;squeeze&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# tendencia del conjunto de prueba&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Crea residuos (la colección de series sin tendencia) del conjunto de entrenamiento&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Entrena XGBoost en los residuos&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;xgb&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;xgb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Y añade los residuos predichos en las tendencias predichas&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_fit_boosted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;xgb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_pred_boosted&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;xgb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El ajuste parece bastante bueno. Aunque podemos ver cómo la tendencia aprendida por XGBoost es tan buena como la aprendida por la regresión lineal, en particular XGBoost no fue capaz de compensar la tendencia pobremente ajustada de la serie &lt;code&gt;BuildingMaterials&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;0.25&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;figsize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;BuildingMaterials&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;FoodAndBeverage&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;0.25&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit_boosted&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C0&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred_boosted&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Industries&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/output_32_2.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ejercicio&#34;&gt;Ejercicio&lt;/h1&gt;
+&lt;p&gt;Vamos a realizar un ejercicio para ampliar lo que acabamos de ver.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;plt&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pandas&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pd&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LinearRegression&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LabelEncoder&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;statsmodels.tsa.deterministic&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DeterministicProcess&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;xgboost&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;helpers.style&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read_csv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;s2&#34;&gt;&amp;#34;../data/store_sales/train.csv&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;usecols&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;store_nbr&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;family&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;date&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;sales&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;onpromotion&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;dtype&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;s2&#34;&gt;&amp;#34;store_nbr&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;s2&#34;&gt;&amp;#34;family&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;s2&#34;&gt;&amp;#34;sales&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;float32&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;date&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;infer_datetime_format&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;date&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;date&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to_period&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;D&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;set_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;store_nbr&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;family&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;date&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sort_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;sales&lt;/th&gt;
+      &lt;th&gt;onpromotion&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;store_nbr&lt;/th&gt;
+      &lt;th&gt;family&lt;/th&gt;
+      &lt;th&gt;date&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th rowspan=&#34;5&#34; valign=&#34;top&#34;&gt;1&lt;/th&gt;
+      &lt;th rowspan=&#34;5&#34; valign=&#34;top&#34;&gt;AUTOMOTIVE&lt;/th&gt;
+      &lt;th&gt;2013-01-01&lt;/th&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2013-01-02&lt;/th&gt;
+      &lt;td&gt;2.0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2013-01-03&lt;/th&gt;
+      &lt;td&gt;3.0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2013-01-04&lt;/th&gt;
+      &lt;td&gt;3.0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2013-01-05&lt;/th&gt;
+      &lt;td&gt;5.0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;family_sales&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;store_sales&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupby&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;family&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;family&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;2017&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;family_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead tr th {
+    text-align: left;
+}
+
+.dataframe thead tr:last-of-type th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th colspan=&#34;10&#34; halign=&#34;left&#34;&gt;sales&lt;/th&gt;
+      &lt;th&gt;...&lt;/th&gt;
+      &lt;th colspan=&#34;10&#34; halign=&#34;left&#34;&gt;onpromotion&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;family&lt;/th&gt;
+      &lt;th&gt;AUTOMOTIVE&lt;/th&gt;
+      &lt;th&gt;BABY CARE&lt;/th&gt;
+      &lt;th&gt;BEAUTY&lt;/th&gt;
+      &lt;th&gt;BEVERAGES&lt;/th&gt;
+      &lt;th&gt;BOOKS&lt;/th&gt;
+      &lt;th&gt;BREAD/BAKERY&lt;/th&gt;
+      &lt;th&gt;CELEBRATION&lt;/th&gt;
+      &lt;th&gt;CLEANING&lt;/th&gt;
+      &lt;th&gt;DAIRY&lt;/th&gt;
+      &lt;th&gt;DELI&lt;/th&gt;
+      &lt;th&gt;...&lt;/th&gt;
+      &lt;th&gt;MAGAZINES&lt;/th&gt;
+      &lt;th&gt;MEATS&lt;/th&gt;
+      &lt;th&gt;PERSONAL CARE&lt;/th&gt;
+      &lt;th&gt;PET SUPPLIES&lt;/th&gt;
+      &lt;th&gt;PLAYERS AND ELECTRONICS&lt;/th&gt;
+      &lt;th&gt;POULTRY&lt;/th&gt;
+      &lt;th&gt;PREPARED FOODS&lt;/th&gt;
+      &lt;th&gt;PRODUCE&lt;/th&gt;
+      &lt;th&gt;SCHOOL AND OFFICE SUPPLIES&lt;/th&gt;
+      &lt;th&gt;SEAFOOD&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;date&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2017-01-01&lt;/th&gt;
+      &lt;td&gt;0.092593&lt;/td&gt;
+      &lt;td&gt;0.037037&lt;/td&gt;
+      &lt;td&gt;0.055556&lt;/td&gt;
+      &lt;td&gt;74.222221&lt;/td&gt;
+      &lt;td&gt;0.000000&lt;/td&gt;
+      &lt;td&gt;9.084685&lt;/td&gt;
+      &lt;td&gt;0.129630&lt;/td&gt;
+      &lt;td&gt;7.500000&lt;/td&gt;
+      &lt;td&gt;11.518518&lt;/td&gt;
+      &lt;td&gt;3.629167&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.018519&lt;/td&gt;
+      &lt;td&gt;0.111111&lt;/td&gt;
+      &lt;td&gt;0.018519&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.000000&lt;/td&gt;
+      &lt;td&gt;0.037037&lt;/td&gt;
+      &lt;td&gt;0.129630&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.000000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2017-01-02&lt;/th&gt;
+      &lt;td&gt;11.481482&lt;/td&gt;
+      &lt;td&gt;0.259259&lt;/td&gt;
+      &lt;td&gt;11.648149&lt;/td&gt;
+      &lt;td&gt;6208.055664&lt;/td&gt;
+      &lt;td&gt;0.481481&lt;/td&gt;
+      &lt;td&gt;844.836304&lt;/td&gt;
+      &lt;td&gt;14.203704&lt;/td&gt;
+      &lt;td&gt;2233.648193&lt;/td&gt;
+      &lt;td&gt;1545.000000&lt;/td&gt;
+      &lt;td&gt;539.114807&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.462963&lt;/td&gt;
+      &lt;td&gt;10.592593&lt;/td&gt;
+      &lt;td&gt;0.537037&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.259259&lt;/td&gt;
+      &lt;td&gt;1.166667&lt;/td&gt;
+      &lt;td&gt;5.629630&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.407407&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2017-01-03&lt;/th&gt;
+      &lt;td&gt;8.296296&lt;/td&gt;
+      &lt;td&gt;0.296296&lt;/td&gt;
+      &lt;td&gt;7.185185&lt;/td&gt;
+      &lt;td&gt;4507.814941&lt;/td&gt;
+      &lt;td&gt;0.814815&lt;/td&gt;
+      &lt;td&gt;665.124084&lt;/td&gt;
+      &lt;td&gt;10.629630&lt;/td&gt;
+      &lt;td&gt;1711.907349&lt;/td&gt;
+      &lt;td&gt;1204.203735&lt;/td&gt;
+      &lt;td&gt;404.300079&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.481481&lt;/td&gt;
+      &lt;td&gt;9.722222&lt;/td&gt;
+      &lt;td&gt;0.444444&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.388889&lt;/td&gt;
+      &lt;td&gt;1.351852&lt;/td&gt;
+      &lt;td&gt;56.296296&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.407407&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2017-01-04&lt;/th&gt;
+      &lt;td&gt;6.833333&lt;/td&gt;
+      &lt;td&gt;0.333333&lt;/td&gt;
+      &lt;td&gt;6.888889&lt;/td&gt;
+      &lt;td&gt;3911.833252&lt;/td&gt;
+      &lt;td&gt;0.759259&lt;/td&gt;
+      &lt;td&gt;594.160583&lt;/td&gt;
+      &lt;td&gt;11.185185&lt;/td&gt;
+      &lt;td&gt;1508.036987&lt;/td&gt;
+      &lt;td&gt;1107.796265&lt;/td&gt;
+      &lt;td&gt;309.397675&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.370370&lt;/td&gt;
+      &lt;td&gt;12.037037&lt;/td&gt;
+      &lt;td&gt;0.444444&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.296296&lt;/td&gt;
+      &lt;td&gt;5.444444&lt;/td&gt;
+      &lt;td&gt;101.277778&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.333333&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2017-01-05&lt;/th&gt;
+      &lt;td&gt;6.333333&lt;/td&gt;
+      &lt;td&gt;0.351852&lt;/td&gt;
+      &lt;td&gt;5.925926&lt;/td&gt;
+      &lt;td&gt;3258.796387&lt;/td&gt;
+      &lt;td&gt;0.407407&lt;/td&gt;
+      &lt;td&gt;495.511597&lt;/td&gt;
+      &lt;td&gt;12.444445&lt;/td&gt;
+      &lt;td&gt;1241.833374&lt;/td&gt;
+      &lt;td&gt;829.277771&lt;/td&gt;
+      &lt;td&gt;260.776489&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;8.981481&lt;/td&gt;
+      &lt;td&gt;5.666667&lt;/td&gt;
+      &lt;td&gt;0.000000&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.296296&lt;/td&gt;
+      &lt;td&gt;0.907407&lt;/td&gt;
+      &lt;td&gt;5.018519&lt;/td&gt;
+      &lt;td&gt;0.0&lt;/td&gt;
+      &lt;td&gt;0.444444&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;5 rows × 66 columns&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Vamos a crear un híbrido boosted para el dataset de Venta de Almacén implementando una nueva clase Python. Añadiremos un método &lt;code&gt;fit&lt;/code&gt; y &lt;code&gt;predict&lt;/code&gt; para darle un interfaz similar a scikit-learn.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;BoostedHybrid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;fm&#34;&gt;__init__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_columns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;None&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# almacena los nombre de columna para el método fit&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# Entrena model_1&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;# Hace predicciones&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;# Calcula residuos&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;squeeze&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# ancho a largo&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;# Entrena model_2 en los residuos&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_resid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;# Guarda los nombres de las columnas para el método predict&lt;/span&gt;
+        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_columns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# Predice con model_1&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y_columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;squeeze&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# ancho a largo&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;# Añade predicciones de model_2 a predicciones de model_1&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unstack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ya estamos listos para usar la nueva clase &lt;code&gt;BoostedHybrid&lt;/code&gt; y crear un modelo para los datos de &lt;em&gt;Venta de Almacén&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Series objetivo&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;family_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;sales&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# X_1: Features para Regresión Lineal&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DeterministicProcess&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;order&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;in_sample&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# X_2: Features para XGBoost&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;family_sales&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;drop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;sales&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;axis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stack&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# onpromotion feature&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Codificado de etiquetas para &amp;#39;family&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;le&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LabelEncoder&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# de sklearn.preprocessing&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reset_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;family&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;family&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;le&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit_transform&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;family&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Codificado de etiquetas para estacionalidad&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;day&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;day&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# los valores son días del mes&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Vamos a crear el modelo híbrido inicializando la clase &lt;code&gt;BoostedHybrid&lt;/code&gt; con instancias de &lt;code&gt;LinearRegression()&lt;/code&gt; y &lt;code&gt;XGBRegressor()&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BoostedHybrid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LinearRegression&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;XGBRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Entrena y predice&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Dependiendo de nuestro problema, podríamos usar otra combinación diferente a regresión lineal + XGBoost. Por ejemplo, otros algoritmos podrían ser:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Model 1 (tendencia)&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ElasticNet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Lasso&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ridge&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Model 2&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.ensemble&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ExtraTreesRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RandomForestRegressor&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.neighbors&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;KNeighborsRegressor&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sklearn.neural_network&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MLPRegressor&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Podemos intentar diferentes combinaciones&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BoostedHybrid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;model_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ridge&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;model_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;KNeighborsRegressor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_valid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-01&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-02&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X1_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X1_valid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-01&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-02&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;X2_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X2_valid&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-01&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X_2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2017-07-02&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:]&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Algunos de los algortimos anteriores lo hacen mejor con determinados tipos&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# de preprocesamient en la features (como standardization), pero es es solo&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# una demo.&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X1_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X2_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X1_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X2_train&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;predict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X1_valid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;X2_valid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;families&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;families&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;figsize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot_params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;alpha&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_fit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;families&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C0&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y_pred&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;families&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;subplots&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharex&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;C3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;family&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;zip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;axs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;families&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([])&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;set_ylabel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;family&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://sgtsteiner.github.io/images/output_46_7.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/categories/series-temporales/" term="series temporales" label="series temporales" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/series-temporales/" term="series temporales" label="series temporales" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/residuos/" term="residuos" label="residuos" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/h%C3%ADbridos/" term="híbridos" label="híbridos" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/boosting/" term="boosting" label="boosting" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://sgtsteiner.github.io/tags/stacking/" term="stacking" label="stacking" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Series temporales: (4) series temporales como features</title>
             <link rel="alternate" type="text/html" href="https://sgtsteiner.github.io/posts/time-serie-as-feature/" />
