@@ -1406,3 +1406,6 @@ ax.legend();
 
 
 El modelo ha mejorado las predicciones en los días festivos.
+
+
+[Fuente: Kaggle](https://www.kaggle.com/code/ryanholbrook/seasonality)

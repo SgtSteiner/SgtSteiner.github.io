@@ -1434,3 +1434,6 @@ promo_7 = onpromo.rolling(
 {{< /highlight >}}
 
 Para calcular más estadísticos podemos acudir a la [documentación de `Window` de Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/window.html). También podemos probar las ventanas "ponderadas exponencialmente" usando `ewm` en lugar de `rolling`; el decaimiento exponencial suele ser una representación más realista de cómo se propagan los efectos en el tiempo.
+
+
+[Fuente: Kaggle](https://www.kaggle.com/code/ryanholbrook/time-series-as-features)

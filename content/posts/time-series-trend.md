@@ -542,3 +542,4 @@ ax.legend();
 ![png](/images/output_53_2.png)
     
 
+[Fuente: Kaggle](https://www.kaggle.com/code/ryanholbrook/trend)

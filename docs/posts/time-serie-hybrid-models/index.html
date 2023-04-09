@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.83.1" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.111.3"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -14,11 +14,11 @@
 
     <title>Series temporales: (5) Modelos híbridos | Lords of the Machine Learning</title>
 
-    <link rel="stylesheet" href="/css/meme.min.317d84c7f6754ad23a2ae219d212f73a900416875fb1144e27652ca955c5aac2.css"/>
+    <link rel="stylesheet" href="/css/meme.min.affed450365c31a1c53cdc3bc59d7ff88c0b9fb4aca110183600a6756679cd73.css"/>
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.f35bf90a44d349c5222917b111dc6e2703b168b378df0d1deba96a4fc6ecf388.js"></script>
 
     
 
@@ -54,13 +54,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-05-18T18:52:24+02:00",
-        "dateModified": "2022-05-24T14:15:06+02:00",
+        "dateModified": "2022-05-24T17:27:16+02:00",
         "url": "https://sgtsteiner.github.io/posts/time-serie-hybrid-models/",
         "headline": "Series temporales: (5) Modelos híbridos",
         "description": "Modelos híbridos Introducción La regresión lineal sobresale en la extrapolación de tendencias, pero no puede aprender interacciones. XGBoost sobresale en el aprendizaje de interacciones, pero no puede extrapolar tendencias. En este post, aprenderemos cómo crear predictores “híbridos” que combinan algoritmos de aprendizaje complementarios y permiten que las fortalezas de uno compensen las debilidades del otro.",
         "inLanguage" : "es-ES",
         "articleSection": "posts",
-        "wordCount":  2614 ,
+        "wordCount":  2505 ,
         "image": ["https://sgtsteiner.github.io/images/residuals_01.png","https://sgtsteiner.github.io/images/learning_components.png","https://sgtsteiner.github.io/images/tendencia_estacionalidad_ciclos.png","https://sgtsteiner.github.io/images/decision_tree_extrapolate.png","https://sgtsteiner.github.io/images/output_24_2.png","https://sgtsteiner.github.io/images/output_32_2.png","https://sgtsteiner.github.io/images/output_46_7.png"],
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/residuals_01.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-05-18T18:52:24&#43;02:00" />
-    <meta property="article:modified_time" content="2022-05-24T14:15:06&#43;02:00" />
+    <meta property="article:modified_time" content="2022-05-24T17:27:16&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -241,7 +241,7 @@
     
     
         
-        <time datetime="2022-05-24T14:15:06&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;24.5.2022</time>
+        <time datetime="2022-05-24T17:27:16&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;24.5.2022</time>
     
     
     
@@ -255,11 +255,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2614</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2505</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;13&nbsp;</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;12&nbsp;</span>
     
     
     
@@ -315,49 +315,49 @@
 </blockquote>
 <h2 id="ejemplo---venta-minorista-eeuu"><a href="#ejemplo---venta-minorista-eeuu" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejemplo - Venta Minorista EEUU</h2>
 <p>El dataset de <a href="https://www.census.gov/retail/index.html" target="_blank" rel="noopener">Venta Minorista de EEUU</a> contiene datos de venta mensuales de varias industrias minoristas desde 1992 a 2019, recopiladas por la Oficina del Censo de EEUU. Nuestro objetivo será predecir las ventas en los años 2016 a 2019 dadas las ventas de los años anteriores. Además de crear un híbrido regresión lineal + XGBOost, también veremos cómo configurar una serie temporal para usarla con XGBoost.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">simplefilter</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">CalendarFourier</span><span class="p">,</span> <span class="n">DeterministicProcess</span>
-<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&#34;ignore&#34;</span><span class="p">)</span>
-
-<span class="c1"># Set Matplotlib defaults</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
-    <span class="s2">&#34;figure&#34;</span><span class="p">,</span>
-    <span class="n">autolayout</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="n">titlesize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
-    <span class="n">titleweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
-    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
-    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
-    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
-    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
-    <span class="n">titlesize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
-    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
-    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
-    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
-<span class="p">)</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">industries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;BuildingMaterials&#34;</span><span class="p">,</span> <span class="s2">&#34;FoodAndBeverage&#34;</span><span class="p">]</span>
-<span class="n">retail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/us-retail-sales.csv&#34;</span><span class="p">,</span>
-    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">industries</span><span class="p">,</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">],</span>
-    <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Month&#39;</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">industries</span><span class="p">)</span>
-<span class="n">retail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">({</span><span class="s1">&#39;Sales&#39;</span><span class="p">:</span> <span class="n">retail</span><span class="p">},</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;Industries&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">retail</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">simplefilter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">CalendarFourier</span><span class="p">,</span> <span class="n">DeterministicProcess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&#34;ignore&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set Matplotlib defaults</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;figure&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">autolayout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titlesize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titleweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titlesize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">industries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;BuildingMaterials&#34;</span><span class="p">,</span> <span class="s2">&#34;FoodAndBeverage&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">retail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/us-retail-sales.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">industries</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Month&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">industries</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">retail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">({</span><span class="s1">&#39;Sales&#39;</span><span class="p">:</span> <span class="n">retail</span><span class="p">},</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Industries&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">retail</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -423,52 +423,52 @@
 </table></div>
 </div>
 <p>Primero usaremos un modelo de regresión lineal para entrenar la tendencia en cada serie. A efectos de demostración, usaremos una tendencia cuadrática (orden 2). Aunque el entrenamiento no es perfecto, será suficiente para nuestras necesidades.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y</span> <span class="o">=</span> <span class="n">retail</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># Crea features de tendencia</span>
-<span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span>
-    <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>  <span class="c1"># fechas de los datos de en entrenamiento</span>
-    <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="c1"># intercept</span>
-    <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>        <span class="c1"># tendencia cuadrática</span>
-    <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>      <span class="c1"># elimina términos para evitar colinearidad</span>
-<span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>  <span class="c1"># features de los datos de entrenamiento</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Prueba en los años 2016-2019. Será más facil para nosotros después si</span>
-<span class="c1"># dividimos el índice de fechas en lugar de directamente el dataframe.</span>
-<span class="n">idx_train</span><span class="p">,</span> <span class="n">idx_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">,</span> <span class="p">:]</span>
-<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">]</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Entrena el modelo de tendencia</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">retail</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea features de tendencia</span>
+</span></span><span class="line"><span class="cl"><span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>  <span class="c1"># fechas de los datos de en entrenamiento</span>
+</span></span><span class="line"><span class="cl">    <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># intercept</span>
+</span></span><span class="line"><span class="cl">    <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>        <span class="c1"># tendencia cuadrática</span>
+</span></span><span class="line"><span class="cl">    <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># elimina términos para evitar colinearidad</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>  <span class="c1"># features de los datos de entrenamiento</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Prueba en los años 2016-2019. Será más facil para nosotros después si</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dividimos el índice de fechas en lugar de directamente el dataframe.</span>
+</span></span><span class="line"><span class="cl"><span class="n">idx_train</span><span class="p">,</span> <span class="n">idx_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">,</span> <span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">]</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Entrena el modelo de tendencia</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></span></span></code></pre></div>
 <pre><code>LinearRegression(fit_intercept=False)
 </code></pre>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Hace predicciones</span>
-<span class="n">y_fit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span>
-    <span class="n">index</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-    <span class="n">columns</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span>
-    <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-    <span class="n">columns</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-<span class="p">)</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Plot</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Tendencias&#34;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Hace predicciones</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_fit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">columns</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">columns</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Plot</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span>
+</span></span><span class="line"><span class="cl"><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Tendencias&#34;</span><span class="p">)</span></span></span></code></pre></div>
 <p><img src="/images/output_24_2.png" alt="png"></p>
 <p>Mientras que el algoritmo de regresión lineal es capaz de regresión multi-salida, el algoritmo XGBoost no. Para predecir múltiples series a la vez con XGBoost, convertiremos dichas series de formato <em>ancho</em>, con una serie temporal por columna, a formato <em>largo</em>, con series indexadas por categorías a lo largo de las filas.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># El método `stack` convierte etiquetas de columna a etiquetas de fila, pivotando de formato ancho a largo</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">retail</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
-<span class="n">display</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Sales&#39;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># El método `stack` convierte etiquetas de columna a etiquetas de fila, pivotando de formato ancho a largo</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">retail</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">display</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Sales&#39;</span><span class="p">)</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -524,74 +524,74 @@
 </table></div>
 </div>
 <p>Para que XGBoost pueda aprender a distinguir dos series temporales, convertiremos las etiquetas de fila de <code>Industries</code> en una feature categórica con un etiqueta codificada. También crearemos una feature para la estacionalidad anual extrayendo los números de mes del índice de tiempo.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Convierte etiquetas de fila en columnas de feature categóricas con codificación de etiquetas</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="s1">&#39;Industries&#39;</span><span class="p">)</span>
-<span class="c1"># Codificación de etiqueta para la feature &#39;Industries&#39;</span>
-<span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">([</span><span class="s2">&#34;object&#34;</span><span class="p">,</span> <span class="s2">&#34;category&#34;</span><span class="p">]):</span>
-    <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()</span>
-
-<span class="c1"># Codifica la etiqueta para estacionalidad anual</span>
-<span class="n">X</span><span class="p">[</span><span class="s2">&#34;Month&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span>  <span class="c1"># 1, 2, ..., 12</span>
-
-<span class="c1"># Crea divisiones</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">,</span> <span class="p">:]</span>
-<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">]</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Convierte etiquetas de fila en columnas de feature categóricas con codificación de etiquetas</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="s1">&#39;Industries&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Codificación de etiqueta para la feature &#39;Industries&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">([</span><span class="s2">&#34;object&#34;</span><span class="p">,</span> <span class="s2">&#34;category&#34;</span><span class="p">]):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">factorize</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Codifica la etiqueta para estacionalidad anual</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span><span class="p">[</span><span class="s2">&#34;Month&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span>  <span class="c1"># 1, 2, ..., 12</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea divisiones</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">,</span> <span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_train</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_test</span><span class="p">]</span></span></span></code></pre></div>
 <p>Ahora convertiremos las predicciones de tendencias realizadas anteriormente a formato largo y las restaremos de la serie original. Esto nos dará las series sin tendencias (residuos) que puede aprender XGBoost.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Pivota de ancho a largo (stack) y convierte de  DataFrame a Series (squeeze)</span>
-<span class="n">y_fit</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>    <span class="c1"># tendencia del conjunto de entrenamiento</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>  <span class="c1"># tendencia del conjunto de prueba</span>
-
-<span class="c1"># Crea residuos (la colección de series sin tendencia) del conjunto de entrenamiento</span>
-<span class="n">y_resid</span> <span class="o">=</span> <span class="n">y_train</span> <span class="o">-</span> <span class="n">y_fit</span>
-
-<span class="c1"># Entrena XGBoost en los residuos</span>
-<span class="n">xgb</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">()</span>
-<span class="n">xgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_resid</span><span class="p">)</span>
-
-<span class="c1"># Y añade los residuos predichos en las tendencias predichas</span>
-<span class="n">y_fit_boosted</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_fit</span>
-<span class="n">y_pred_boosted</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_pred</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Pivota de ancho a largo (stack) y convierte de  DataFrame a Series (squeeze)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_fit</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>    <span class="c1"># tendencia del conjunto de entrenamiento</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>  <span class="c1"># tendencia del conjunto de prueba</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea residuos (la colección de series sin tendencia) del conjunto de entrenamiento</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_resid</span> <span class="o">=</span> <span class="n">y_train</span> <span class="o">-</span> <span class="n">y_fit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Entrena XGBoost en los residuos</span>
+</span></span><span class="line"><span class="cl"><span class="n">xgb</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">xgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_resid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Y añade los residuos predichos en las tendencias predichas</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_fit_boosted</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_fit</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred_boosted</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_pred</span></span></span></code></pre></div>
 <p>El ajuste parece bastante bueno. Aunque podemos ver cómo la tendencia aprendida por XGBoost es tan buena como la aprendida por la regresión lineal, en particular XGBoost no fue capaz de compensar la tendencia pobremente ajustada de la serie <code>BuildingMaterials</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;BuildingMaterials&#39;</span><span class="p">,</span> <span class="s1">&#39;FoodAndBeverage&#39;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_fit_boosted</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y_pred_boosted</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;BuildingMaterials&#39;</span><span class="p">,</span> <span class="s1">&#39;FoodAndBeverage&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_fit_boosted</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y_pred_boosted</span><span class="o">.</span><span class="n">unstack</span><span class="p">([</span><span class="s1">&#39;Industries&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span></span></span></code></pre></div>
 <p><img src="/images/output_32_2.png" alt="png"></p>
 <h1 id="ejercicio"><a href="#ejercicio" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejercicio</h1>
 <p>Vamos a realizar un ejercicio para ampliar lo que acabamos de ver.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
-<span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">DeterministicProcess</span>
-<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
-
-<span class="kn">from</span> <span class="nn">helpers.style</span> <span class="kn">import</span> <span class="o">*</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
-    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;store_nbr&#34;</span><span class="p">,</span> <span class="s2">&#34;family&#34;</span><span class="p">,</span> <span class="s2">&#34;date&#34;</span><span class="p">,</span> <span class="s2">&#34;sales&#34;</span><span class="p">,</span> <span class="s2">&#34;onpromotion&#34;</span><span class="p">],</span>
-    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&#34;store_nbr&#34;</span><span class="p">:</span> <span class="s2">&#34;category&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;family&#34;</span><span class="p">:</span> <span class="s2">&#34;category&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;sales&#34;</span><span class="p">:</span> <span class="s2">&#34;float32&#34;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;date&#34;</span><span class="p">],</span>
-    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">store_sales</span><span class="p">[</span><span class="s2">&#34;date&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&#34;D&#34;</span><span class="p">)</span>
-<span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&#34;store_nbr&#34;</span><span class="p">,</span> <span class="s2">&#34;family&#34;</span><span class="p">,</span> <span class="s2">&#34;date&#34;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
-
-<span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">statsmodels.tsa.deterministic</span> <span class="kn">import</span> <span class="n">DeterministicProcess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">helpers.style</span> <span class="kn">import</span> <span class="o">*</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;store_nbr&#34;</span><span class="p">,</span> <span class="s2">&#34;family&#34;</span><span class="p">,</span> <span class="s2">&#34;date&#34;</span><span class="p">,</span> <span class="s2">&#34;sales&#34;</span><span class="p">,</span> <span class="s2">&#34;onpromotion&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;store_nbr&#34;</span><span class="p">:</span> <span class="s2">&#34;category&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;family&#34;</span><span class="p">:</span> <span class="s2">&#34;category&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;sales&#34;</span><span class="p">:</span> <span class="s2">&#34;float32&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;date&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span><span class="p">[</span><span class="s2">&#34;date&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&#34;D&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&#34;store_nbr&#34;</span><span class="p">,</span> <span class="s2">&#34;family&#34;</span><span class="p">,</span> <span class="s2">&#34;date&#34;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -654,15 +654,15 @@
   </tbody>
 </table></div>
 </div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">family_sales</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">store_sales</span>
-    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span>
-    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;family&#39;</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017&#39;</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">family_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">family_sales</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">store_sales</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;family&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;family&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">family_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -864,105 +864,106 @@
 <p>5 rows × 66 columns</p>
 </div>
 <p>Vamos a crear un híbrido boosted para el dataset de Venta de Almacén implementando una nueva clase Python. Añadiremos un método <code>fit</code> y <code>predict</code> para darle un interfaz similar a scikit-learn.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BoostedHybrid</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_1</span><span class="p">,</span> <span class="n">model_2</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span> <span class="o">=</span> <span class="n">model_1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span> <span class="o">=</span> <span class="n">model_2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># almacena los nombre de columna para el método fit</span>
-
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="c1"># Entrena model_1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-        <span class="c1"># Hace predicciones</span>
-        <span class="n">y_fit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">),</span>
-            <span class="n">index</span><span class="o">=</span><span class="n">X_1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Calcula residuos</span>
-        <span class="n">y_resid</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_fit</span>
-        <span class="n">y_resid</span> <span class="o">=</span> <span class="n">y_resid</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="c1"># ancho a largo</span>
-
-        <span class="c1"># Entrena model_2 en los residuos</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_2</span><span class="p">,</span> <span class="n">y_resid</span><span class="p">)</span>
-
-        <span class="c1"># Guarda los nombres de las columnas para el método predict</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">columns</span>
-
-    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">):</span>
-        <span class="c1"># Predice con model_1</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">),</span>
-            <span class="n">index</span><span class="o">=</span><span class="n">X_1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>  <span class="c1"># ancho a largo</span>
-
-        <span class="c1"># Añade predicciones de model_2 a predicciones de model_1</span>
-        <span class="n">y_pred</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_2</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BoostedHybrid</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_1</span><span class="p">,</span> <span class="n">model_2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span> <span class="o">=</span> <span class="n">model_1</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span> <span class="o">=</span> <span class="n">model_2</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># almacena los nombre de columna para el método fit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Entrena model_1</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Hace predicciones</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_fit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">index</span><span class="o">=</span><span class="n">X_1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Calcula residuos</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_resid</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_fit</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_resid</span> <span class="o">=</span> <span class="n">y_resid</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="c1"># ancho a largo</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Entrena model_2 en los residuos</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_2</span><span class="p">,</span> <span class="n">y_resid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Guarda los nombres de las columnas para el método predict</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">columns</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Predice con model_1</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">model_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">index</span><span class="o">=</span><span class="n">X_1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_columns</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>  <span class="c1"># ancho a largo</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Añade predicciones de model_2 a predicciones de model_1</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_pred</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span></span></span></code></pre></div>
 <p>Ya estamos listos para usar la nueva clase <code>BoostedHybrid</code> y crear un modelo para los datos de <em>Venta de Almacén</em>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Series objetivo</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">family_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span>
-
-<span class="c1"># X_1: Features para Regresión Lineal</span>
-<span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">X_1</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>
-
-<span class="c1"># X_2: Features para XGBoost</span>
-<span class="n">X_2</span> <span class="o">=</span> <span class="n">family_sales</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>  <span class="c1"># onpromotion feature</span>
-
-<span class="c1"># Codificado de etiquetas para &#39;family&#39;</span>
-<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>  <span class="c1"># de sklearn.preprocessing</span>
-<span class="n">X_2</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="s1">&#39;family&#39;</span><span class="p">)</span>
-<span class="n">X_2</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_2</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">])</span>
-
-<span class="c1"># Codificado de etiquetas para estacionalidad</span>
-<span class="n">X_2</span><span class="p">[</span><span class="s2">&#34;day&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">day</span>  <span class="c1"># los valores son días del mes</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Series objetivo</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">family_sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># X_1: Features para Regresión Lineal</span>
+</span></span><span class="line"><span class="cl"><span class="n">dp</span> <span class="o">=</span> <span class="n">DeterministicProcess</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_1</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">in_sample</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># X_2: Features para XGBoost</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_2</span> <span class="o">=</span> <span class="n">family_sales</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>  <span class="c1"># onpromotion feature</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Codificado de etiquetas para &#39;family&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>  <span class="c1"># de sklearn.preprocessing</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_2</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="s1">&#39;family&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_2</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_2</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Codificado de etiquetas para estacionalidad</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_2</span><span class="p">[</span><span class="s2">&#34;day&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">day</span>  <span class="c1"># los valores son días del mes</span></span></span></code></pre></div>
 <p>Vamos a crear el modelo híbrido inicializando la clase <code>BoostedHybrid</code> con instancias de <code>LinearRegression()</code> y <code>XGBRegressor()</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">BoostedHybrid</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">XGBRegressor</span><span class="p">())</span>
-
-<span class="c1"># Entrena y predice</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">)</span>
-
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">BoostedHybrid</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">XGBRegressor</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Entrena y predice</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></span></span></code></pre></div>
 <p>Dependiendo de nuestro problema, podríamos usar otra combinación diferente a regresión lineal + XGBoost. Por ejemplo, otros algoritmos podrían ser:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Model 1 (tendencia)</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNet</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">Ridge</span>
-
-<span class="c1"># Model 2</span>
-<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">ExtraTreesRegressor</span><span class="p">,</span> <span class="n">RandomForestRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
-
-<span class="c1"># Podemos intentar diferentes combinaciones</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">BoostedHybrid</span><span class="p">(</span>
-    <span class="n">model_1</span><span class="o">=</span><span class="n">Ridge</span><span class="p">(),</span>
-    <span class="n">model_2</span><span class="o">=</span><span class="n">KNeighborsRegressor</span><span class="p">(),</span>
-<span class="p">)</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span><span class="p">:]</span>
-<span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_valid</span> <span class="o">=</span> <span class="n">X_1</span><span class="p">[:</span> <span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">X_1</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span> <span class="p">:]</span>
-<span class="n">X2_train</span><span class="p">,</span> <span class="n">X2_valid</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">X_2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span><span class="p">:]</span>
-
-<span class="c1"># Algunos de los algortimos anteriores lo hacen mejor con determinados tipos</span>
-<span class="c1"># de preprocesamient en la features (como standardization), pero es es solo</span>
-<span class="c1"># una demo.</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X2_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">y_fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X1_valid</span><span class="p">,</span> <span class="n">X2_valid</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
-
-<span class="n">families</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">family</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">families</span><span class="p">):</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">family</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Model 1 (tendencia)</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNet</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">Ridge</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Model 2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">ExtraTreesRegressor</span><span class="p">,</span> <span class="n">RandomForestRegressor</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Podemos intentar diferentes combinaciones</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">BoostedHybrid</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_1</span><span class="o">=</span><span class="n">Ridge</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_2</span><span class="o">=</span><span class="n">KNeighborsRegressor</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_valid</span> <span class="o">=</span> <span class="n">X_1</span><span class="p">[:</span> <span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">X_1</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span> <span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X2_train</span><span class="p">,</span> <span class="n">X2_valid</span> <span class="o">=</span> <span class="n">X_2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="s2">&#34;2017-07-01&#34;</span><span class="p">],</span> <span class="n">X_2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&#34;2017-07-02&#34;</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Algunos de los algortimos anteriores lo hacen mejor con determinados tipos</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># de preprocesamient en la features (como standardization), pero es es solo</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># una demo.</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X2_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X1_valid</span><span class="p">,</span> <span class="n">X2_valid</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">families</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">axs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">_</span> <span class="o">=</span> <span class="n">y_fit</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">_</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">loc</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">families</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">family</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">families</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">family</span><span class="p">)</span></span></span></code></pre></div>
 <p><img src="/images/output_46_7.png" alt="png"></p>
+<p><a href="https://www.kaggle.com/code/ryanholbrook/hybrid-models" target="_blank" rel="noopener">Fuente:_Kaggle</a></p>
 
             </div>
 
@@ -991,7 +992,7 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-05-24 14:15:06 CEST" style="cursor:help">
+        <span title="Updated @ 2022-05-24 17:27:16 CEST" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-24</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-24</text></g></svg>
         </span></div>
@@ -1010,7 +1011,7 @@
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/time-serie-hybrid-models/&amp;text=Series%20temporales:%20%285%29%20Modelos%20h%c3%adbridos&amp;hashtags=seriestemporales,residuos,h%c3%adbridos,boosting,stacking,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/time-serie-hybrid-models/&amp;text=Series%20temporales:%20%285%29%20Modelos%20h%c3%adbridos&amp;hashtags=seriestemporales,residuos,h%c3%adbridos,boosting,stacking,XGBoost,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -1071,6 +1072,10 @@
             <ul class="related-list">
                 
                     <li class="related-item">
+                        <a href="/posts/time-series-forecasting/" class="related-link">Series temporales: (6) Pronóstico</a>
+                    </li>
+                
+                    <li class="related-item">
                         <a href="/posts/time-serie-as-feature/" class="related-link">Series temporales: (4) series temporales como features</a>
                     </li>
                 
@@ -1083,11 +1088,7 @@
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/time-series-linear-regression/" class="related-link">Series temporales: (1) Regresión lineal</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/modelos-conjunto/" class="related-link">Modelos de conjunto</a>
+                        <a href="/posts/time-series-linear-regression/" class="related-link">Series temporales: (1) Componentes y regresión lineal</a>
                     </li>
                 
             </ul>
@@ -1140,6 +1141,14 @@
                     <a href="/tags/stacking/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>stacking</a>
                 
             
+                
+                
+                
+                
+                    
+                    <a href="/tags/xgboost/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>XGBoost</a>
+                
+            
         </div>
     
 
@@ -1160,6 +1169,10 @@
     
     
         <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/time-series-forecasting/" rel="prev">&lt; Series temporales: (6) Pronóstico</a>
+                </li>
             
             
                 <li class="post-nav-next">
@@ -1187,7 +1200,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+            <div class="site-info">©&nbsp;2021–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
 
             
     

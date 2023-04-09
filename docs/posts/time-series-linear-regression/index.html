@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.83.1" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.111.3"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -12,13 +12,13 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>Series temporales: (1) Regresión lineal | Lords of the Machine Learning</title>
+    <title>Series temporales: (1) Componentes y regresión lineal | Lords of the Machine Learning</title>
 
-    <link rel="stylesheet" href="/css/meme.min.317d84c7f6754ad23a2ae219d212f73a900416875fb1144e27652ca955c5aac2.css"/>
+    <link rel="stylesheet" href="/css/meme.min.affed450365c31a1c53cdc3bc59d7ff88c0b9fb4aca110183600a6756679cd73.css"/>
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.b18607e70c711c9fdee7b83c420df45357ac35f70c7adc262c3f62720c9747b8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.stemmer.support.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lunr-languages@1.4.0/min/lunr.es.min.js" defer></script><script src="/js/meme.min.f35bf90a44d349c5222917b111dc6e2703b168b378df0d1deba96a4fc6ecf388.js"></script>
 
     
 
@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Antonio Méndez" /><meta name="description" content="Regresión lineal con series temporales En este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente." />
+    <meta name="author" content="Antonio Méndez" /><meta name="description" content="Introducción a las series temporales Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -54,13 +54,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-05-11T16:36:09+02:00",
-        "dateModified": "2022-05-11T17:17:35+02:00",
+        "dateModified": "2023-04-09T19:48:11+02:00",
         "url": "https://sgtsteiner.github.io/posts/time-series-linear-regression/",
-        "headline": "Series temporales: (1) Regresión lineal",
-        "description": "Regresión lineal con series temporales En este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente.",
+        "headline": "Series temporales: (1) Componentes y regresión lineal",
+        "description": "Introducción a las series temporales Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro.",
         "inLanguage" : "es-ES",
         "articleSection": "posts",
-        "wordCount":  2387 ,
+        "wordCount":  2919 ,
         "image": ["https://sgtsteiner.github.io/images/output_9_1.png","https://sgtsteiner.github.io/images/output_16_1.png","https://sgtsteiner.github.io/images/output_31_2.png","https://sgtsteiner.github.io/images/output_38_1.png","https://sgtsteiner.github.io/images/output_40_1.png","https://sgtsteiner.github.io/images/output_46_5.png","https://sgtsteiner.github.io/images/output_52_4.png","https://sgtsteiner.github.io/images/output_63_3.png","https://sgtsteiner.github.io/images/output_68_1.png"],
         "author": {
             "@type": "Person",
@@ -99,14 +99,14 @@
 
 
 
-<meta property="og:title" content="Series temporales: (1) Regresión lineal" />
-<meta property="og:description" content="Regresión lineal con series temporales En este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente." />
+<meta property="og:title" content="Series temporales: (1) Componentes y regresión lineal" />
+<meta property="og:description" content="Introducción a las series temporales Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro." />
 <meta property="og:url" content="https://sgtsteiner.github.io/posts/time-series-linear-regression/" />
 <meta property="og:site_name" content="Lords of the Machine Learning" />
 <meta property="og:locale" content="es" /><meta property="og:image" content="https://sgtsteiner.github.io/images/output_9_1.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-05-11T16:36:09&#43;02:00" />
-    <meta property="article:modified_time" content="2022-05-11T17:17:35&#43;02:00" />
+    <meta property="article:modified_time" content="2023-04-09T19:48:11&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -223,7 +223,7 @@
 
         <article class="content post h-entry" data-small-caps="true" data-align="default" data-type="posts" data-toc-num="true">
 
-            <h1 class="post-title p-name">Series temporales: (1) Regresión lineal</h1>
+            <h1 class="post-title p-name">Series temporales: (1) Componentes y regresión lineal</h1>
 
             
 
@@ -241,7 +241,7 @@
     
     
         
-        <time datetime="2022-05-11T17:17:35&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;11.5.2022</time>
+        <time datetime="2023-04-09T19:48:11&#43;02:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;9.4.2023</time>
     
     
     
@@ -255,11 +255,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2387</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2919</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;12&nbsp;</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;14&nbsp;</span>
     
     
     
@@ -268,17 +268,54 @@
             
 
             <div class="post-body e-content">
-              <h1 id="regresión-lineal-con-series-temporales"><a href="#regresión-lineal-con-series-temporales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Regresión lineal con series temporales</h1>
-<p style="text-indent:0"><span class="drop-cap">E</span>n este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/book_sales.csv&#34;</span><span class="p">,</span>
-    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Date&#34;</span><span class="p">,</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Date&#34;</span><span class="p">],</span>
-<span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Paperback&#34;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+              <h1 id="introducción-a-las-series-temporales"><a href="#introducción-a-las-series-temporales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Introducción a las series temporales</h1>
+<p style="text-indent:0"><span class="drop-cap">L</span>as series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro. Se busca pronosticar valores futuros basados en valores pasados.</p>
+<p>Las series temporales son útiles en una amplia variedad de aplicaciones, incluyendo finanzas, marketing, ventas, ingeniería, climatología, medicina, etc. Algunos ejemplos de casos de uso para series temporales son:</p>
+<ul>
+<li>
+<p><strong>Predicción de ventas</strong>: Las series temporales se pueden utilizar para predecir las ventas futuras de un producto o servicio. Esto es útil para planificar la producción, la logística y las ventas.</p>
+</li>
+<li>
+<p><strong>Análisis del mercado financiero</strong>: Las series temporales se utilizan en el análisis del mercado financiero para predecir el precio de las acciones, las tasas de interés, las fluctuaciones del mercado y otros indicadores financieros.</p>
+</li>
+<li>
+<p><strong>Pronóstico del clima</strong>: Las series temporales se utilizan en la climatología para predecir el tiempo y el clima. Esto es útil para la agricultura, la aviación, el turismo y otros sectores que dependen del clima.</p>
+</li>
+<li>
+<p><strong>Análisis de la demanda de energía</strong>: Las series temporales se utilizan para predecir la demanda futura de energía y para planificar la producción de energía y la distribución.</p>
+</li>
+<li>
+<p><strong>Monitoreo de la salud</strong>: Las series temporales se utilizan para monitorear la salud de los pacientes y para predecir posibles complicaciones. Esto es útil para la prevención y el tratamiento de enfermedades.</p>
+</li>
+</ul>
+<p>En el campo del aprendizaje automático, las series temporales también son útiles para desarrollar modelos que puedan predecir el futuro en función de datos históricos. Los modelos de series temporales se utilizan, por ejemplo, en aplicaciones como la detección de fraudes, la detección de anomalías, la predicción de precios de acciones y la predicción de la demanda de productos.</p>
+<p>Las series temporales tienen varios componentes que contribuyen a su patrón y comportamiento a lo largo del tiempo. Estos componentes se pueden dividir en cuatro categorías principales:</p>
+<ol>
+<li>
+<p><strong>Tendencia</strong>: La tendencia se refiere a la dirección general en la que se mueven los datos a lo largo del tiempo. Describe el comportamiento de las series temporales a largo plazo. La tendencia puede ser ascendente, descendente o plana. Es común que las series temporales tengan una tendencia, ya que muchas variables cambian de manera gradual a lo largo del tiempo. Usando la tendencia podemos realizar declaraciones del tipo &ldquo;<em>Cada vez nacen menos niños en España</em>&rdquo;.</p>
+</li>
+<li>
+<p><strong>Estacionalidad</strong>: La estacionalidad se refiere a patrones regulares que se repiten a lo largo del tiempo. Estos patrones pueden ser diarios, semanales, mensuales, anuales o cualquier otro intervalo de tiempo. La estacionalidad puede ser causada por factores como el clima, las vacaciones, las tendencias de compra, etc. Usando la estacionalidad podemos realizar declaraciones del tipo &ldquo;<em>el nivel de partículas de NO$_2$ es bajo en verano y muy alto en invierno</em>&rdquo;. Este patrón se repite anualmente, independientemente de que la cantidad real sea la misma cada verano.</p>
+</li>
+<li>
+<p><strong>Ciclo</strong>: El ciclo se refiere a patrones repetitivos a largo plazo que no están relacionados con la estacionalidad. El ciclo puede estar influenciado por factores económicos, políticos o sociales y puede tener una duración variable. Un ejemplo podría ser la variación anual en la venta de juguetes. La venta de juguetes generalmente aumenta durante las temporadas navideñas, pero también puede haber aumentos o disminuciones en función de otros factores, como la economía, las tendencias de la industria, etc.</p>
+</li>
+<li>
+<p><strong>Ruido</strong>: El ruido se refiere a las fluctuaciones aleatorias en los datos que no se pueden atribuir a ninguna tendencia, estacionalidad o ciclo. El ruido puede ser causado por factores como la variabilidad en la medición de los datos o eventos imprevistos. Un ejemplo podría ser la fluctuación diaria en la temperatura ambiental. Incluso si hay una tendencia a largo plazo en el aumento de la temperatura debido al cambio climático, hay fluctuaciones diarias en la temperatura que no tienen una explicación clara. Al modelar una serie temporal, es importante tener en cuenta el componente de ruido y considerar cómo afecta a los pronósticos. Además, también puede ser útil analizar y modelar el componente de ruido por separado para comprender mejor las variaciones aleatorias en la serie temporal.</p>
+</li>
+</ol>
+<p>La identificación y separación de estos componentes es importante en el análisis de series temporales. Al comprender los componentes subyacentes de los datos, es posible realizar pronósticos más precisos y tomar mejores decisiones basadas en los datos. Los modelos de series temporales utilizan técnicas como el análisis de regresión y el análisis espectral para separar y modelar estos componentes.</p>
+<h1 id="regresión-lineal-con-series-temporales"><a href="#regresión-lineal-con-series-temporales" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Regresión lineal con series temporales</h1>
+<p>En este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/book_sales.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Date&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Date&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Paperback&#34;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -335,11 +372,11 @@
 <h3 id="features-de-paso-de-tiempo"><a href="#features-de-paso-de-tiempo" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Features de paso de tiempo</h3>
 <p>Existen dos tipo de features únicas y distintivas de las series temporales: las variables de paso de tiempo (<em>time-step</em>) y las variables de <em>lag</em>.</p>
 <p>Las features de paso de tiempo son variables que se pueden derivar directamente del índice de tiempo. La feature de paso de tiempo más básica es la dummy (<em>time dummy</em>), que cuenta el número de pasos de tiempo en las series desde el principio al final.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
-<span class="n">df</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -398,22 +435,22 @@
 </div>
 <p>La regresión lineal con la time dummy produce el siguiente modelo:</p>
 <p><code>objetivo = peso * time + bias</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Ventas de libros&#34;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Ventas de libros&#34;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_9_1.png" alt="png"></p>
 <p>Las features de paso de tiempo nos permiten modelar la <strong>dependencia del tiempo</strong>. Una serie es dependiente del tiempo si sus valores se pueden predecir desde el momento en que ocurrieron. En las series de nuestro ejemplo, podemos predecir que las ventas al final de mes son generalmente más altas que las ventas al principio del mes.</p>
 <h3 id="features-de-lag"><a href="#features-de-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Features de <em>lag</em></h3>
 <p>Para hacer una variable de <em>lag</em> deslizamos las observaciones de las series del objetivo para que parezcan haber ocurrido más tarde en el tiempo. Aquí hemos creado una variable lag de 1-paso, aunque también es posible desplazar varios pasos.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="s2">&#34;Lag_1&#34;</span><span class="p">])</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="s2">&#34;Lag_1&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -473,25 +510,25 @@
 <p>La regresión lineal con la variable lag produce el siguiente modelo:</p>
 <p><code>objetivo = peso * lag + bias</code></p>
 <p>Entonces, las variables de lag nos permiten dibujar gráficas donde cada observación en una serie se dibuja contra la observación anterior.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&#34;equal&#34;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Gráfico lag de Ventas&#34;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&#34;equal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Gráfico lag de Ventas&#34;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_16_1.png" alt="png"></p>
 <p>Podemos ver en el gráfico de lag que las ventas de un día (<code>Hardcover</code>) están correlacionadas con las ventas del día anterior (<code>Lag_1</code>). Cuando vemos una relación como ésta sabemos que una variable de lag será útil.</p>
 <p>De forma más genérica, las features de lag nos permiten modelar la <strong>dependencia en serie o serial</strong>. Una serie temporal tiene dependencia serial cuando una observación se puede predecir a partir de las observaciones previas. En nuestro ejemplo, podemos predecir que ventas altas en un día, generalmente significan ventas altas en el siguiente día.</p>
 <p>La adaptación de los algoritmos de machine learning a los problemas de series temporales se trata en gran medida con la ingeniería de features del índice de tiempo y los lags. Aunque estamos usando regresión lineal, estas variables serán útiles independientemente del algoritmo que seleccionemos para nuestras predicciones.</p>
 <h2 id="ejemplo---tráfico-túnel"><a href="#ejemplo---tráfico-túnel" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejemplo - Tráfico túnel</h2>
 <p>El tráfico de túnel es una serie temporal que describe el número de vehículos que viajan a través del Túnel de Baregg en Suiza cada día desde noviembre 2002 a noviembre 2005. En este ejemplo, practicaremos aplicando regresión lineal a variables de paso de tiempo y variables lag.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tunnel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/tunnel.csv&#34;</span><span class="p">,</span>
-    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Day&#34;</span><span class="p">,</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Day&#34;</span><span class="p">])</span>
-
-<span class="n">tunnel</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
-
-<span class="n">tunnel</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">tunnel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/tunnel.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Day&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Day&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tunnel</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tunnel</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -544,11 +581,11 @@
 <p>Por defecto, Pandas crea un <code>DatetimeIndex</code> cuyo tipo es <code>Timestamp</code>, equivalente a <code>np.datetime64</code>, representando una serie temporal como una secuencia de medidas tomadas en un determinado momento. Un <code>PeriodIndex</code>, por otro lado, representa una serie temporal como una secuencia de cuantiles acumulados en periodos de tiempo. Los periodos suelen ser más fáciles de trabajar con ellos.</p>
 <h3 id="variable-de-paso-de-tiempo"><a href="#variable-de-paso-de-tiempo" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Variable de paso de tiempo</h3>
 <p>Siempre que a la serie temporal no le falten fechas, podemos crear una time dummy contando la longitud de las series.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span> <span class="o">=</span> <span class="n">tunnel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="n">df</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tunnel</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">tunnel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tunnel</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -606,18 +643,18 @@
 </table></div>
 </div>
 <p>Vamos a entrenar un modelo de regresión lineal.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="c1"># Almacena las predicciones como una serie temporal con el mismo</span>
-<span class="c1"># índice de tiempo que los datos de entrenamiento</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></code></pre></div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">y_pred</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Almacena las predicciones como una serie temporal con el mismo</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># índice de tiempo que los datos de entrenamiento</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">y_pred</span></span></span></code></pre></div>
 <pre><code>Day
 2003-11-01     98176.206344
 2003-11-02     98198.703794
@@ -633,37 +670,37 @@
 Length: 747, dtype: float64
 </code></pre>
 <p>Veamos cuáles son los coeficientes e intercept obtenidos:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span></span></span></code></pre></div>
 <pre><code>(array([22.49744953]), 98176.20634409295)
 </code></pre>
 <p>Por tanto, el modelo creado realmente es, aproximadamente: <code>Vehicles = 22.5 * Time + 98176</code>. Al dibujar los valores obtenidos a lo largo del tiempo se muestra cómo la regresión lineal ajustada a la time dummy crea la línea de tendencia para esta ecuación.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Set Matplotlib defaults</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&#34;figure&#34;</span><span class="p">,</span> <span class="n">autolayout</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
-    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
-    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
-    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
-    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
-    <span class="n">titlesize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
-    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
-    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
-    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
-    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
-    <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Time Plot del Tráfico del Túnel&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Set Matplotlib defaults</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&#34;seaborn-whitegrid&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&#34;figure&#34;</span><span class="p">,</span> <span class="n">autolayout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;axes&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">labelweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">labelsize</span><span class="o">=</span><span class="s2">&#34;large&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titleweight</span><span class="o">=</span><span class="s2">&#34;bold&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titlesize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">titlepad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="o">=</span><span class="s2">&#34;0.75&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">style</span><span class="o">=</span><span class="s2">&#34;.-&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&#34;0.25&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Time Plot del Tráfico del Túnel&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_31_2.png" alt="png"></p>
 <h3 id="variable-lag"><a href="#variable-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Variable lag</h3>
 <p>Pandas proporciona un método simple para &ldquo;lagear&rdquo; una serie, el método <code>shift</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -728,43 +765,43 @@ Length: 747, dtype: float64
 </table></div>
 </div>
 <p>Cuando creamos variables lag, necesitamos decidir qué hacer con los valores faltantes que se generan. Una opción es rellenarlos, quizas con 0.0 o con el primer valor conocido. En lugar de esto vamos a eliminar los valores faltantes, asegurándonos también de eliminar los valores del objetivo en las fechas correspondientes.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]]</span>
-<span class="n">X</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span>
-<span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&#34;inner&#34;</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;NumVehicles&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&#34;inner&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></span></span></code></pre></div>
 <p>El diagrama de lag nos muestra cómo de bien somos capaces de ajustar la relación entre el número de vehículos de un día y el número del día anterior.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;NumVehicles&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Diagrama de lag del Tráfico del Túnel&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;NumVehicles&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Lag_1&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Diagrama de lag del Tráfico del Túnel&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_38_1.png" alt="png"></p>
 <p>¿Qué significa esta predicción de la variable lag sobre cómo de bien puede predecir las series a lo largo del tiempo? El siguiente gráfico temporal nos muestra cómo nuestros pronósticos de ahora responden al comportamiento de las series del pasado reciente.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span></span></span></code></pre></div>
 <p><img src="/images/output_40_1.png" alt="png"></p>
 <p>Los mejores modelos de series temporales normalmente incluirán alguna combinación entre variables de paso de tiempo y variables lag.</p>
 <h1 id="ejercicio"><a href="#ejercicio" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Ejercicio</h1>
 <p>Vamos a realizar un ejercicio para ampliar lo que acabamos de ver. Para ello cargaremos algunos datasets.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">book_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/book_sales.csv&#34;</span><span class="p">,</span>
-    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Date&#34;</span><span class="p">,</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Date&#34;</span><span class="p">],</span>
-<span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Paperback&#34;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">book_sales</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
-<span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">book_sales</span> <span class="o">=</span> <span class="n">book_sales</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="s2">&#34;Lag_1&#34;</span><span class="p">])</span>
-
-<span class="n">book_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">book_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/book_sales.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index_col</span><span class="o">=</span><span class="s2">&#34;Date&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Date&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&#34;Paperback&#34;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Time&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">book_sales</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Lag_1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">book_sales</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">book_sales</span> <span class="o">=</span> <span class="n">book_sales</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Hardcover&#34;</span><span class="p">,</span> <span class="s2">&#34;Time&#34;</span><span class="p">,</span> <span class="s2">&#34;Lag_1&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">book_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -830,10 +867,10 @@ Length: 747, dtype: float64
 </div>
 <p>Una de las ventajas que tiene la regresión lineal sobre algoritmos más complicados es que los modelos que genera son <em>interpretables</em>, es decir, es fácil interpretar la contribución que hace cada feature a las predicciones. En el modelo <code>objetivo = peso * feature + bias</code>, el <code>peso</code> nos dice cuánto cambia el <code>objetivo</code> de media por cada unidad de cambio de la <code>feature</code>.</p>
 <p>Vamos a ver la regresión lineal de las ventas de libros:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;Hardcover&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">book_sales</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.75&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Hardcover&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">book_sales</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gráfico temporal de venta de libros&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;Hardcover&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">book_sales</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.75&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Hardcover&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">book_sales</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gráfico temporal de venta de libros&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_46_5.png" alt="png"></p>
 <h2 id="interpretar-la-regresión-lineal-con-time-dummy"><a href="#interpretar-la-regresión-lineal-con-time-dummy" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Interpretar la regresión lineal con <em>time dummy</em></h2>
 <p>Digamos que la regresión lineal tiene una ecuación aproximada de: <code>Hardcover = 3.33 * Time + 150.5</code>. <strong>Al cabo de 6 días, ¿cuánto se esperaría que cambiaran las ventas de libros?</strong></p>
@@ -841,9 +878,9 @@ Length: 747, dtype: float64
 <h2 id="interpretar-la-regresión-lineal-con-una-variable-lag"><a href="#interpretar-la-regresión-lineal-con-una-variable-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Interpretar la regresión lineal con una variable lag</h2>
 <p>Interpretar los coeficientes de regresión puede ayudarnos a reconocer dependencias seriales en un gráfico temporal. Consideremos el modelo <code>objetivo = peso * lag_1 + error</code>, donde <code>error</code> es ruido aleatorio y <code>peso</code> es un número entre -1 y 1. En este caso, el <code>peso</code> nos dice cómo es de probable que el siguiente paso de tiempo tenga el mismo signo que el paso de tiempo anterior: un <code>peso</code> cercano a 1 significa que el <code>objetivo</code> probablemente tendrá el mismo signo que el paso previo, mientras que un <code>peso</code> cercano a -1 significa que el <code>objetivo</code> probablemente tendrá el signo opuesto.</p>
 <p>Tenemos las siguientes dos series temporales:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/ar.csv&#34;</span><span class="p">)</span>
-
-<span class="n">ar</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&#34;../data/ar.csv&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ar</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -895,31 +932,31 @@ Length: 747, dtype: float64
   </tbody>
 </table></div>
 </div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="s1">&#39;ar1&#39;</span><span class="p">])</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Series 1&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="s1">&#39;ar2&#39;</span><span class="p">])</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Series 2&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="s1">&#39;ar1&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Series 1&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="s1">&#39;ar2&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Series 2&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_52_4.png" alt="png"></p>
 <p>Una de estas series tiene la ecuación: <code>objetivo = 0.95 * lag_1 + error</code> y la otra tiene la ecuación <code>objetivo = -0.95 * lag_1 + error</code>, diferenciándose únicamente por el signo de la variable lag. <strong>¿Qué ecuación correspondería a cada serie?</strong></p>
 <p>La Serie 1 estaría generada por la ecuación <code>objetivo = 0.95 * lag_1 + error</code> y la Serie 2 estaría generada por la ecuación <code>objetivo = -0.95 * lag_1 + error</code>. Como explicamos anteriormente, la serie con el peso 0.95 (signo positivo) tenderá a tener valores con signos que permanecen iguales. La serie con el peso -0.95 (signo negativo) tenderá a tener valores con signos que van y vienen.
 `</p>
 <h2 id="entrenar-una-variable-de-paso-de-tiempo"><a href="#entrenar-una-variable-de-paso-de-tiempo" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Entrenar una variable de paso de tiempo</h2>
 <p>Vamos a cargar el dataset de la competición de Pronóstico de series temporales de ventas de almacén. El dataset completo contiene casi 1800 series registrando las ventas de una amplia variedad de familias de productos desde 2013 a 2017. En principio solo trabajaremos con una única serie (<code>average_sales</code>) de las ventas medias por día.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;store_nbr&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sales&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;onpromotion&#39;</span><span class="p">:</span> <span class="s1">&#39;uint64&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
-    <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
-    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span>
-    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;store_nbr&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;sales&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;onpromotion&#39;</span><span class="p">:</span> <span class="s1">&#39;uint64&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;../data/store_sales/train.csv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">infer_datetime_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -995,10 +1032,10 @@ Length: 747, dtype: float64
   </tbody>
 </table></div>
 </div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-<span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">],</span> <span class="n">append</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;store_nbr&#39;</span><span class="p">,</span> <span class="s1">&#39;family&#39;</span><span class="p">],</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">store_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1068,8 +1105,8 @@ Length: 747, dtype: float64
   </tbody>
 </table></div>
 </div>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">average_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span>
-<span class="n">average_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">average_sales</span> <span class="o">=</span> <span class="n">store_sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">average_sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></span></span></code></pre></div>
 <pre><code>date
 2013-01-01      1.409438
 2013-01-02    278.390808
@@ -1079,52 +1116,53 @@ Length: 747, dtype: float64
 Freq: D, Name: sales, dtype: float32
 </code></pre>
 <p>Vamos a crear un modelo de regresión lineal con una variable de paso de tiempo en la serie de promedio de ventas de producto. El objetivo es la columna <code>sales</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
-
-<span class="c1"># Crea time dummy</span>
-<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
-
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
-
-<span class="c1"># Crea los datos de entrenamiento</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;time&#34;</span><span class="p">]]</span>  <span class="c1"># features</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;sales&#34;</span><span class="p">]</span>   <span class="c1"># objetivo</span>
-
-<span class="c1"># Entrena el modelo</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea time dummy</span>
+</span></span><span class="line"><span class="cl"><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea los datos de entrenamiento</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&#34;time&#34;</span><span class="p">]]</span>  <span class="c1"># features</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&#34;sales&#34;</span><span class="p">]</span>   <span class="c1"># objetivo</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Entrena el modelo</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></span></span></code></pre></div>
 <p>Vamos a dibujar la gráfica con el resultado:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gráfica temporal de Ventas totales&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gráfica temporal de Ventas totales&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_63_3.png" alt="png"></p>
 <h2 id="entrenar-una-variable-lag"><a href="#entrenar-una-variable-lag" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Entrenar una variable lag</h2>
 <p>Vamos a crear un modelo de regresión lineal con una variable lag en la serie de promedio de ventas de producto. El objetivo es la columna <code>sales</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
-
-<span class="c1"># Crea la variable lag</span>
-<span class="n">lag_1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;sales&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lag_1</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>   <span class="c1"># features</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span>              <span class="c1"># target</span>
-<span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
-
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">average_sales</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Crea la variable lag</span>
+</span></span><span class="line"><span class="cl"><span class="n">lag_1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;sales&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lag_1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>   <span class="c1"># features</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]</span>              <span class="c1"># target</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></span></span></code></pre></div>
 <p>Vamos a dibujar la gráfica con el resultado:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;lag_1&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Diagrama de lag de Ventas promedio&#39;</span><span class="p">);</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;0.25&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;lag_1&#39;</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;lag_1&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Diagrama de lag de Ventas promedio&#39;</span><span class="p">);</span></span></span></code></pre></div>
 <p><img src="/images/output_68_1.png" alt="png"></p>
+<p><a href="https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series" target="_blank" rel="noopener">Fuente: Kaggle</a></p>
 
             </div>
 
@@ -1153,9 +1191,9 @@ Freq: D, Name: sales, dtype: float32
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-05-11 17:17:35 CEST" style="cursor:help">
+        <span title="Updated @ 2023-04-09 19:48:11 CEST" style="cursor:help">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-05-11</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-05-11</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2023-04-09</text><text x="915" y="140" textLength="650" transform="scale(.1)">2023-04-09</text></g></svg>
         </span></div>
 
 
@@ -1172,7 +1210,7 @@ Freq: D, Name: sales, dtype: float32
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;text=Series%20temporales:%20%281%29%20Regresi%c3%b3n%20lineal&amp;hashtags=seriestemporales,regresi%c3%b3nlineal,timedummy,lagfeature,time-stepfeature,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;text=Series%20temporales:%20%281%29%20Componentes%20y%20regresi%c3%b3n%20lineal&amp;hashtags=seriestemporales,regresi%c3%b3nlineal,timedummy,lagfeature,time-stepfeature,&amp;via=Steiner_69" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -1181,14 +1219,14 @@ Freq: D, Name: sales, dtype: float32
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;title=Series%20temporales:%20%281%29%20Regresi%c3%b3n%20lineal&amp;summary=Regresi%c3%b3n%20lineal%20con%20series%20temporales%20En%20este%20tipo%20de%20problemas,%20el%20objetivo%20b%c3%a1sico%20de%20la%20predicci%c3%b3n%20son%20las%20series%20temporales,%20que%20son%20un%20conjunto%20de%20observaciones%20registradas%20a%20lo%20largo%20del%20tiempo.%20En%20las%20aplicaciones%20de%20pron%c3%b3stico,%20las%20observaciones%20se%20registran%20con%20una%20frecuencia%20regular,%20como%20puede%20ser%20diaria%20o%20mensualmente.&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;title=Series%20temporales:%20%281%29%20Componentes%20y%20regresi%c3%b3n%20lineal&amp;summary=Introducci%c3%b3n%20a%20las%20series%20temporales%20Las%20series%20temporales%20son%20conjuntos%20de%20datos%20que%20se%20recopilan%20a%20lo%20largo%20del%20tiempo%20en%20intervalos%20regulares,%20como%20d%c3%adas,%20semanas,%20meses%20o%20a%c3%b1os.%20Estos%20datos%20se%20utilizan%20para%20analizar%20c%c3%b3mo%20cambian%20las%20cosas%20con%20el%20tiempo%20y%20para%20hacer%20predicciones%20sobre%20el%20futuro.&amp;source=Lords%20of%20the%20Machine%20Learning" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
             
                 <div class="share-item telegram">
                     
-                    <a href="https://t.me/share/url?url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;text=Series%20temporales:%20%281%29%20Regresi%c3%b3n%20lineal" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                    <a href="https://t.me/share/url?url=https://sgtsteiner.github.io/posts/time-series-linear-regression/&amp;text=Series%20temporales:%20%281%29%20Componentes%20y%20regresi%c3%b3n%20lineal" title="" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
                 </div>
             
 
@@ -1233,6 +1271,10 @@ Freq: D, Name: sales, dtype: float32
             <ul class="related-list">
                 
                     <li class="related-item">
+                        <a href="/posts/time-series-forecasting/" class="related-link">Series temporales: (6) Pronóstico</a>
+                    </li>
+                
+                    <li class="related-item">
                         <a href="/posts/time-serie-hybrid-models/" class="related-link">Series temporales: (5) Modelos híbridos</a>
                     </li>
                 
@@ -1246,10 +1288,6 @@ Freq: D, Name: sales, dtype: float32
                 
                     <li class="related-item">
                         <a href="/posts/time-series-trend/" class="related-link">Series temporales: (2) Tendencia</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/modelos-lineales/" class="related-link">Modelos Lineales</a>
                     </li>
                 
             </ul>
@@ -1353,7 +1391,7 @@ Freq: D, Name: sales, dtype: float32
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+            <div class="site-info">©&nbsp;2021–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Antonio Méndez</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
 
             
     

@@ -1,9 +1,38 @@
 ---
-title: "Series temporales: (1) Regresión lineal"
+title: "Series temporales: (1) Componentes y regresión lineal"
 date: 2022-05-11T16:36:09+02:00
 tags: [series temporales, regresión lineal, time dummy, lag feature, time-step feature, ]
 categories: [series temporales]
 ---
+
+# Introducción a las series temporales
+Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro. Se busca pronosticar valores futuros basados en valores pasados.
+
+Las series temporales son útiles en una amplia variedad de aplicaciones, incluyendo finanzas, marketing, ventas, ingeniería, climatología, medicina, etc. Algunos ejemplos de casos de uso para series temporales son:
+
++ **Predicción de ventas**: Las series temporales se pueden utilizar para predecir las ventas futuras de un producto o servicio. Esto es útil para planificar la producción, la logística y las ventas.
+
++ **Análisis del mercado financiero**: Las series temporales se utilizan en el análisis del mercado financiero para predecir el precio de las acciones, las tasas de interés, las fluctuaciones del mercado y otros indicadores financieros.
+
++ **Pronóstico del clima**: Las series temporales se utilizan en la climatología para predecir el tiempo y el clima. Esto es útil para la agricultura, la aviación, el turismo y otros sectores que dependen del clima.
+
++ **Análisis de la demanda de energía**: Las series temporales se utilizan para predecir la demanda futura de energía y para planificar la producción de energía y la distribución.
+
++ **Monitoreo de la salud**: Las series temporales se utilizan para monitorear la salud de los pacientes y para predecir posibles complicaciones. Esto es útil para la prevención y el tratamiento de enfermedades.
+
+En el campo del aprendizaje automático, las series temporales también son útiles para desarrollar modelos que puedan predecir el futuro en función de datos históricos. Los modelos de series temporales se utilizan, por ejemplo, en aplicaciones como la detección de fraudes, la detección de anomalías, la predicción de precios de acciones y la predicción de la demanda de productos.
+
+Las series temporales tienen varios componentes que contribuyen a su patrón y comportamiento a lo largo del tiempo. Estos componentes se pueden dividir en cuatro categorías principales:
+
+1. **Tendencia**: La tendencia se refiere a la dirección general en la que se mueven los datos a lo largo del tiempo. Describe el comportamiento de las series temporales a largo plazo. La tendencia puede ser ascendente, descendente o plana. Es común que las series temporales tengan una tendencia, ya que muchas variables cambian de manera gradual a lo largo del tiempo. Usando la tendencia podemos realizar declaraciones del tipo "*Cada vez nacen menos niños en España*".
+
+2. **Estacionalidad**: La estacionalidad se refiere a patrones regulares que se repiten a lo largo del tiempo. Estos patrones pueden ser diarios, semanales, mensuales, anuales o cualquier otro intervalo de tiempo. La estacionalidad puede ser causada por factores como el clima, las vacaciones, las tendencias de compra, etc. Usando la estacionalidad podemos realizar declaraciones del tipo "*el nivel de partículas de NO$_2$ es bajo en verano y muy alto en invierno*". Este patrón se repite anualmente, independientemente de que la cantidad real sea la misma cada verano.
+
+3. **Ciclo**: El ciclo se refiere a patrones repetitivos a largo plazo que no están relacionados con la estacionalidad. El ciclo puede estar influenciado por factores económicos, políticos o sociales y puede tener una duración variable. Un ejemplo podría ser la variación anual en la venta de juguetes. La venta de juguetes generalmente aumenta durante las temporadas navideñas, pero también puede haber aumentos o disminuciones en función de otros factores, como la economía, las tendencias de la industria, etc.
+
+4. **Ruido**: El ruido se refiere a las fluctuaciones aleatorias en los datos que no se pueden atribuir a ninguna tendencia, estacionalidad o ciclo. El ruido puede ser causado por factores como la variabilidad en la medición de los datos o eventos imprevistos. Un ejemplo podría ser la fluctuación diaria en la temperatura ambiental. Incluso si hay una tendencia a largo plazo en el aumento de la temperatura debido al cambio climático, hay fluctuaciones diarias en la temperatura que no tienen una explicación clara. Al modelar una serie temporal, es importante tener en cuenta el componente de ruido y considerar cómo afecta a los pronósticos. Además, también puede ser útil analizar y modelar el componente de ruido por separado para comprender mejor las variaciones aleatorias en la serie temporal.
+
+La identificación y separación de estos componentes es importante en el análisis de series temporales. Al comprender los componentes subyacentes de los datos, es posible realizar pronósticos más precisos y tomar mejores decisiones basadas en los datos. Los modelos de series temporales utilizan técnicas como el análisis de regresión y el análisis espectral para separar y modelar estos componentes.
 
 # Regresión lineal con series temporales
 
@@ -1144,3 +1173,4 @@ ax.set(aspect='equal', ylabel='sales', xlabel='lag_1', title='Diagrama de lag de
 ![png](/images/output_68_1.png)
     
 
+[Fuente: Kaggle](https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series)

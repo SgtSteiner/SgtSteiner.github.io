@@ -1,7 +1,7 @@
 ---
 title: "Series temporales: (5) Modelos híbridos"
 date: 2022-05-18T18:52:24+02:00
-tags: [series temporales, residuos, híbridos, boosting, stacking, ]
+tags: [series temporales, residuos, híbridos, boosting, stacking, XGBoost, ]
 categories: [series temporales]
 ---
 
@@ -869,3 +869,4 @@ for ax, family in zip(axs, families):
 ![png](/images/output_46_7.png)
     
 
+[Fuente:_Kaggle](https://www.kaggle.com/code/ryanholbrook/hybrid-models)
