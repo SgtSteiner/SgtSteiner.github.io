@@ -5,8 +5,10 @@ tags: [series temporales, regresión lineal, time dummy, lag feature, time-step 
 categories: [series temporales]
 ---
 
+![img](/images/pexels-alesia-kozik-6770610.jpg)
+
 # Introducción a las series temporales
-Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro. Se busca pronosticar valores futuros basados en valores pasados.
+Este es el primero de una serie de posts donde hablaremos de las series temporales. Las series temporales son conjuntos de datos que se recopilan a lo largo del tiempo en intervalos regulares, como días, semanas, meses o años. Estos datos se utilizan para analizar cómo cambian las cosas con el tiempo y para hacer predicciones sobre el futuro. Se busca pronosticar valores futuros basados en valores pasados.
 
 Las series temporales son útiles en una amplia variedad de aplicaciones, incluyendo finanzas, marketing, ventas, ingeniería, climatología, medicina, etc. Algunos ejemplos de casos de uso para series temporales son:
 
@@ -36,17 +38,17 @@ La identificación y separación de estos componentes es importante en el análi
 
 # Regresión lineal con series temporales
 
-En este tipo de problemas, el objetivo básico de la predicción son las series temporales, que son un conjunto de observaciones registradas a lo largo del tiempo. En las aplicaciones de pronóstico, las observaciones se registran con una frecuencia regular, como puede ser diaria o mensualmente.
+Veamos una serie temporal con un ejemplo.
 
 
 {{< highlight "python" "linenos=false">}}
 import pandas as pd
 
 df = pd.read_csv(
-    "../data/book_sales.csv",
+    "../data/ventas_libros.csv",
     index_col="Date",
     parse_dates=["Date"],
-).drop("Paperback", axis=1)
+), axis=1)
 
 df.head()
 {{< /highlight >}}
@@ -72,7 +74,7 @@ df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Hardcover</th>
+      <th>Ventas</th>
     </tr>
     <tr>
       <th>Date</th>
@@ -105,20 +107,21 @@ df.head()
 </div>
 
 
-
-Esta serie registra el número de ventas de libros en una tienda durante 30 días. Por simplicidad, tiene una única columna de observaciones, `Hardcover` con un índice de tiempo `Date`.
+Esta serie registra el número de ventas de libros en una tienda durante 30 días. Por simplicidad, tiene una única columna de observaciones, `Ventas` con un índice de tiempo `Date`.
 
 Usaremos el algoritmo de regresión lineal para construir modelos predictivos. Estos algoritmos aprenden cómo hacer una suma ponderada a partir de sus variables de entrada. Para dos variables tendríamos:
 
 `objetivo = peso_1 * feature_1 + peso_2 + feature_2 + bias`
 
-Durante el entrenamiento, el algoritmo de regresión aprende los valores para los parámetros `peso_1`, `peso_2` y `bias` que mejor se ajustan al `objetivo`. A este algoritmo se le suele llamar *mínimos cuadrados ordinarios* ya que elige valores que minimizan el error cuadrático entre el objetivo y las predicciones. Los pesos también se denominan *coeficientes de regresión* y al `bias` también se le llama *intercept* porque nos dice dónde cruza el eje y la grafica de esta función.
+Esta ecuación toma la forma de una línea recta en un espacio de dos dimensiones o de un hiperplano en un espacio de dimensiones superiores.
+
+Durante el entrenamiento, el algoritmo de regresión aprende los valores para los parámetros `peso_1`, `peso_2` y `bias` que mejor se ajustan al `objetivo`. A este algoritmo se le suele llamar *mínimos cuadrados ordinarios* ya que busca minimizar la suma de los errores cuadrados entre las predicciones del modelo y los valores observados. Los pesos también se denominan *coeficientes de regresión* y representan la pendiente. Al `bias` también se le llama *intercept*, porque representa la intersección de la línea o el hiperplano.
 
 ### Features de paso de tiempo
 
-Existen dos tipo de features únicas y distintivas de las series temporales: las variables de paso de tiempo (*time-step*) y las variables de *lag*.
+Existen dos tipo de features únicas y distintivas de las series temporales: las variables de pasos de tiempo (*time-step*) y las variables de *lag*.
 
-Las features de paso de tiempo son variables que se pueden derivar directamente del índice de tiempo. La feature de paso de tiempo más básica es la dummy (*time dummy*), que cuenta el número de pasos de tiempo en las series desde el principio al final.
+Las features de pasos de tiempo son variables que se pueden derivar directamente del índice de tiempo y se refieren a los intervalos regulares entre las observaciones en la serie temporal. Por ejemplo, si estamos trabajando con una serie temporal que mide la temperatura diaria, cada time step podría ser un día. La feature de pasos de tiempo más básica es la dummy (*time dummy*), que cuenta el número de pasos de tiempo en las series desde el principio al final.
 
 
 {{< highlight "python" "linenos=false">}}
@@ -150,7 +153,7 @@ df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Hardcover</th>
+      <th>Ventas</th>
       <th>Time</th>
     </tr>
     <tr>
@@ -201,14 +204,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 fig, ax = plt.subplots(figsize=(11, 4))
-ax.plot("Time", "Hardcover", data=df, color="0.75")
-ax = sns.regplot(x="Time", y="Hardcover", data=df, ci=None,
+ax.plot("Time", "Ventas", data=df, color="0.75")
+ax = sns.regplot(x="Time", y="Ventas", data=df, ci=None,
                  scatter_kws=dict(color="0.25"))
 ax.set_title("Ventas de libros");
 {{< /highlight >}}
-
-
-
 
 
     
@@ -216,16 +216,18 @@ ax.set_title("Ventas de libros");
     
 
 
-Las features de paso de tiempo nos permiten modelar la **dependencia del tiempo**. Una serie es dependiente del tiempo si sus valores se pueden predecir desde el momento en que ocurrieron. En las series de nuestro ejemplo, podemos predecir que las ventas al final de mes son generalmente más altas que las ventas al principio del mes.
+Las features de pasos de tiempo nos permiten modelar la **dependencia del tiempo**. La dependencia del tiempo se refiere al hecho de que los valores de una serie temporal están correlacionados en el tiempo, es decir, los valores futuros dependen de los valores pasados. Una serie es dependiente del tiempo si sus valores se pueden predecir desde el momento en que ocurrieron. En las series de nuestro ejemplo, podemos predecir que las ventas al final de mes son generalmente más altas que las ventas al principio del mes.
 
 ### Features de *lag*
 
-Para hacer una variable de *lag* deslizamos las observaciones de las series del objetivo para que parezcan haber ocurrido más tarde en el tiempo. Aquí hemos creado una variable lag de 1-paso, aunque también es posible desplazar varios pasos.
+Una variable *lag* se refiere a un valor previo o pasado de la serie temporal que se utiliza como predictor para predecir los valores futuros. En otras palabras, una variable *lag* es un retraso de la serie temporal en el tiempo, donde el número de períodos de retraso se denomina como "lag".
+
+Para hacer una variable *lag* deslizamos las observaciones de las series del objetivo para que parezcan haber ocurrido más tarde en el tiempo. Aquí hemos creado una variable lag de 1-paso, aunque también es posible desplazar varios pasos.
 
 
 {{< highlight "python" "linenos=false">}}
-df["Lag_1"] = df["Hardcover"].shift(1)
-df = df.reindex(columns=["Hardcover", "Lag_1"])
+df["Lag_1"] = df["Ventas"].shift(1)
+df = df.reindex(columns=["Ventas", "Lag_1"])
 
 df.head()
 {{< /highlight >}}
@@ -251,7 +253,7 @@ df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Hardcover</th>
+      <th>Ventas</th>
       <th>Lag_1</th>
     </tr>
     <tr>
@@ -301,7 +303,7 @@ Entonces, las variables de lag nos permiten dibujar gráficas donde cada observa
 
 {{< highlight "python" "linenos=false">}}
 fig, ax = plt.subplots()
-ax = sns.regplot(x="Lag_1", y="Hardcover", data=df, ci=None,
+ax = sns.regplot(x="Lag_1", y="Ventas", data=df, ci=None,
                  scatter_kws=dict(color="0.25"))
 ax.set_aspect("equal")
 ax.set_title("Gráfico lag de Ventas");
@@ -315,15 +317,15 @@ ax.set_title("Gráfico lag de Ventas");
     
 
 
-Podemos ver en el gráfico de lag que las ventas de un día (`Hardcover`) están correlacionadas con las ventas del día anterior (`Lag_1`). Cuando vemos una relación como ésta sabemos que una variable de lag será útil.
+Podemos ver en el gráfico de lag que las ventas de un día (`Ventas`) están correlacionadas con las ventas del día anterior (`Lag_1`). Cuando vemos una relación como ésta sabemos que una variable de lag será útil.
 
-De forma más genérica, las features de lag nos permiten modelar la **dependencia en serie o serial**. Una serie temporal tiene dependencia serial cuando una observación se puede predecir a partir de las observaciones previas. En nuestro ejemplo, podemos predecir que ventas altas en un día, generalmente significan ventas altas en el siguiente día.
+De forma más genérica, las features de lag nos permiten modelar la **dependencia en serie o serial**. La dependencia serial se refiere a la relación entre los valores consecutivos en una serie temporal. En otras palabras, la dependencia serial implica que el valor de una observación en un momento dado está relacionado con el valor de la observación anterior, y así sucesivamente a lo largo de la serie temporal. Una serie temporal tiene dependencia serial cuando una observación se puede predecir a partir de las observaciones previas. En nuestro ejemplo, podemos predecir que ventas altas en un día, generalmente significan ventas altas en el siguiente día.
 
 La adaptación de los algoritmos de machine learning a los problemas de series temporales se trata en gran medida con la ingeniería de features del índice de tiempo y los lags. Aunque estamos usando regresión lineal, estas variables serán útiles independientemente del algoritmo que seleccionemos para nuestras predicciones.
 
 ## Ejemplo - Tráfico túnel
 
-El tráfico de túnel es una serie temporal que describe el número de vehículos que viajan a través del Túnel de Baregg en Suiza cada día desde noviembre 2002 a noviembre 2005. En este ejemplo, practicaremos aplicando regresión lineal a variables de paso de tiempo y variables lag.
+El tráfico de túnel es una serie temporal que describe el número de vehículos que viajan a través del Túnel de Baregg en Suiza cada día desde noviembre 2002 a noviembre 2005. En este ejemplo, practicaremos aplicando regresión lineal a variables de pasos de tiempo y variables lag.
 
 
 {{< highlight "python" "linenos=false">}}
@@ -394,16 +396,14 @@ tunnel.head()
 
 Por defecto, Pandas crea un `DatetimeIndex` cuyo tipo es `Timestamp`, equivalente a `np.datetime64`, representando una serie temporal como una secuencia de medidas tomadas en un determinado momento. Un `PeriodIndex`, por otro lado, representa una serie temporal como una secuencia de cuantiles acumulados en periodos de tiempo. Los periodos suelen ser más fáciles de trabajar con ellos.
 
-### Variable de paso de tiempo
+### Variable de pasos de tiempo
 
 Siempre que a la serie temporal no le falten fechas, podemos crear una time dummy contando la longitud de las series.
 
 
 {{< highlight "python" "linenos=false">}}
 df = tunnel.copy()
-
 df["Time"] = np.arange(len(tunnel.index))
-
 df.head()
 {{< /highlight >}}
 
@@ -517,9 +517,6 @@ Veamos cuáles son los coeficientes e intercept obtenidos:
 model.coef_, model.intercept_
 {{< /highlight >}}
 
-
-
-
     (array([22.49744953]), 98176.20634409295)
 
 
@@ -528,7 +525,7 @@ Por tanto, el modelo creado realmente es, aproximadamente: `Vehicles = 22.5 * Ti
 
 
 {{< highlight "python" "linenos=false">}}
-# Set Matplotlib defaults
+# Establece valores por defecto de Matplotlib
 plt.style.use("seaborn-whitegrid")
 plt.rc("figure", autolayout=True, figsize=(11, 4))
 plt.rc(
@@ -567,8 +564,6 @@ Pandas proporciona un método simple para "lagear" una serie, el método `shift`
 df["Lag_1"] = df["NumVehicles"].shift(1)
 df.head()
 {{< /highlight >}}
-
-
 
 
 <div>
@@ -696,13 +691,13 @@ Vamos a realizar un ejercicio para ampliar lo que acabamos de ver. Para ello car
 
 {{< highlight "python" "linenos=false">}}
 book_sales = pd.read_csv(
-    "../data/book_sales.csv",
+    "../data/ventas.csv",
     index_col="Date",
     parse_dates=["Date"],
 ).drop("Paperback", axis=1)
 book_sales["Time"] = np.arange(len(book_sales.index))
-book_sales["Lag_1"] = book_sales["Hardcover"].shift(1)
-book_sales = book_sales.reindex(columns=["Hardcover", "Time", "Lag_1"])
+book_sales["Lag_1"] = book_sales["Ventas"].shift(1)
+book_sales = book_sales.reindex(columns=["Ventas", "Time", "Lag_1"])
 
 book_sales.head()
 {{< /highlight >}}
@@ -728,7 +723,7 @@ book_sales.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Hardcover</th>
+      <th>Ventas</th>
       <th>Time</th>
       <th>Lag_1</th>
     </tr>
@@ -783,8 +778,8 @@ Vamos a ver la regresión lineal de las ventas de libros:
 
 {{< highlight "python" "linenos=false">}}
 fig, ax = plt.subplots()
-ax.plot('Time', 'Hardcover', data=book_sales, color='0.75')
-ax = sns.regplot(x='Time', y='Hardcover', data=book_sales, ci=None, scatter_kws=dict(color='0.25'))
+ax.plot('Time', 'Ventas', data=book_sales, color='0.75')
+ax = sns.regplot(x='Time', y='Ventas', data=book_sales, ci=None, scatter_kws=dict(color='0.25'))
 ax.set_title('Gráfico temporal de venta de libros');
 {{< /highlight >}}
 
@@ -796,9 +791,9 @@ ax.set_title('Gráfico temporal de venta de libros');
 
 ## Interpretar la regresión lineal con *time dummy*
 
-Digamos que la regresión lineal tiene una ecuación aproximada de: `Hardcover = 3.33 * Time + 150.5`. **Al cabo de 6 días, ¿cuánto se esperaría que cambiaran las ventas de libros?**
+Digamos que la regresión lineal tiene una ecuación aproximada de: `Ventas = 3.33 * Time + 150.5`. **Al cabo de 6 días, ¿cuánto se esperaría que cambiaran las ventas de libros?**
 
-Si aplicamos la fórmula, entonces `3.33 * 6 + 150.5 = 19.98`. Luego se esperaría que las ventas sean de 19.98 libros. De acuerdo a este modelo, dado que la pendiente es 3.33, la venta de libros `Hardcover` cambiará de media 3.33 unidades por cada paso que cambie `Time`.
+Si aplicamos la fórmula, entonces `3.33 * 6 + 150.5 = 19.98`. Luego se esperaría que las ventas sean de 19.98 libros. De acuerdo a este modelo, dado que la pendiente es 3.33, la venta de libros `Ventas` cambiará de media 3.33 unidades por cada paso que cambie `Time`.
 
 
 ## Interpretar la regresión lineal con una variable lag
@@ -889,7 +884,6 @@ ax2.set_title('Series 2');
 Una de estas series tiene la ecuación: `objetivo = 0.95 * lag_1 + error` y la otra tiene la ecuación `objetivo = -0.95 * lag_1 + error`, diferenciándose únicamente por el signo de la variable lag. **¿Qué ecuación correspondería a cada serie?**
 
 La Serie 1 estaría generada por la ecuación `objetivo = 0.95 * lag_1 + error` y la Serie 2 estaría generada por la ecuación `objetivo = -0.95 * lag_1 + error`. Como explicamos anteriormente, la serie con el peso 0.95 (signo positivo) tenderá a tener valores con signos que permanecen iguales. La serie con el peso -0.95 (signo negativo) tenderá a tener valores con signos que van y vienen.
-`
 
 ## Entrenar una variable de paso de tiempo
 
@@ -1173,4 +1167,4 @@ ax.set(aspect='equal', ylabel='sales', xlabel='lag_1', title='Diagrama de lag de
 ![png](/images/output_68_1.png)
     
 
-[Fuente: Kaggle](https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series)
+[Fuentes: Kaggle](https://www.kaggle.com/code/ryanholbrook/linear-regression-with-time-series)
